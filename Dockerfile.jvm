@@ -1,0 +1,9 @@
+# Use the official Flyway image
+FROM flyway/flyway:10-alpine
+
+# Copy your migration scripts from the ec-infra project into the container
+# This matches the path in your ec-infra project structure
+COPY ./src/main/resources/db/migration /flyway/sql
+
+# The entrypoint is already set to flyway in the base image,
+# so it will run migrations based on the command in docker-compose.

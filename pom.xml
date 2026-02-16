@@ -3,23 +3,30 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.kw</groupId>
-    <artifactId>kw-infra</artifactId>
+    <groupId>org.ecommerce</groupId>
+    <artifactId>ec-infra</artifactId>
     <version>1.1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Kw :: Infra</name>
+    <name>Ecommerce :: Infra</name>
 
     <properties>
-        <compiler-plugin.version>3.14.1</compiler-plugin.version>
-        <maven.compiler.release>21</maven.compiler.release>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
-        <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-        <quarkus.platform.version>3.30.6</quarkus.platform.version>
-        <skipITs>true</skipITs>
-        <surefire-plugin.version>3.5.4</surefire-plugin.version>
-    </properties>
+            <compiler-plugin.version>3.14.1</compiler-plugin.version>
+            <maven.compiler.release>21</maven.compiler.release>
+            <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+            <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+            <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
+            <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
+            <quarkus.platform.version>3.30.6</quarkus.platform.version>
+            <skipITs>true</skipITs>
+            <surefire-plugin.version>3.5.4</surefire-plugin.version>
+            <!-- Flyway defaults for running migrations from Maven/IntelliJ; override with -Dflyway.url=... etc. -->
+            <flyway.url>jdbc:postgresql://localhost:5432/ecommerce_db</flyway.url>
+            <flyway.user>postgres</flyway.user>
+            <flyway.password>postgres</flyway.password>
+            <flyway.schemas>public</flyway.schemas>
+            <flyway.locations>${project.basedir}/src/main/resources/db/migration</flyway.locations>
+            <flyway.skip>false</flyway.skip>
+        </properties>
 
 <!--    <scm>-->
 <!--        <connection>scm:git:git@github.com:Go-BSS/notification-infra.git</connection>-->
@@ -59,6 +66,20 @@
 <!--        </repository>-->
     </repositories>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
     <dependencies>
         <!-- Quarkus libs  -->
         <dependency>
@@ -88,11 +109,18 @@
     </dependencies>
 
     <build>
+        <defaultGoal>quarkus:run</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>io.quarkus.platform</groupId>
                 <artifactId>quarkus-maven-plugin</artifactId>
+                <version>${quarkus.platform.version}</version>
+                <configuration>
+                    <enforceBuildGoal>false</enforceBuildGoal>
+                    <warnIfBuildGoalMissing>false</warnIfBuildGoalMissing>
+                </configuration>
             </plugin>
+
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${compiler-plugin.version}</version>
