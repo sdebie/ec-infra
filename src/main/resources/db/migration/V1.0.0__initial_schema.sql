@@ -60,8 +60,8 @@ CREATE TABLE customers (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 6. Quotations / Orders
-CREATE TABLE quotations (
+-- 6. Orders / Orders
+CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
     customer_id INTEGER REFERENCES customers(id),
     total_amount DECIMAL(12, 2) NOT NULL,
@@ -69,10 +69,10 @@ CREATE TABLE quotations (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 7. Quotation Items (Line Items)
-CREATE TABLE quotation_items (
+-- 7. Order Items (Line Items)
+CREATE TABLE order_items (
     id SERIAL PRIMARY KEY,
-    quotation_id INTEGER REFERENCES quotations(id) ON DELETE CASCADE,
+    order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
     variant_id INTEGER REFERENCES product_variants(id),
     quantity INTEGER NOT NULL,
     unit_price DECIMAL(12, 2) NOT NULL
@@ -80,7 +80,7 @@ CREATE TABLE quotation_items (
 
 CREATE TABLE payment_gateway_logs (
     id SERIAL PRIMARY KEY,
-    quotation_id INTEGER REFERENCES quotations(id) ON DELETE CASCADE,
+    order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
 
     -- Gateway Identification
     gateway_name VARCHAR(50) NOT NULL, -- 'PAYFAST', 'IKHOKHA', 'FASTPAY'
@@ -92,12 +92,12 @@ CREATE TABLE payment_gateway_logs (
     -- Universal Financial Data
     amount_gross DECIMAL(12, 2) NOT NULL,
     amount_fee DECIMAL(12, 2) DEFAULT 0,
-    amount_net DECIMAL(12, 2) NOT NULL,
+    amount_net DECIMAL(12, 2) DEFAULT 0,
     currency VARCHAR(3) DEFAULT 'ZAR',
 
     -- Status and Raw Data
     status VARCHAR(50) NOT NULL, -- 'INITIATED', 'SUCCESS', 'FAILED', 'REFUNDED'
-    raw_response JSONB,          -- Stores the unique JSON body from EACH gateway
+    raw_response VARCHAR(1024),  -- Stores the unique JSON body from EACH gateway
 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
