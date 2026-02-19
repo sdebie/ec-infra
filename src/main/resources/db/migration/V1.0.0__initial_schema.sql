@@ -15,10 +15,19 @@ CREATE TABLE categories (
     parent_id INTEGER REFERENCES categories(id)
 );
 
+CREATE TABLE brands (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    slug VARCHAR(100) UNIQUE NOT NULL,
+    logo_url VARCHAR(500),
+    description TEXT
+);
+
 -- 2. Products (The Parent)
 CREATE TABLE products (
     id SERIAL PRIMARY KEY,
-    category_id INTEGER REFERENCES categories(id),
+    category_id INTEGER REFERENCES categories(id) ON DELETE SET NULL,
+    brand_id INTEGER REFERENCES brands(id) ON DELETE SET NULL,
     name VARCHAR(255) NOT NULL,
     description TEXT,
     product_type VARCHAR(20) DEFAULT 'SIMPLE', -- SIMPLE or VARIABLE
