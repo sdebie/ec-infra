@@ -63,6 +63,7 @@ CREATE TABLE customers (
 -- 6. Orders / Orders
 CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
+    session_id  UUID        NOT NULL,
     customer_id INTEGER REFERENCES customers(id),
     total_amount DECIMAL(12, 2) NOT NULL,
     status VARCHAR(50) DEFAULT 'PENDING',
@@ -102,3 +103,11 @@ CREATE TABLE payment_gateway_logs (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+
+CREATE SEQUENCE IF NOT EXISTS orders_seq START WITH 1 INCREMENT BY 1 NO MINVALUE NO MAXVALUE CACHE 1;
+
+-- Align the sequence to be ahead of the current max(id) in orders
+-- If there are no rows, this will set it to 1 and the first nextval will return 1
+SELECT setval('orders_seq', COALESCE((SELECT MAX(id) FROM orders), 0) + 1, false);
