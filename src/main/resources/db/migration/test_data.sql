@@ -32,3 +32,24 @@ INSERT INTO product_images (product_id, image_url, is_featured) VALUES
                                                                     (2, 'https://cdn.example.com/arduino-nano.jpg', TRUE),
                                                                     (3, 'https://cdn.example.com/cob-led.jpg', TRUE),
                                                                     (4, 'https://cdn.example.com/psu-12v.jpg', TRUE);
+
+
+INSERT INTO store_settings (setting_key, setting_value, description) VALUES
+                                                                         ('site_maintenance_enabled', 'false', 'Toggles maintenance mode overlay on frontend'),
+                                                                         ('allow_guest_checkout', 'true', 'Allows users to buy without an account'),
+                                                                         ('create_account_post_checkout', 'true', 'Shows password field on Thank You page'),
+                                                                         ('payment_methods_allowed', '["IN_STORE", "FASTPAY"]', 'JSON array of active payment gateways'),
+                                                                         ('terms_and_conditions_url', '/terms-and-conditions', 'Link to the legal page'),
+                                                                         ('store_currency', 'ZAR', 'Base currency for the shop');
+
+-- 2. Shipping Methods
+INSERT INTO shipping_methods (name, is_active, base_fee, estimated_days) VALUES
+                                                                             ('In-Store Pickup', true, 0.00, 'Same Day'),
+                                                                             ('Standard Courier (National)', true, 115.00, '2-4 Working Days'),
+                                                                             ('Express Overnight', true, 250.00, '1 Working Day');
+
+-- 3. Shipping Zones (Specific Country Rules)
+-- Assuming Method 2 is Standard Courier
+INSERT INTO shipping_zones (shipping_method_id, country_code, additional_fee) VALUES
+                                                                                  (2, 'ZA', 0.00),   -- No extra fee for South Africa
+                                                                                  (2, 'NA', 450.00); -- R450 extra for Namibia (International)
