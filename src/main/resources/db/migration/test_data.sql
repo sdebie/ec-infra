@@ -1,14 +1,16 @@
 -- 1. Categories
 INSERT INTO categories (name, slug) VALUES
                                         ('Microcontrollers', 'microcontrollers'),
-                                        ('LED Lighting', 'led-lighting');
+                                        ('LED Lighting', 'led-lighting'),
+                                        ('Apparel', 't-shirt');
 
 -- 2. Products
 INSERT INTO products (category_id, name, description, product_type) VALUES
                                                                         (1, 'ESP32-C3 Super Mini', 'Ultra-small development board with WiFi and Bluetooth.', 'VARIABLE'),
                                                                         (1, 'Arduino Nano R3', 'Classic ATmega328P microcontroller for prototyping.', 'SIMPLE'),
                                                                         (2, 'COB LED Strip 5m', 'High-density flexible LED strip for seamless lighting.', 'VARIABLE'),
-                                                                        (2, 'LED Power Supply', '12V 60W DC transformer for LED strips.', 'SIMPLE');
+-                                                                        (2, 'LED Power Supply', '12V 60W DC transformer for LED strips.', 'SIMPLE'),
+                                                                        (3, 'Essential Heavyweight Tee', 'A premium 240gsm cotton t-shirt with a relaxed fit. Durable, comfortable, and perfect for everyday wear.', 'VARIABLE');
 
 -- 3. Product Variants (The "Nitty-Gritty")
 INSERT INTO product_variants (product_id, sku, price, stock_quantity, attributes, weight_kg) VALUES
@@ -25,6 +27,36 @@ INSERT INTO product_variants (product_id, sku, price, stock_quantity, attributes
 
 -- Power Supply
 (4, 'PSU-12V-60W', 220.00, 8, NULL, 0.45);
+
+-- White Variants
+(5, 'UT-TEE-WHT-S', 250.00, 10, '{"color": "White", "size": "S"}', 0.02),
+(5, 'UT-TEE-WHT-M', 250.00, 15, '{"color": "White", "size": "M"}', 0.02),
+(5, 'UT-TEE-WHT-L', 250.00, 12, '{"color": "White", "size": "L"}', 0.02),
+(5, 'UT-TEE-WHT-XL', 275.00, 5,  '{"color": "White", "size": "XL"}', 0.02),
+
+-- Black Variants
+(5, 'UT-TEE-BLK-S', 250.00, 8,  '{"color": "Black", "size": "S"}', 0.02),
+(5, 'UT-TEE-BLK-M', 250.00, 20, '{"color": "Black", "size": "M"}', 0.02),
+(5, 'UT-TEE-BLK-L', 250.00, 18, '{"color": "Black", "size": "L"}', 0.02),
+(5, 'UT-TEE-BLK-XL', 275.00, 7,  '{"color": "Black", "size": "XL"}', 0.02),
+
+-- Navy Variants
+(5, 'UT-TEE-NVY-S', 250.00, 5,  '{"color": "Navy", "size": "S"}', 0.02),
+(5, 'UT-TEE-NVY-M', 250.00, 12, '{"color": "Navy", "size": "M"}', 0.02),
+(5, 'UT-TEE-NVY-L', 250.00, 10, '{"color": "Navy", "size": "L"}', 0.02),
+(5, 'UT-TEE-NVY-XL', 275.00, 3,  '{"color": "Navy", "size": "XL"}', 0.02),
+
+-- Olive Variants
+(5, 'UT-TEE-OLV-S', 250.00, 6,  '{"color": "Olive", "size": "S"}', 0.02),
+(5, 'UT-TEE-OLV-M', 250.00, 10, '{"color": "Olive", "size": "M"}', 0.02),
+(5, 'UT-TEE-OLV-L', 250.00, 9,  '{"color": "Olive", "size": "L"}', 0.02),
+(5, 'UT-TEE-OLV-XL', 275.00, 4,  '{"color": "Olive", "size": "XL"}', 0.02),
+
+-- Maroon Variants
+(5, 'UT-TEE-MRN-S', 250.00, 4,  '{"color": "Maroon", "size": "S"}', 0.02),
+(5, 'UT-TEE-MRN-M', 250.00, 8,  '{"color": "Maroon", "size": "M"}', 0.02),
+(5, 'UT-TEE-MRN-L', 250.00, 11, '{"color": "Maroon", "size": "L"}', 0.02),
+(5, 'UT-TEE-MRN-XL', 275.00, 2,  '{"color": "Maroon", "size": "XL"}', 0.02);
 
 -- 4. Product Gallery
 INSERT INTO product_images (product_id, image_url, is_featured) VALUES
