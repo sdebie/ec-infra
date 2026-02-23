@@ -38,7 +38,18 @@ INSERT INTO store_settings (setting_key, setting_value, description) VALUES
                                                                          ('site_maintenance_enabled', 'false', 'Toggles maintenance mode overlay on frontend'),
                                                                          ('allow_guest_checkout', 'true', 'Allows users to buy without an account'),
                                                                          ('create_account_post_checkout', 'true', 'Shows password field on Thank You page'),
-                                                                         ('payment_methods_allowed', '["IN_STORE", "FASTPAY"]', 'JSON array of active payment gateways'),
+                                                                         ('payment_methods_allowed', '{
+  "IN_STORE": {
+    "displayName": "Pay in store",
+    "description": "Cash/Card at Pickup",
+    "enabled": true
+  },
+  "PAYFAST": {
+    "displayName": "PayFast",
+    "description": "Card / Instant EFT / Scan to Pay",
+    "enabled": true
+  }
+}', 'JSON array of active payment gateways'),
                                                                          ('terms_and_conditions_url', '/terms-and-conditions', 'Link to the legal page'),
                                                                          ('store_currency', 'ZAR', 'Base currency for the shop');
 

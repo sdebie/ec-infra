@@ -45,7 +45,7 @@ CREATE TABLE product_variants (
     price DECIMAL(12, 2) NOT NULL,
     sale_price DECIMAL(12, 2),
     sale_start_date TIMESTAMP,
-    sale_end_date TIMESTAMP;
+    sale_end_date TIMESTAMP,
     stock_quantity INTEGER DEFAULT 0,
     attributes JSONB, -- Stores {"color": "Red", "size": "XL"}
     weight_kg DECIMAL(5,2)
@@ -63,6 +63,7 @@ CREATE TABLE product_images (
 -- 5. Customer Profiles & Base Address
 CREATE TABLE customers (
     id SERIAL PRIMARY KEY,
+    shopper_type VARCHAR(20) DEFAULT 'GUEST',
     email VARCHAR(255) UNIQUE NOT NULL,
     first_name VARCHAR(100),
     last_name VARCHAR(100),
@@ -72,6 +73,8 @@ CREATE TABLE customers (
     city VARCHAR(100),
     province VARCHAR(100),
     postal_code VARCHAR(10),
+    password_hash VARCHAR(255) NULL,
+    last_login TIMESTAMP NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
