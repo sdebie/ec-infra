@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 -- V1.0.0__create_products_table.sql
 CREATE TABLE test (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -9,16 +11,16 @@ CREATE TABLE test (
 
 -- 1. Categories
 CREATE TABLE categories (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(100) NOT NULL,
     slug VARCHAR(100) UNIQUE NOT NULL,
-    parent_id INTEGER REFERENCES categories(id),
+    parent_id UUID REFERENCES categories(id),
     description TEXT,
     image_url VARCHAR(500)
 );
 
 CREATE TABLE brands (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(100) NOT NULL UNIQUE,
     slug VARCHAR(100) UNIQUE NOT NULL,
     logo_url VARCHAR(500),
@@ -27,9 +29,9 @@ CREATE TABLE brands (
 
 -- 2. Products (The Parent)
 CREATE TABLE products (
-    id SERIAL PRIMARY KEY,
-    category_id INTEGER REFERENCES categories(id) ON DELETE SET NULL,
-    brand_id INTEGER REFERENCES brands(id) ON DELETE SET NULL,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    category_id UUID REFERENCES categories(id) ON DELETE SET NULL,
+    brand_id UUID REFERENCES brands(id) ON DELETE SET NULL,
     name VARCHAR(255) NOT NULL,
     description TEXT,
     short_description VARCHAR(500),
@@ -39,8 +41,8 @@ CREATE TABLE products (
 
 -- 3. Product Variants (Handles Color/Size via JSONB)
 CREATE TABLE product_variants (
-    id SERIAL PRIMARY KEY,
-    product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    product_id UUID REFERENCES products(id) ON DELETE CASCADE,
     sku VARCHAR(100) UNIQUE NOT NULL,
     price DECIMAL(12, 2) NOT NULL,
     sale_price DECIMAL(12, 2),
@@ -53,8 +55,8 @@ CREATE TABLE product_variants (
 
 -- 4. Product Gallery (Multiple Images)
 CREATE TABLE product_images (
-    id SERIAL PRIMARY KEY,
-    product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    product_id UUID REFERENCES products(id) ON DELETE CASCADE,
     image_url VARCHAR(500) NOT NULL,
     sort_order INTEGER DEFAULT 0,
     is_featured BOOLEAN DEFAULT FALSE
@@ -62,7 +64,7 @@ CREATE TABLE product_images (
 
 -- 5. Customer Profiles & Base Address
 CREATE TABLE customers (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     shopper_type VARCHAR(20) DEFAULT 'GUEST',
     email VARCHAR(255) UNIQUE NOT NULL,
     first_name VARCHAR(100),
@@ -80,9 +82,9 @@ CREATE TABLE customers (
 
 -- 6. Orders / Orders
 CREATE TABLE orders (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     session_id  UUID        NOT NULL,
-    customer_id INTEGER REFERENCES customers(id),
+    customer_id UUID REFERENCES customers(id),
     total_amount DECIMAL(12, 2) NOT NULL,
     status VARCHAR(50) DEFAULT 'PENDING',
     shipping_phone VARCHAR(20),
@@ -96,16 +98,16 @@ CREATE TABLE orders (
 
 -- 7. Order Items (Line Items)
 CREATE TABLE order_items (
-    id SERIAL PRIMARY KEY,
-    order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
-    variant_id INTEGER REFERENCES product_variants(id),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    order_id UUID REFERENCES orders(id) ON DELETE CASCADE,
+    variant_id UUID REFERENCES product_variants(id),
     quantity INTEGER NOT NULL,
     unit_price DECIMAL(12, 2) NOT NULL
 );
 
 CREATE TABLE payment_gateway_logs (
-    id SERIAL PRIMARY KEY,
-    order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    order_id UUID REFERENCES orders(id) ON DELETE CASCADE,
 
     -- Gateway Identification
     gateway_name VARCHAR(50) NOT NULL, -- 'PAYFAST', 'IKHOKHA', 'FASTPAY'
@@ -137,7 +139,7 @@ CREATE TABLE store_settings (
 
 -- 2. Shipping Options & Fees
 CREATE TABLE shipping_methods (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(100) NOT NULL, -- 'Pick up', 'Courier'
     is_active BOOLEAN DEFAULT TRUE,
     base_fee DECIMAL(12, 2) DEFAULT 0.00,
@@ -146,8 +148,8 @@ CREATE TABLE shipping_methods (
 
 -- 3. Country-Specific Fees (for Courier)
 CREATE TABLE shipping_zones (
-    id SERIAL PRIMARY KEY,
-    shipping_method_id INTEGER REFERENCES shipping_methods(id),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    shipping_method_id UUID REFERENCES shipping_methods(id),
     country_code CHAR(2) NOT NULL, -- 'ZA', 'US'
     additional_fee DECIMAL(12, 2) DEFAULT 0.00
 );
