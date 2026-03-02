@@ -155,9 +155,13 @@ CREATE TABLE shipping_zones (
 );
 
 
--- CREATE SEQUENCE IF NOT EXISTS orders_seq START WITH 1 INCREMENT BY 1 NO MINVALUE NO MAXVALUE CACHE 1;
---
--- -- Align the sequence to be ahead of the current max(id) in orders
--- -- If there are no rows, this will set it to 1 and the first nextval will return 1
--- SELECT setval('orders_seq', COALESCE((SELECT MAX(id) FROM orders), 0) + 1, false);
---
+CREATE TABLE staff_users (
+     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+     username VARCHAR(50) UNIQUE NOT NULL,
+     email VARCHAR(100) UNIQUE NOT NULL,
+     password_hash VARCHAR(255) NOT NULL,
+     full_name VARCHAR(100),
+     role VARCHAR(30) NOT NULL, -- Values: 'SUPER_ADMIN', 'CATALOG_MANAGER', etc.
+     is_active BOOLEAN DEFAULT true,
+     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
