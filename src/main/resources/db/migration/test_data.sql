@@ -98,14 +98,3 @@ INSERT INTO shipping_zones (shipping_method_id, country_code, additional_fee) VA
                                                                                   ('294d9544-b891-4ada-b84f-1c3e3a158ffa', 'NA', 450.00); -- R450 extra for Namibia (International)
 
 
-
-INSERT INTO staff_users (id, username, email, password_hash, full_name, role, is_active)
-VALUES (
-           gen_random_uuid(),
-           'admin',
-           'admin@gmail.com',
-           '$2a$10$8K1p/p8H1n6.R1m8Q7G3ueJ9Z6K8X5w4V2y4z5t6u7i8o9p0q1r2s', -- Bcrypt for 'Admin@123'
-           'System Admin',
-           'SUPER_ADMIN',
-           true
-       );
