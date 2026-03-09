@@ -44,16 +44,28 @@ CREATE TABLE product_variants (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     product_id UUID REFERENCES products(id) ON DELETE CASCADE,
     sku VARCHAR(100) UNIQUE NOT NULL,
-    price DECIMAL(12, 2) NOT NULL,
-    sale_price DECIMAL(12, 2),
-    sale_start_date TIMESTAMP,
-    sale_end_date TIMESTAMP,
     stock_quantity INTEGER DEFAULT 0,
     attributes JSONB, -- Stores {"color": "Red", "size": "XL"}
     weight_kg DECIMAL(5,2)
 );
 
--- 4. Product Gallery (Multiple Images)
+-- 4. Variant Prices (Multiple prices per variant for different customer types and scenarios)
+-- Each variant can have multiple prices: retail, retail sale, wholesale, wholesale sale
+-- with optional time-limited validity windows
+CREATE TABLE variant_prices (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    variant_id UUID NOT NULL REFERENCES product_variants(id) ON DELETE CASCADE,
+    pricetype VARCHAR(30) NOT NULL, -- 'RETAIL_PRICE', 'RETAIL_SALE_PRICE', 'WHOLESALE_PRICE', 'WHOLESALE_SALE_PRICE'
+    price DECIMAL(12, 2) NOT NULL,
+    price_start_date TIMESTAMP,
+    price_end_date TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by UUID,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_by UUID
+);
+
+-- 5. Product Gallery (Multiple Images)
 CREATE TABLE product_images (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     product_id UUID REFERENCES products(id) ON DELETE CASCADE,
@@ -62,7 +74,7 @@ CREATE TABLE product_images (
     is_featured BOOLEAN DEFAULT FALSE
 );
 
--- 5. Customer Profiles & Base Address
+-- 6. Customer Profiles & Base Address
 CREATE TABLE customers (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     shopper_type VARCHAR(20) DEFAULT 'GUEST',
@@ -80,7 +92,7 @@ CREATE TABLE customers (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 6. Orders / Orders
+-- 7. Orders / Orders
 CREATE TABLE orders (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     session_id  UUID        NOT NULL,
@@ -96,7 +108,7 @@ CREATE TABLE orders (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 7. Order Items (Line Items)
+-- 8. Order Items (Line Items)
 CREATE TABLE order_items (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     order_id UUID REFERENCES orders(id) ON DELETE CASCADE,
