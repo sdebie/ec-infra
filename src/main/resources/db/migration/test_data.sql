@@ -108,7 +108,7 @@ price_combinations AS (
         UNION ALL SELECT 'WHOLESALE_SALE_PRICE', 0.7
     ) pc
 )
-INSERT INTO variant_prices (variant_id, pricetype, price)
+INSERT INTO variant_prices (variant_id, price_type, price)
 SELECT variant_id, price_type, ROUND(base_price * multiplier, 2)
 FROM price_combinations;
 

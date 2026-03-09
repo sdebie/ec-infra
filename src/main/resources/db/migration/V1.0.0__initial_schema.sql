@@ -55,7 +55,7 @@ CREATE TABLE product_variants (
 CREATE TABLE variant_prices (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     variant_id UUID NOT NULL REFERENCES product_variants(id) ON DELETE CASCADE,
-    pricetype VARCHAR(30) NOT NULL, -- 'RETAIL_PRICE', 'RETAIL_SALE_PRICE', 'WHOLESALE_PRICE', 'WHOLESALE_SALE_PRICE'
+    price_type VARCHAR(30) NOT NULL, -- 'RETAIL_PRICE', 'RETAIL_SALE_PRICE', 'WHOLESALE_PRICE', 'WHOLESALE_SALE_PRICE'
     price DECIMAL(12, 2) NOT NULL,
     price_start_date TIMESTAMP,
     price_end_date TIMESTAMP,
