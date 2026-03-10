@@ -1,6 +1,5 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
--- V1.0.0__create_products_table.sql
 CREATE TABLE test (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(255) NOT NULL,
@@ -9,7 +8,6 @@ CREATE TABLE test (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- 1. Categories
 CREATE TABLE categories (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(100) NOT NULL,
@@ -27,7 +25,6 @@ CREATE TABLE brands (
     description TEXT
 );
 
--- 2. Products (The Parent)
 CREATE TABLE products (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     category_id UUID REFERENCES categories(id) ON DELETE SET NULL,
@@ -39,7 +36,6 @@ CREATE TABLE products (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 3. Product Variants (Handles Color/Size via JSONB)
 CREATE TABLE product_variants (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     product_id UUID REFERENCES products(id) ON DELETE CASCADE,
@@ -49,9 +45,6 @@ CREATE TABLE product_variants (
     weight_kg DECIMAL(5,2)
 );
 
--- 4. Variant Prices (Multiple prices per variant for different customer types and scenarios)
--- Each variant can have multiple prices: retail, retail sale, wholesale, wholesale sale
--- with optional time-limited validity windows
 CREATE TABLE variant_prices (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     variant_id UUID NOT NULL REFERENCES product_variants(id) ON DELETE CASCADE,
@@ -65,7 +58,6 @@ CREATE TABLE variant_prices (
     updated_by UUID
 );
 
--- 5. Product Gallery (Multiple Images)
 CREATE TABLE product_images (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     product_id UUID REFERENCES products(id) ON DELETE CASCADE,
@@ -74,7 +66,6 @@ CREATE TABLE product_images (
     is_featured BOOLEAN DEFAULT FALSE
 );
 
--- 6. Customer Profiles & Base Address
 CREATE TABLE customers (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     shopper_type VARCHAR(20) DEFAULT 'GUEST',
@@ -92,7 +83,6 @@ CREATE TABLE customers (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 7. Orders / Orders
 CREATE TABLE orders (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     session_id  UUID        NOT NULL,
@@ -108,7 +98,6 @@ CREATE TABLE orders (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 8. Order Items (Line Items)
 CREATE TABLE order_items (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     order_id UUID REFERENCES orders(id) ON DELETE CASCADE,
@@ -142,14 +131,12 @@ CREATE TABLE payment_gateway_logs (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
 CREATE TABLE store_settings (
     setting_key VARCHAR(50) PRIMARY KEY,
     setting_value TEXT NOT NULL,
     description TEXT
 );
 
--- 2. Shipping Options & Fees
 CREATE TABLE shipping_methods (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(100) NOT NULL, -- 'Pick up', 'Courier'
@@ -158,14 +145,12 @@ CREATE TABLE shipping_methods (
     estimated_days VARCHAR(50)
 );
 
--- 3. Country-Specific Fees (for Courier)
 CREATE TABLE shipping_zones (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     shipping_method_id UUID REFERENCES shipping_methods(id),
     country_code CHAR(2) NOT NULL, -- 'ZA', 'US'
     additional_fee DECIMAL(12, 2) DEFAULT 0.00
 );
-
 
 CREATE TABLE staff_users (
      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -176,4 +161,32 @@ CREATE TABLE staff_users (
      role VARCHAR(30) NOT NULL, -- Values: 'SUPER_ADMIN', 'CATALOG_MANAGER', etc.
      is_active BOOLEAN DEFAULT true,
      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE product_upload_batches (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    filename VARCHAR(255) NOT NULL,
+    status VARCHAR(50) NOT NULL, -- 'PENDING', 'PROCESSED', 'CANCELLED'
+    uploaded_by UUID REFERENCES staff_users(id), --
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    total_rows INTEGER DEFAULT 0
+);
+
+CREATE TABLE product_upload_staged (
+     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+     batch_id UUID NOT NULL REFERENCES product_upload_batches(id) ON DELETE CASCADE,
+     sku VARCHAR(100) NOT NULL, --
+     name VARCHAR(255),
+     retail_price DECIMAL(12, 2),
+     wholesale_price DECIMAL(12, 2),
+     category_name VARCHAR(255),
+
+    -- Track state for the approval screen
+     validation_status VARCHAR(50) DEFAULT 'PENDING', -- 'VALID', 'ERROR'
+     validation_errors TEXT,
+     is_new_product BOOLEAN DEFAULT FALSE,
+     has_changes BOOLEAN DEFAULT FALSE,
+
+    -- Store the original data for comparison
+     processed BOOLEAN DEFAULT FALSE
 );
