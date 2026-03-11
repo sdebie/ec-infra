@@ -181,14 +181,22 @@ CREATE TABLE product_upload_staged (
      wholesale_price DECIMAL(12, 2),
      retail_sale_price DECIMAL(12, 2),
      wholesale_sale_price DECIMAL(12, 2),
-     category_name VARCHAR(255),
 
     -- Track state for the approval screen
      validation_status VARCHAR(50) DEFAULT 'PENDING', -- 'VALID', 'ERROR'
      validation_errors TEXT,
+     image_errors TEXT,
      is_new_product BOOLEAN DEFAULT FALSE,
+     is_new_variant BOOLEAN DEFAULT FALSE,
      has_changes BOOLEAN DEFAULT FALSE,
 
     -- Store the original data for comparison
-     processed BOOLEAN DEFAULT FALSE
+     processed BOOLEAN DEFAULT FALSE,
+
+     category_slug VARCHAR(255),
+     brand_slug VARCHAR(255),
+     stock INTEGER,
+     images TEXT,
+     attributes TEXT
+
 );
