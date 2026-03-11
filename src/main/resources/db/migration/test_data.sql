@@ -112,13 +112,6 @@ INSERT INTO variant_prices (variant_id, price_type, price)
 SELECT variant_id, price_type, ROUND(base_price * multiplier, 2)
 FROM price_combinations;
 
-INSERT INTO product_images (product_id, image_url, is_featured) VALUES
-                                                                    ('16862af0-3943-4055-9164-95f88e5155e4', 'https://cdn.example.com/esp32-c3.jpg', TRUE),
-                                                                    ('26862af0-3943-4055-9164-95f88e5155e4', 'https://cdn.example.com/arduino-nano.jpg', TRUE),
-                                                                    ('36862af0-3943-4055-9164-95f88e5155e4', 'https://cdn.example.com/cob-led.jpg', TRUE),
-                                                                    ('46862af0-3943-4055-9164-95f88e5155e4', 'https://cdn.example.com/psu-12v.jpg', TRUE);
-
-
 INSERT INTO store_settings (setting_key, setting_value, description) VALUES
                                                                          ('site_maintenance_enabled', 'false', 'Toggles maintenance mode overlay on frontend'),
                                                                          ('allow_guest_checkout', 'true', 'Allows users to buy without an account'),

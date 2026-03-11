@@ -60,7 +60,7 @@ CREATE TABLE variant_prices (
 
 CREATE TABLE product_images (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    product_id UUID REFERENCES products(id) ON DELETE CASCADE,
+    variant_id UUID REFERENCES product_variants(id) ON DELETE CASCADE,
     image_url VARCHAR(500) NOT NULL,
     sort_order INTEGER DEFAULT 0,
     is_featured BOOLEAN DEFAULT FALSE
@@ -179,6 +179,8 @@ CREATE TABLE product_upload_staged (
      name VARCHAR(255),
      retail_price DECIMAL(12, 2),
      wholesale_price DECIMAL(12, 2),
+     retail_sale_price DECIMAL(12, 2),
+     wholesale_sale_price DECIMAL(12, 2),
      category_name VARCHAR(255),
 
     -- Track state for the approval screen
