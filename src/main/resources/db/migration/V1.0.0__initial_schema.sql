@@ -41,7 +41,7 @@ CREATE TABLE product_variants (
     product_id UUID REFERENCES products(id) ON DELETE CASCADE,
     sku VARCHAR(100) UNIQUE NOT NULL,
     stock_quantity INTEGER DEFAULT 0,
-    attributes JSONB, -- Stores {"color": "Red", "size": "XL"}
+    attributes VARCHAR(254), -- Stores {"color": "Red", "size": "XL"}
     weight_kg DECIMAL(5,2)
 );
 
@@ -169,7 +169,10 @@ CREATE TABLE product_upload_batches (
     status VARCHAR(50) NOT NULL, -- 'PENDING', 'PROCESSED', 'CANCELLED'
     uploaded_by UUID REFERENCES staff_users(id), --
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    total_rows INTEGER DEFAULT 0
+    total_rows INTEGER DEFAULT 0,
+    processed_rows INTEGER NOT NULL DEFAULT 0,
+    skipped_rows   INTEGER NOT NULL DEFAULT 0,
+    validation_error_count INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE TABLE product_upload_staged (

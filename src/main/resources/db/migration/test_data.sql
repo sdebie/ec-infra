@@ -1,116 +1,134 @@
 -- 1. Categories
-INSERT INTO categories (id, name, slug) VALUES
-                                        ('19766fde-2074-496b-b3b5-732db6a1e759','Microcontrollers', 'microcontrollers'),
-                                        ('29766fde-2074-496b-b3b5-732db6a1e759', 'LED Lighting', 'led-lighting'),
-                                        ('39766fde-2074-496b-b3b5-732db6a1e759', 'Apparel', 't-shirt');
+INSERT INTO categories (name, slug, description) VALUES
+                         ('Action Figures', 'action-figures', 'Poseable figurines from popular movies, comics, and original series.'),
+                         ('Building Sets', 'building-sets', 'Construction toys, interlocking plastic bricks, and architectural models.'),
+                         ('Educational Toys', 'educational-toys', 'Toys designed to stimulate learning, STEM skills, and early development.'),
+                         ('Board Games', 'board-games', 'Tabletop games for families, strategy enthusiasts, and competitive play.'),
+                         ('Outdoor Play', 'outdoor-play', 'Equipment for active play, including slides, swings, and sports gear.'),
+                         ('Dolls & Accessories', 'dolls-accessories', 'Fashion dolls, playsets, and highly collectible character figures.'),
+                         ('Puzzles', 'puzzles', 'Jigsaw puzzles and 3D brain teasers for toddlers through to adults.'),
+                         ('Remote Control', 'remote-control', 'Radio-controlled cars, drones, and hobby-grade flight vehicles.'),
+                         ('Arts & Crafts', 'arts-crafts', 'Creative kits for painting, sculpting, and DIY jewelry making.'),
+                         ('Baby & Toddler', 'baby-toddler', 'Safe, durable, and engaging toys designed for infants and young children.');
 
--- 2. Products
-INSERT INTO products (id, category_id, name, description, product_type) VALUES
-                                                                        ('16862af0-3943-4055-9164-95f88e5155e4','19766fde-2074-496b-b3b5-732db6a1e759', 'ESP32-C3 Super Mini', 'Ultra-small development board with WiFi and Bluetooth.', 'VARIABLE'),
-                                                                        ('26862af0-3943-4055-9164-95f88e5155e4','19766fde-2074-496b-b3b5-732db6a1e759', 'Arduino Nano R3', 'Classic ATmega328P microcontroller for prototyping.', 'SIMPLE'),
-                                                                        ('36862af0-3943-4055-9164-95f88e5155e4', '29766fde-2074-496b-b3b5-732db6a1e759', 'COB LED Strip 5m', 'High-density flexible LED strip for seamless lighting.', 'VARIABLE'),
-                                                                        ('46862af0-3943-4055-9164-95f88e5155e4','29766fde-2074-496b-b3b5-732db6a1e759', 'LED Power Supply', '12V 60W DC transformer for LED strips.', 'SIMPLE'),
-                                                                        ('56862af0-3943-4055-9164-95f88e5155e4','39766fde-2074-496b-b3b5-732db6a1e759', 'Essential Heavyweight Tee', 'A premium 240gsm cotton t-shirt with a relaxed fit. Durable, comfortable, and perfect for everyday wear.', 'VARIABLE');
+INSERT INTO brands (name, slug, description) VALUES
+                         ('TechNova', 'technova', 'Specialists in innovative electronic and robotic toys.'),
+                         ('BuildIt Pro', 'buildit-pro', 'Premium modular construction systems for advanced builders.'),
+                         ('GreenEarth Play', 'greenearth-play', 'Eco-friendly toys made strictly from sustainable and recycled materials.'),
+                         ('SwiftRacer', 'swiftracer', 'Manufacturer of high-performance radio-controlled racing vehicles.'),
+                         ('WonderKid', 'wonderkid', 'Award-winning toys focused on early childhood cognitive development.'),
+                         ('QuestGames', 'questgames', 'Creators of strategic and immersive tabletop board game experiences.'),
+                         ('ArtisticFlow', 'artisticflow', 'Professional-grade art supplies and creative kits for young artists.'),
+                         ('StellarBricks', 'stellarbricks', 'Intergalactic-themed building block sets and space exploration toys.'),
+                         ('SoftCuddles', 'softcuddles', 'High-quality plush toys, stuffed animals, and comfort blankets.'),
+                         ('PowerPlay', 'powerplay', 'Durable, heavy-duty equipment for outdoor recreation and sports.');
 
--- 3. Product Variants (The "Nitty-Gritty")
-INSERT INTO product_variants (product_id, sku, stock_quantity, attributes, weight_kg) VALUES
--- ESP32 Variants (Soldered vs Unsoldered)
-('16862af0-3943-4055-9164-95f88e5155e4', 'ESP32-C3-PIN', 25, '{"headers": "Soldered"}', 0.02),
-('16862af0-3943-4055-9164-95f88e5155e4', 'ESP32-C3-NO-PIN', 50, '{"headers": "None"}', 0.01),
-
--- Arduino Nano (Simple product, usually 1 variant)
-('26862af0-3943-4055-9164-95f88e5155e4', 'ARD-NANO-R3', 15, NULL, 0.05),
-
--- LED Strip Variants (Warm White vs Cool White)
-('36862af0-3943-4055-9164-95f88e5155e4', 'COB-5M-WW', 10, '{"color_temp": "3000K", "color": "Warm White"}', 0.20),
-('36862af0-3943-4055-9164-95f88e5155e4', 'COB-5M-CW', 12, '{"color_temp": "6000K", "color": "Cool White"}', 0.20),
-
--- Power Supply
-('46862af0-3943-4055-9164-95f88e5155e4', 'PSU-12V-60W', 8, NULL, 0.45),
-
--- White Variants
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-WHT-S', 10, '{"color": "White", "size": "S"}', 0.02),
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-WHT-M', 15, '{"color": "White", "size": "M"}', 0.02),
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-WHT-L', 12, '{"color": "White", "size": "L"}', 0.02),
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-WHT-XL', 5,  '{"color": "White", "size": "XL"}', 0.02),
-
--- Black Variants
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-BLK-S', 8,  '{"color": "Black", "size": "S"}', 0.02),
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-BLK-M', 20, '{"color": "Black", "size": "M"}', 0.02),
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-BLK-L', 18, '{"color": "Black", "size": "L"}', 0.02),
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-BLK-XL', 7,  '{"color": "Black", "size": "XL"}', 0.02),
-
--- Navy Variants
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-NVY-S', 5,  '{"color": "Navy", "size": "S"}', 0.02),
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-NVY-M', 12, '{"color": "Navy", "size": "M"}', 0.02),
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-NVY-L', 10, '{"color": "Navy", "size": "L"}', 0.02),
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-NVY-XL', 3,  '{"color": "Navy", "size": "XL"}', 0.02),
-
--- Olive Variants
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-OLV-S', 6,  '{"color": "Olive", "size": "S"}', 0.02),
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-OLV-M', 10, '{"color": "Olive", "size": "M"}', 0.02),
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-OLV-L', 9,  '{"color": "Olive", "size": "L"}', 0.02),
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-OLV-XL', 4,  '{"color": "Olive", "size": "XL"}', 0.02),
-
--- Maroon Variants
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-MRN-S', 4,  '{"color": "Maroon", "size": "S"}', 0.02),
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-MRN-M', 8,  '{"color": "Maroon", "size": "M"}', 0.02),
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-MRN-L', 11, '{"color": "Maroon", "size": "L"}', 0.02),
-('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-MRN-XL', 2,  '{"color": "Maroon", "size": "XL"}', 0.02);
-
--- 3a. Variant Prices (Prices for all price types)
--- Get variant IDs dynamically using WITH CTE for all variants
-WITH variant_mapping AS (
-    SELECT id, sku FROM product_variants
-),
-base_prices AS (
-    -- ESP32 Variants
-    SELECT 'ESP32-C3-PIN' as sku, 95.00 as base_price
-    UNION ALL SELECT 'ESP32-C3-NO-PIN', 85.00
-    -- Arduino Nano
-    UNION ALL SELECT 'ARD-NANO-R3', 110.00
-    -- LED Strips
-    UNION ALL SELECT 'COB-5M-WW', 350.00
-    UNION ALL SELECT 'COB-5M-CW', 350.00
-    -- Power Supply
-    UNION ALL SELECT 'PSU-12V-60W', 220.00
-    -- T-Shirt Variants (Regular sizes S, M, L)
-    UNION ALL SELECT 'UT-TEE-WHT-S', 250.00
-    UNION ALL SELECT 'UT-TEE-WHT-M', 250.00
-    UNION ALL SELECT 'UT-TEE-WHT-L', 250.00
-    UNION ALL SELECT 'UT-TEE-WHT-XL', 275.00
-    UNION ALL SELECT 'UT-TEE-BLK-S', 250.00
-    UNION ALL SELECT 'UT-TEE-BLK-M', 250.00
-    UNION ALL SELECT 'UT-TEE-BLK-L', 250.00
-    UNION ALL SELECT 'UT-TEE-BLK-XL', 275.00
-    UNION ALL SELECT 'UT-TEE-NVY-S', 250.00
-    UNION ALL SELECT 'UT-TEE-NVY-M', 250.00
-    UNION ALL SELECT 'UT-TEE-NVY-L', 250.00
-    UNION ALL SELECT 'UT-TEE-NVY-XL', 275.00
-    UNION ALL SELECT 'UT-TEE-OLV-S', 250.00
-    UNION ALL SELECT 'UT-TEE-OLV-M', 250.00
-    UNION ALL SELECT 'UT-TEE-OLV-L', 250.00
-    UNION ALL SELECT 'UT-TEE-OLV-XL', 275.00
-    UNION ALL SELECT 'UT-TEE-MRN-S', 250.00
-    UNION ALL SELECT 'UT-TEE-MRN-M', 250.00
-    UNION ALL SELECT 'UT-TEE-MRN-L', 250.00
-    UNION ALL SELECT 'UT-TEE-MRN-XL', 275.00
-),
-price_combinations AS (
-    SELECT v.id as variant_id, bp.sku, bp.base_price,
-           pc.price_type, pc.multiplier
-    FROM variant_mapping v
-    JOIN base_prices bp ON v.sku = bp.sku
-    CROSS JOIN (
-        SELECT 'RETAIL_PRICE' as price_type, 1.0 as multiplier
-        UNION ALL SELECT 'RETAIL_SALE_PRICE', 0.9
-        UNION ALL SELECT 'WHOLESALE_PRICE', 0.8
-        UNION ALL SELECT 'WHOLESALE_SALE_PRICE', 0.7
-    ) pc
-)
-INSERT INTO variant_prices (variant_id, price_type, price)
-SELECT variant_id, price_type, ROUND(base_price * multiplier, 2)
-FROM price_combinations;
+-- INSERT INTO products (id, category_id, name, description, product_type) VALUES
+--                                                                         ('16862af0-3943-4055-9164-95f88e5155e4','19766fde-2074-496b-b3b5-732db6a1e759', 'ESP32-C3 Super Mini', 'Ultra-small development board with WiFi and Bluetooth.', 'VARIABLE'),
+--                                                                         ('26862af0-3943-4055-9164-95f88e5155e4','19766fde-2074-496b-b3b5-732db6a1e759', 'Arduino Nano R3', 'Classic ATmega328P microcontroller for prototyping.', 'SIMPLE'),
+--                                                                         ('36862af0-3943-4055-9164-95f88e5155e4', '29766fde-2074-496b-b3b5-732db6a1e759', 'COB LED Strip 5m', 'High-density flexible LED strip for seamless lighting.', 'VARIABLE'),
+--                                                                         ('46862af0-3943-4055-9164-95f88e5155e4','29766fde-2074-496b-b3b5-732db6a1e759', 'LED Power Supply', '12V 60W DC transformer for LED strips.', 'SIMPLE'),
+--                                                                         ('56862af0-3943-4055-9164-95f88e5155e4','39766fde-2074-496b-b3b5-732db6a1e759', 'Essential Heavyweight Tee', 'A premium 240gsm cotton t-shirt with a relaxed fit. Durable, comfortable, and perfect for everyday wear.', 'VARIABLE');
+--
+-- -- 3. Product Variants (The "Nitty-Gritty")
+-- INSERT INTO product_variants (product_id, sku, stock_quantity, attributes, weight_kg) VALUES
+-- -- ESP32 Variants (Soldered vs Unsoldered)
+-- ('16862af0-3943-4055-9164-95f88e5155e4', 'ESP32-C3-PIN', 25, '{"headers": "Soldered"}', 0.02),
+-- ('16862af0-3943-4055-9164-95f88e5155e4', 'ESP32-C3-NO-PIN', 50, '{"headers": "None"}', 0.01),
+--
+-- -- Arduino Nano (Simple product, usually 1 variant)
+-- ('26862af0-3943-4055-9164-95f88e5155e4', 'ARD-NANO-R3', 15, NULL, 0.05),
+--
+-- -- LED Strip Variants (Warm White vs Cool White)
+-- ('36862af0-3943-4055-9164-95f88e5155e4', 'COB-5M-WW', 10, '{"color_temp": "3000K", "color": "Warm White"}', 0.20),
+-- ('36862af0-3943-4055-9164-95f88e5155e4', 'COB-5M-CW', 12, '{"color_temp": "6000K", "color": "Cool White"}', 0.20),
+--
+-- -- Power Supply
+-- ('46862af0-3943-4055-9164-95f88e5155e4', 'PSU-12V-60W', 8, NULL, 0.45),
+--
+-- -- White Variants
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-WHT-S', 10, '{"color": "White", "size": "S"}', 0.02),
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-WHT-M', 15, '{"color": "White", "size": "M"}', 0.02),
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-WHT-L', 12, '{"color": "White", "size": "L"}', 0.02),
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-WHT-XL', 5,  '{"color": "White", "size": "XL"}', 0.02),
+--
+-- -- Black Variants
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-BLK-S', 8,  '{"color": "Black", "size": "S"}', 0.02),
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-BLK-M', 20, '{"color": "Black", "size": "M"}', 0.02),
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-BLK-L', 18, '{"color": "Black", "size": "L"}', 0.02),
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-BLK-XL', 7,  '{"color": "Black", "size": "XL"}', 0.02),
+--
+-- -- Navy Variants
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-NVY-S', 5,  '{"color": "Navy", "size": "S"}', 0.02),
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-NVY-M', 12, '{"color": "Navy", "size": "M"}', 0.02),
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-NVY-L', 10, '{"color": "Navy", "size": "L"}', 0.02),
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-NVY-XL', 3,  '{"color": "Navy", "size": "XL"}', 0.02),
+--
+-- -- Olive Variants
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-OLV-S', 6,  '{"color": "Olive", "size": "S"}', 0.02),
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-OLV-M', 10, '{"color": "Olive", "size": "M"}', 0.02),
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-OLV-L', 9,  '{"color": "Olive", "size": "L"}', 0.02),
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-OLV-XL', 4,  '{"color": "Olive", "size": "XL"}', 0.02),
+--
+-- -- Maroon Variants
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-MRN-S', 4,  '{"color": "Maroon", "size": "S"}', 0.02),
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-MRN-M', 8,  '{"color": "Maroon", "size": "M"}', 0.02),
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-MRN-L', 11, '{"color": "Maroon", "size": "L"}', 0.02),
+-- ('56862af0-3943-4055-9164-95f88e5155e4', 'UT-TEE-MRN-XL', 2,  '{"color": "Maroon", "size": "XL"}', 0.02);
+--
+-- -- 3a. Variant Prices (Prices for all price types)
+-- -- Get variant IDs dynamically using WITH CTE for all variants
+-- WITH variant_mapping AS (
+--     SELECT id, sku FROM product_variants
+-- ),
+-- base_prices AS (
+--     -- ESP32 Variants
+--     SELECT 'ESP32-C3-PIN' as sku, 95.00 as base_price
+--     UNION ALL SELECT 'ESP32-C3-NO-PIN', 85.00
+--     -- Arduino Nano
+--     UNION ALL SELECT 'ARD-NANO-R3', 110.00
+--     -- LED Strips
+--     UNION ALL SELECT 'COB-5M-WW', 350.00
+--     UNION ALL SELECT 'COB-5M-CW', 350.00
+--     -- Power Supply
+--     UNION ALL SELECT 'PSU-12V-60W', 220.00
+--     -- T-Shirt Variants (Regular sizes S, M, L)
+--     UNION ALL SELECT 'UT-TEE-WHT-S', 250.00
+--     UNION ALL SELECT 'UT-TEE-WHT-M', 250.00
+--     UNION ALL SELECT 'UT-TEE-WHT-L', 250.00
+--     UNION ALL SELECT 'UT-TEE-WHT-XL', 275.00
+--     UNION ALL SELECT 'UT-TEE-BLK-S', 250.00
+--     UNION ALL SELECT 'UT-TEE-BLK-M', 250.00
+--     UNION ALL SELECT 'UT-TEE-BLK-L', 250.00
+--     UNION ALL SELECT 'UT-TEE-BLK-XL', 275.00
+--     UNION ALL SELECT 'UT-TEE-NVY-S', 250.00
+--     UNION ALL SELECT 'UT-TEE-NVY-M', 250.00
+--     UNION ALL SELECT 'UT-TEE-NVY-L', 250.00
+--     UNION ALL SELECT 'UT-TEE-NVY-XL', 275.00
+--     UNION ALL SELECT 'UT-TEE-OLV-S', 250.00
+--     UNION ALL SELECT 'UT-TEE-OLV-M', 250.00
+--     UNION ALL SELECT 'UT-TEE-OLV-L', 250.00
+--     UNION ALL SELECT 'UT-TEE-OLV-XL', 275.00
+--     UNION ALL SELECT 'UT-TEE-MRN-S', 250.00
+--     UNION ALL SELECT 'UT-TEE-MRN-M', 250.00
+--     UNION ALL SELECT 'UT-TEE-MRN-L', 250.00
+--     UNION ALL SELECT 'UT-TEE-MRN-XL', 275.00
+-- ),
+-- price_combinations AS (
+--     SELECT v.id as variant_id, bp.sku, bp.base_price,
+--            pc.price_type, pc.multiplier
+--     FROM variant_mapping v
+--     JOIN base_prices bp ON v.sku = bp.sku
+--     CROSS JOIN (
+--         SELECT 'RETAIL_PRICE' as price_type, 1.0 as multiplier
+--         UNION ALL SELECT 'RETAIL_SALE_PRICE', 0.9
+--         UNION ALL SELECT 'WHOLESALE_PRICE', 0.8
+--         UNION ALL SELECT 'WHOLESALE_SALE_PRICE', 0.7
+--     ) pc
+-- )
+-- INSERT INTO variant_prices (variant_id, price_type, price)
+-- SELECT variant_id, price_type, ROUND(base_price * multiplier, 2)
+-- FROM price_combinations;
 
 INSERT INTO store_settings (setting_key, setting_value, description) VALUES
                                                                          ('site_maintenance_enabled', 'false', 'Toggles maintenance mode overlay on frontend'),
