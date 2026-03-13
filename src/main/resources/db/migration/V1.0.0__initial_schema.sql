@@ -180,6 +180,8 @@ CREATE TABLE product_upload_staged (
      batch_id UUID NOT NULL REFERENCES product_upload_batches(id) ON DELETE CASCADE,
      sku VARCHAR(100) NOT NULL, --
      name VARCHAR(255),
+     description VARCHAR(255),
+     short_description VARCHAR(100),
      retail_price DECIMAL(12, 2),
      wholesale_price DECIMAL(12, 2),
      retail_sale_price DECIMAL(12, 2),
