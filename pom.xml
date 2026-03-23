@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.ecommerce.parent</groupId>
+        <artifactId>ec-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
 
     <groupId>org.ecommerce</groupId>
     <artifactId>ec-infra</artifactId>
@@ -10,42 +19,15 @@
     <name>Ecommerce :: Infra</name>
 
     <properties>
-            <compiler-plugin.version>3.14.1</compiler-plugin.version>
-            <maven.compiler.release>21</maven.compiler.release>
-            <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-            <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-            <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
-            <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-            <quarkus.platform.version>3.30.6</quarkus.platform.version>
-            <skipITs>true</skipITs>
-            <surefire-plugin.version>3.5.4</surefire-plugin.version>
-            <!-- Flyway defaults for running migrations from Maven/IntelliJ; override with -Dflyway.url=... etc. -->
-            <flyway.url>jdbc:postgresql://localhost:5432/ecommerce_db</flyway.url>
-            <flyway.user>postgres</flyway.user>
-            <flyway.password>postgres</flyway.password>
-            <flyway.schemas>public</flyway.schemas>
-            <flyway.locations>${project.basedir}/src/main/resources/db/migration</flyway.locations>
-            <flyway.skip>false</flyway.skip>
-        </properties>
+        <!-- Flyway defaults for running migrations from Maven/IntelliJ -->
+        <flyway.url>jdbc:postgresql://localhost:5432/ecommerce_db</flyway.url>
+        <flyway.user>postgres</flyway.user>
+        <flyway.password>postgres</flyway.password>
+        <flyway.schemas>public</flyway.schemas>
+        <flyway.locations>${project.basedir}/src/main/resources/db/migration</flyway.locations>
+        <flyway.skip>false</flyway.skip>
+    </properties>
 
-<!--    <scm>-->
-<!--        <connection>scm:git:git@github.com:Go-BSS/notification-infra.git</connection>-->
-<!--        <developerConnection>scm:git:git@github.com:Go-BSS/notification-infra.git</developerConnection>-->
-<!--        <url>git@github.com:Go-BSS/notification-infra.git</url>-->
-<!--        <tag>HEAD</tag>-->
-<!--    </scm>-->
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${quarkus.platform.group-id}</groupId>
-                <artifactId>${quarkus.platform.artifact-id}</artifactId>
-                <version>${quarkus.platform.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <repositories>
         <repository>
@@ -56,29 +38,7 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
-<!--        <repository>-->
-<!--            <id>github</id>-->
-<!--            <name>Github Repo</name>-->
-<!--            <url>https://maven.pkg.github.com/go-bss/platform</url>-->
-<!--            <snapshots>-->
-<!--                <enabled>false</enabled>-->
-<!--            </snapshots>-->
-<!--        </repository>-->
     </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>central</id>
-            <name>Maven Central</name>
-            <url>https://repo.maven.apache.org/maven2</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 
     <dependencies>
         <!-- Quarkus libs  -->
@@ -88,7 +48,12 @@
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-smallrye-metrics</artifactId>
+            <artifactId>quarkus-micrometer</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-micrometer-registry-prometheus</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -103,7 +68,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.42</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -123,13 +87,12 @@
 
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${compiler-plugin.version}</version>
                 <configuration>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.42</version>
+                            <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
