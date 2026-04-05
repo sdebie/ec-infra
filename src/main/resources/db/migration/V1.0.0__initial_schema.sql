@@ -27,6 +27,7 @@ CREATE TABLE brands (
 
 CREATE TABLE products (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    slug VARCHAR(100) NOT NULL,
     category_id UUID REFERENCES categories(id) ON DELETE SET NULL,
     brand_id UUID REFERENCES brands(id) ON DELETE SET NULL,
     name VARCHAR(255) NOT NULL,
@@ -202,6 +203,8 @@ CREATE TABLE product_upload_staged (
      brand_slug VARCHAR(255),
      stock INTEGER,
      images TEXT,
-     attributes TEXT
+     attributes TEXT,
+     is_valid_category BOOLEAN DEFAULT FALSE,
+     is_valid_brand BOOLEAN DEFAULT FALSE
 
 );
