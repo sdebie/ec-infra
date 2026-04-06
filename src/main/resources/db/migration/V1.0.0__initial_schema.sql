@@ -199,6 +199,7 @@ CREATE TABLE product_upload_staged (
     -- Store the original data for comparison
      processed BOOLEAN DEFAULT FALSE,
 
+     product_slug VARCHAR(255),
      category_slug VARCHAR(255),
      brand_slug VARCHAR(255),
      stock INTEGER,
