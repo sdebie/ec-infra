@@ -155,12 +155,12 @@ CREATE TABLE shipping_zones (
 
 CREATE TABLE staff_users (
      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-     username VARCHAR(50) UNIQUE NOT NULL,
      email VARCHAR(100) UNIQUE NOT NULL,
      password_hash VARCHAR(255) NOT NULL,
      full_name VARCHAR(100),
      role VARCHAR(30) NOT NULL, -- Values: 'SUPER_ADMIN', 'CATALOG_MANAGER', etc.
      is_active BOOLEAN DEFAULT true,
+     reset_password BOOLEAN DEFAULT false,
      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
