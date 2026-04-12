@@ -228,8 +228,6 @@ CREATE TABLE product_price_upload_staged (
                                        sku VARCHAR(100) NOT NULL, --
                                        retail_price DECIMAL(12, 2),
                                        wholesale_price DECIMAL(12, 2),
-                                       retail_sale_price DECIMAL(12, 2),
-                                       wholesale_sale_price DECIMAL(12, 2),
 
     -- Track state for the approval screen
                                        validation_status VARCHAR(50) DEFAULT 'PENDING', -- 'VALID', 'ERROR'
