@@ -239,3 +239,26 @@ CREATE TABLE product_price_upload_staged (
 
 
 );
+
+--Order Status History (Audit Trail)
+CREATE TABLE order_status_history (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      order_id UUID NOT NULL,
+      status VARCHAR(30) NOT NULL,
+      comment TEXT,
+      changed_by VARCHAR(100), -- ID or name of staff member / 'SYSTEM'
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+      CONSTRAINT fk_order_history
+          FOREIGN KEY (order_id)
+              REFERENCES orders(id)
+              ON DELETE CASCADE
+);
+
+
+
+------------------------------------- INDEXING ----------------------
+
+-- Critical for the 'Track My Order' page on your storefront
+CREATE INDEX idx_order_status_history_order_id ON order_status_history(order_id);
+CREATE INDEX idx_orders_customer_id ON orders(customer_id);
