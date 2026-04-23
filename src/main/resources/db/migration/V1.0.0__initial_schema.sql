@@ -206,8 +206,15 @@ CREATE TABLE product_upload_staged (
      images TEXT,
      attributes TEXT,
      is_valid_category BOOLEAN DEFAULT FALSE,
-     is_valid_brand BOOLEAN DEFAULT FALSE
-
+     is_valid_brand BOOLEAN DEFAULT FALSE,
+     current_stock          INTEGER,
+     current_images         TEXT,
+     current_attributes     TEXT,
+     current_name           VARCHAR(255),
+     current_description    VARCHAR(255),
+     current_short_description VARCHAR(100),
+     current_retail_price    DECIMAL(12, 2),
+     current_wholesale_price DECIMAL(12, 2)
 );
 
 CREATE TABLE product_price_upload_batches (
