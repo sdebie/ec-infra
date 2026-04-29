@@ -264,6 +264,11 @@ CREATE TABLE order_status_history (
               ON DELETE CASCADE
 );
 
+CREATE TABLE product_categories (
+                                    product_id UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+                                    category_id UUID NOT NULL REFERENCES categories(id) ON DELETE CASCADE,
+                                    PRIMARY KEY (product_id, category_id)
+);
 
 
 ------------------------------------- INDEXING ----------------------
@@ -271,3 +276,7 @@ CREATE TABLE order_status_history (
 -- Critical for the 'Track My Order' page on your storefront
 CREATE INDEX idx_order_status_history_order_id ON order_status_history(order_id);
 CREATE INDEX idx_orders_customer_id ON orders(customer_id);
+
+-- Create index for better query performance
+CREATE INDEX idx_product_categories_category_id ON product_categories(category_id);
+CREATE INDEX idx_product_categories_product_id ON product_categories(product_id);
