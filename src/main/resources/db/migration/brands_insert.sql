@@ -1,0 +1,30 @@
+-- SQL Insert for Brands Table
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'UNDEFINED', 'UNDEFINED', NULL, '') ON CONFLICT (slug) DO NOTHING;
+
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), '3D', '3d', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Bathroom Products', 'bathroom-products', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Catering', 'catering', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Cleaning Supplies', 'cleaning-supplies', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Cornices', 'cornices', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Dromex', 'dromex', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Duraglove', 'duraglove', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Durawipe', 'durawipe', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Everest Safety', 'everest-safety', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Evergreen', 'evergreen', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'First Aid', 'first-aid', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Golden Hands', 'golden-hands', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Household', 'household', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Hygiene Protection', 'hygiene-protection', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Industrial Cleaning', 'industrial-cleaning', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Kiddies Corner', 'kiddies-corner', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Masks', 'masks', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Medical Disposal', 'medical-disposal', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Nomex', 'nomex', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Pinnacle', 'pinnacle', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Pioneer', 'pioneer', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'PPE', 'ppe', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Pride', 'pride', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Proflex', 'proflex', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Road Equipment', 'road-equipment', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Safety', 'safety', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;
+INSERT INTO brands (id, name, slug, description, logo_url) VALUES (gen_random_uuid(), 'Superweld', 'superweld', NULL, '/04/UVH-site-image.png') ON CONFLICT (slug) DO NOTHING;

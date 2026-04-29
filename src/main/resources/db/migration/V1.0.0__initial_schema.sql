@@ -155,12 +155,12 @@ CREATE TABLE shipping_zones (
 
 CREATE TABLE staff_users (
      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-     username VARCHAR(50) UNIQUE NOT NULL,
      email VARCHAR(100) UNIQUE NOT NULL,
      password_hash VARCHAR(255) NOT NULL,
      full_name VARCHAR(100),
      role VARCHAR(30) NOT NULL, -- Values: 'SUPER_ADMIN', 'CATALOG_MANAGER', etc.
      is_active BOOLEAN DEFAULT true,
+     reset_password BOOLEAN DEFAULT false,
      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -206,6 +206,77 @@ CREATE TABLE product_upload_staged (
      images TEXT,
      attributes TEXT,
      is_valid_category BOOLEAN DEFAULT FALSE,
-     is_valid_brand BOOLEAN DEFAULT FALSE
+     is_valid_brand BOOLEAN DEFAULT FALSE,
+     current_stock          INTEGER,
+     current_images         TEXT,
+     current_attributes     TEXT,
+     current_name           VARCHAR(255),
+     current_description    VARCHAR(255),
+     current_short_description VARCHAR(100),
+     current_retail_price    DECIMAL(12, 2),
+     current_wholesale_price DECIMAL(12, 2)
+);
+
+CREATE TABLE product_price_upload_batches (
+                                        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                                        filename VARCHAR(255) NOT NULL,
+                                        status VARCHAR(50) NOT NULL, -- 'PENDING', 'PROCESSED', 'CANCELLED'
+                                        uploaded_by UUID REFERENCES staff_users(id), --
+                                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                        total_rows INTEGER DEFAULT 0,
+                                        processed_rows INTEGER NOT NULL DEFAULT 0,
+                                        skipped_rows   INTEGER NOT NULL DEFAULT 0,
+                                        validation_error_count INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE product_price_upload_staged (
+                                       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                                       batch_id UUID NOT NULL REFERENCES product_price_upload_batches(id) ON DELETE CASCADE,
+                                       sku VARCHAR(100) NOT NULL, --
+                                       retail_price DECIMAL(12, 2),
+                                       wholesale_price DECIMAL(12, 2),
+                                       current_retail_price DECIMAL(12, 2),
+                                       current_wholesale_price DECIMAL(12, 2),
+
+    -- Track state for the approval screen
+                                       validation_status VARCHAR(50) DEFAULT 'PENDING', -- 'VALID', 'ERROR'
+                                       validation_errors TEXT,
+                                       image_errors TEXT,
+    -- Store the original data for comparison
+                                       has_changes BOOLEAN DEFAULT FALSE,
+                                       processed BOOLEAN DEFAULT FALSE
+
 
 );
+
+--Order Status History (Audit Trail)
+CREATE TABLE order_status_history (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      order_id UUID NOT NULL,
+      status VARCHAR(30) NOT NULL,
+      comment TEXT,
+      changed_by VARCHAR(100), -- ID or name of staff member / 'SYSTEM'
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+      CONSTRAINT fk_order_history
+          FOREIGN KEY (order_id)
+              REFERENCES orders(id)
+              ON DELETE CASCADE
+);
+
+CREATE TABLE product_categories (
+                                    product_id UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+                                    category_id UUID NOT NULL REFERENCES categories(id) ON DELETE CASCADE,
+                                    PRIMARY KEY (product_id, category_id)
+);
+
+
+------------------------------------- INDEXING ----------------------
+
+-- Critical for the 'Track My Order' page on your storefront
+CREATE INDEX idx_order_status_history_order_id ON order_status_history(order_id);
+CREATE INDEX idx_orders_customer_id ON orders(customer_id);
+
+-- Create index for better query performance
+CREATE INDEX idx_product_categories_category_id ON product_categories(category_id);
+CREATE INDEX idx_product_categories_product_id ON product_categories(product_id);
