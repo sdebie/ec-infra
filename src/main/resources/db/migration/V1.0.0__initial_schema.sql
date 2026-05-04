@@ -27,7 +27,7 @@ CREATE TABLE brands (
 
 CREATE TABLE products (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    slug VARCHAR(100) NOT NULL,
+    slug VARCHAR(200) NOT NULL,
     category_id UUID REFERENCES categories(id) ON DELETE SET NULL,
     brand_id UUID REFERENCES brands(id) ON DELETE SET NULL,
     name VARCHAR(255) NOT NULL,
@@ -265,9 +265,9 @@ CREATE TABLE order_status_history (
 );
 
 CREATE TABLE product_categories (
-                                    product_id UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE,
-                                    category_id UUID NOT NULL REFERENCES categories(id) ON DELETE CASCADE,
-                                    PRIMARY KEY (product_id, category_id)
+        product_id UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+        category_id UUID NOT NULL REFERENCES categories(id) ON DELETE CASCADE,
+        PRIMARY KEY (product_id, category_id)
 );
 
 
