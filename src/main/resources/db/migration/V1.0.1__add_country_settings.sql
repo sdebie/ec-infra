@@ -1,4 +1,4 @@
-CREATE TABLE country_settings (
+CREATE TABLE if not exists country_settings (
     country_code CHAR(2) PRIMARY KEY,
     country_name VARCHAR(100) NOT NULL,
     currency_code CHAR(3) NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE country_settings (
 );
 
 -- Ensure only one active default country can exist.
-CREATE UNIQUE INDEX ux_country_settings_default_true
+CREATE UNIQUE INDEX if not exists ux_country_settings_default_true
     ON country_settings (is_default)
     WHERE is_default = TRUE;
 

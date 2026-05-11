@@ -81,7 +81,9 @@ CREATE TABLE customers (
     postal_code VARCHAR(10),
     password_hash VARCHAR(255) NULL,
     last_login TIMESTAMP NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    reset_token VARCHAR(255),
+    reset_token_expiry TIMESTAMP WITH TIME ZONE;
 );
 
 CREATE TABLE orders (
@@ -271,6 +273,18 @@ CREATE TABLE product_categories (
 );
 
 
+CREATE TABLE country_settings (
+        country_code CHAR(2) PRIMARY KEY,
+        country_name VARCHAR(100) NOT NULL,
+        currency_code CHAR(3) NOT NULL,
+        locale VARCHAR(20) NOT NULL,
+        decimal_places SMALLINT NOT NULL DEFAULT 2,
+        is_default BOOLEAN NOT NULL DEFAULT FALSE,
+        is_active BOOLEAN NOT NULL DEFAULT TRUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 ------------------------------------- INDEXING ----------------------
 
 -- Critical for the 'Track My Order' page on your storefront
@@ -280,3 +294,7 @@ CREATE INDEX idx_orders_customer_id ON orders(customer_id);
 -- Create index for better query performance
 CREATE INDEX idx_product_categories_category_id ON product_categories(category_id);
 CREATE INDEX idx_product_categories_product_id ON product_categories(product_id);
+
+CREATE UNIQUE INDEX ux_country_settings_default_true
+    ON country_settings (is_default)
+    WHERE is_default = TRUE;
