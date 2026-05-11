@@ -83,7 +83,7 @@ CREATE TABLE customers (
     last_login TIMESTAMP NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     reset_token VARCHAR(255),
-    reset_token_expiry TIMESTAMP WITH TIME ZONE;
+    reset_token_expiry TIMESTAMP WITH TIME ZONE
 );
 
 CREATE TABLE orders (
