@@ -67,25 +67,96 @@ CREATE TABLE product_images (
     is_featured BOOLEAN DEFAULT FALSE
 );
 
-CREATE TABLE customers (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    shopper_type VARCHAR(20) DEFAULT 'GUEST',
-    email VARCHAR(255) UNIQUE NOT NULL,
-    first_name VARCHAR(100),
-    last_name VARCHAR(100),
-    phone VARCHAR(20),
-    address_line_1 TEXT,
-    address_line_2 TEXT,
-    city VARCHAR(100),
-    province VARCHAR(100),
-    postal_code VARCHAR(10),
-    password_hash VARCHAR(255) NULL,
-    last_login TIMESTAMP NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    reset_token VARCHAR(255),
-    reset_token_expiry TIMESTAMP WITH TIME ZONE,
-    status VARCHAR(20) DEFAULT 'REGISTERING'
+CREATE TABLE users (
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+   email VARCHAR(255) UNIQUE NOT NULL,
+   password_hash VARCHAR(255) NOT NULL, -- Never store plain text
+   roles TEXT[] DEFAULT '{RETAIL}',     -- PostgreSQL array for roles: ['WHOLESALE', 'RETAIL']
+   is_active BOOLEAN DEFAULT TRUE,
+   mfa_enabled BOOLEAN DEFAULT FALSE,
+   last_login TIMESTAMP WITH TIME ZONE,
+   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+-- Security tokens moved here from the customer table
+   reset_token VARCHAR(255),
+   reset_token_expiry TIMESTAMP WITH TIME ZONE
 );
+
+CREATE TABLE customers (
+       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+       user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE, -- The Link
+       first_name VARCHAR(100),
+       last_name VARCHAR(100),
+       phone VARCHAR(20),
+       shopper_type VARCHAR(20) DEFAULT 'RETAIL',
+       status VARCHAR(20) DEFAULT 'REGISTERING'
+);
+
+CREATE TABLE customer_addresses (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        customer_id UUID REFERENCES customers(id) ON DELETE CASCADE,
+        address_type VARCHAR(20), -- 'PHYSICAL', 'POSTAL', 'BILLING', 'SHIPPING'
+        address_line_1 TEXT NOT NULL,
+        address_line_2 TEXT,
+        suburb VARCHAR(100),
+        city VARCHAR(100) NOT NULL,
+        province VARCHAR(100) NOT NULL,
+        postal_code VARCHAR(20) NOT NULL,
+        is_default BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE wholesale_profiles (
+        customer_id UUID PRIMARY KEY REFERENCES customers(id) ON DELETE CASCADE,
+        company_name VARCHAR(255) NOT NULL,
+        vat_number VARCHAR(50),
+        reg_number VARCHAR(100), -- CIPC Registration
+        credit_limit DECIMAL(12, 2) DEFAULT 0.00,
+        payment_terms_days INT DEFAULT 0, -- e.g., 30 for "Net 30"
+        additional_info JSONB DEFAULT '{}' -- Store flexible data here
+);
+
+CREATE TABLE customer_contacts (
+       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+       customer_id UUID REFERENCES customers(id) ON DELETE CASCADE,
+       contact_role VARCHAR(50), -- 'FINANCE', 'BUYER', 'MANAGER'
+       full_name VARCHAR(255),
+       email VARCHAR(255),
+       phone VARCHAR(50)
+);
+
+-- CREATE TABLE customers (
+--     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     shopper_type VARCHAR(20) DEFAULT 'GUEST',
+--     email VARCHAR(255) UNIQUE NOT NULL,
+--     first_name VARCHAR(100),
+--     last_name VARCHAR(100),
+--     phone VARCHAR(20),
+--     address_line_1 TEXT,
+--     address_line_2 TEXT,
+--     city VARCHAR(100),
+--     province VARCHAR(100),
+--     postal_code VARCHAR(10),
+--     password_hash VARCHAR(255) NULL,
+--     last_login TIMESTAMP NULL,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     reset_token VARCHAR(255),
+--     reset_token_expiry TIMESTAMP WITH TIME ZONE,
+--     status VARCHAR(20) DEFAULT 'REGISTERING',
+--
+--     physical_address_line1 VARCHAR(255),
+--     physical_address_line2 VARCHAR(255),
+--     physical_suburb VARCHAR(100),
+--     physical_city VARCHAR(100),
+--     physical_province VARCHAR(100),
+--     physical_postal_code VARCHAR(20),
+--     postal_address_line1 VARCHAR(255),
+--     postal_address_line2 VARCHAR(255),
+--     postal_suburb VARCHAR(100),
+--     postal_city VARCHAR(100),
+--     postal_province VARCHAR(100),
+--     postal_postal_code VARCHAR(20),
+--     additional_info VARCHAR(1025) NOT NULL DEFAULT '{}'
+-- );
 
 CREATE TABLE wholesale_applications (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

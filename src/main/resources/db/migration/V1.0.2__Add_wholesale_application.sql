@@ -17,6 +17,8 @@ CREATE TABLE if not exists wholesale_applications (
 
         postal_address_line1 VARCHAR(255),
         postal_address_line2 VARCHAR(255),
+        postal_suburb VARCHAR(100),
+        postal_province VARCHAR(50),
         postal_city VARCHAR(100),
         postal_postal_code VARCHAR(10)
 );
