@@ -79,7 +79,12 @@ CREATE TABLE users (
 
 -- Security tokens moved here from the customer table
    reset_token VARCHAR(255),
-   reset_token_expiry TIMESTAMP WITH TIME ZONE
+   reset_token_expiry TIMESTAMP WITH TIME ZONE,
+
+   password_reset_code_hash TEXT,
+   password_reset_code_expiry TIMESTAMPTZ,
+   password_reset_code_attempts INTEGER NOT NULL DEFAULT 0,
+   password_reset_code_locked_until TIMESTAMPTZ;
 );
 
 CREATE TABLE customers (
@@ -123,40 +128,6 @@ CREATE TABLE customer_contacts (
        email VARCHAR(255),
        phone VARCHAR(50)
 );
-
--- CREATE TABLE customers (
---     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
---     shopper_type VARCHAR(20) DEFAULT 'GUEST',
---     email VARCHAR(255) UNIQUE NOT NULL,
---     first_name VARCHAR(100),
---     last_name VARCHAR(100),
---     phone VARCHAR(20),
---     address_line_1 TEXT,
---     address_line_2 TEXT,
---     city VARCHAR(100),
---     province VARCHAR(100),
---     postal_code VARCHAR(10),
---     password_hash VARCHAR(255) NULL,
---     last_login TIMESTAMP NULL,
---     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---     reset_token VARCHAR(255),
---     reset_token_expiry TIMESTAMP WITH TIME ZONE,
---     status VARCHAR(20) DEFAULT 'REGISTERING',
---
---     physical_address_line1 VARCHAR(255),
---     physical_address_line2 VARCHAR(255),
---     physical_suburb VARCHAR(100),
---     physical_city VARCHAR(100),
---     physical_province VARCHAR(100),
---     physical_postal_code VARCHAR(20),
---     postal_address_line1 VARCHAR(255),
---     postal_address_line2 VARCHAR(255),
---     postal_suburb VARCHAR(100),
---     postal_city VARCHAR(100),
---     postal_province VARCHAR(100),
---     postal_postal_code VARCHAR(20),
---     additional_info VARCHAR(1025) NOT NULL DEFAULT '{}'
--- );
 
 CREATE TABLE wholesale_applications (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
