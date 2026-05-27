@@ -1,0 +1,4 @@
+ALTER TABLE customers
+    ADD COLUMN IF NOT EXISTS additional_info VARCHAR(1025) NOT NULL DEFAULT '{}';
+
+
