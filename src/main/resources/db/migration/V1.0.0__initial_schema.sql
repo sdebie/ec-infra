@@ -94,7 +94,8 @@ CREATE TABLE customers (
        last_name VARCHAR(100),
        phone VARCHAR(20),
        shopper_type VARCHAR(20) DEFAULT 'RETAIL',
-       status VARCHAR(20) DEFAULT 'REGISTERING'
+       status VARCHAR(20) DEFAULT 'REGISTERING',
+       additional_info VARCHAR(1025) NOT NULL DEFAULT '{}'
 );
 
 CREATE TABLE customer_addresses (
@@ -116,8 +117,7 @@ CREATE TABLE wholesale_profiles (
         vat_number VARCHAR(50),
         reg_number VARCHAR(100), -- CIPC Registration
         credit_limit DECIMAL(12, 2) DEFAULT 0.00,
-        payment_terms_days INT DEFAULT 0, -- e.g., 30 for "Net 30"
-        additional_info JSONB DEFAULT '{}' -- Store flexible data here
+        payment_terms_days INT DEFAULT 0 -- e.g., 30 for "Net 30"
 );
 
 CREATE TABLE customer_contacts (
@@ -129,27 +129,29 @@ CREATE TABLE customer_contacts (
        phone VARCHAR(50)
 );
 
-CREATE TABLE wholesale_applications (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    company_name VARCHAR(255) NOT NULL,
-    vat_number VARCHAR(50),
-    contact_email VARCHAR(255) UNIQUE NOT NULL,
-    contact_phone VARCHAR(50),
-    status VARCHAR(20) DEFAULT 'PENDING', -- PENDING, APPROVED, REJECTED
-    notes TEXT,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE if not exists wholesale_applications (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          company_name VARCHAR(255) NOT NULL,
+          vat_number VARCHAR(50),
+          contact_email VARCHAR(255) UNIQUE NOT NULL,
+          contact_phone VARCHAR(50),
+          status VARCHAR(20) DEFAULT 'PENDING', -- PENDING, APPROVED, REJECTED
+          notes TEXT,
+          created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
-    physical_address_line1 VARCHAR(255),
-    physical_address_line2 VARCHAR(255),
-    physical_suburb VARCHAR(100),
-    physical_city VARCHAR(100),
-    physical_province VARCHAR(50),
-    physical_postal_code VARCHAR(10),
+          physical_address_line1 VARCHAR(255),
+          physical_address_line2 VARCHAR(255),
+          physical_suburb VARCHAR(100),
+          physical_city VARCHAR(100),
+          physical_province VARCHAR(50),
+          physical_postal_code VARCHAR(10),
 
-    postal_address_line1 VARCHAR(255),
-    postal_address_line2 VARCHAR(255),
-    postal_city VARCHAR(100),
-    postal_postal_code VARCHAR(10)
+          postal_address_line1 VARCHAR(255),
+          postal_address_line2 VARCHAR(255),
+          postal_suburb VARCHAR(100),
+          postal_province VARCHAR(50),
+          postal_city VARCHAR(100),
+          postal_postal_code VARCHAR(10)
 );
 
 CREATE TABLE orders (
