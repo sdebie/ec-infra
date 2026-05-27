@@ -84,7 +84,7 @@ CREATE TABLE users (
    password_reset_code_hash TEXT,
    password_reset_code_expiry TIMESTAMPTZ,
    password_reset_code_attempts INTEGER NOT NULL DEFAULT 0,
-   password_reset_code_locked_until TIMESTAMPTZ;
+   password_reset_code_locked_until TIMESTAMPTZ
 );
 
 CREATE TABLE customers (
