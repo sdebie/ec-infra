@@ -270,7 +270,7 @@ CREATE TABLE product_upload_staged (
      processed BOOLEAN DEFAULT FALSE,
 
      product_slug VARCHAR(255),
-     category_slug VARCHAR(255),
+     category_slug VARCHAR(1024),
      brand_slug VARCHAR(255),
      stock INTEGER,
      images TEXT,
