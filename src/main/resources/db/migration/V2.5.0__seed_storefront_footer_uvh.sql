@@ -52,7 +52,8 @@ VALUES (
         ],
         "legalLinks": [
             { "id": "ll-privacy",  "label": "Privacy Policy",     "path": "/privacy-policy",       "external": false },
-            { "id": "ll-terms",    "label": "Terms & Conditions", "path": "/terms-and-conditions", "external": false }
+            { "id": "ll-terms",    "label": "Terms & Conditions", "path": "/terms-and-conditions", "external": false },
+            { "id": "ll-delivery", "label": "Delivery & Returns", "path": "/delivery-and-returns", "external": false }
         ]
     }',
     'Footer content and navigation for UVH storefront'
