@@ -38,6 +38,14 @@ VALUES (
             }
         },
         {
+            "id": "brands-1",
+            "type": "brands",
+            "enabled": true,
+            "props": {
+                "heading": "Our Brands"
+            }
+        },
+        {
             "id": "benefits-1",
             "type": "benefits",
             "enabled": true,
@@ -101,14 +109,6 @@ VALUES (
                     { "id": "acc-sahpra", "name": "SAHPRA", "logoUrl": "accreditors/sahpra-logo.png", "url": "https://www.sahpra.org.za" },
                     { "id": "acc-safripol", "name": "Safripol", "logoUrl": "accreditors/safripol-logo.png", "url": "https://www.safripol.com" }
                 ]
-            }
-        },
-        {
-            "id": "brands-1",
-            "type": "brands",
-            "enabled": true,
-            "props": {
-                "heading": "Our Brands"
             }
         },
         {
