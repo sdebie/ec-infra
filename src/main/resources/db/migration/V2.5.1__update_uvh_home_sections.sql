@@ -22,7 +22,7 @@ VALUES (
                 "subtitle": "PPE, medical, cleaning, safety, hospitality and household products — supplied at competitive wholesale and retail prices.",
                 "primaryCta": { "label": "Shop Now", "to": "/products" },
                 "secondaryCta": { "label": "Contact Us", "to": "/contact-us" },
-                "backgroundImageUrl": "/static/images/hero-warehouse.jpg",
+                "backgroundImageUrl": "storefront/hero-warehouse.jpg",
                 "overlayOpacity": 0.55,
                 "contentAlignment": "left",
                 "darkStyle": true
@@ -67,7 +67,8 @@ VALUES (
                 "title": "Medical Supplies",
                 "categorySlug": "medical",
                 "themeColor": "#0EA5E9",
-                "gradient": "linear-gradient(90deg, rgba(14, 165, 233, 1) 0%, rgba(29, 78, 216, 1) 50%, rgba(2, 6, 23, 1) 100%)"
+                "gradient": "linear-gradient(90deg, rgba(14, 165, 233, 1) 0%, rgba(29, 78, 216, 1) 50%, rgba(2, 6, 23, 1) 100%)",
+                "imageUrl": "storefront/medical.png"
             }
         },
         {
@@ -78,7 +79,8 @@ VALUES (
                 "title": "PPE & Protective Equipment",
                 "categorySlug": "ppe",
                 "themeColor": "#DC2626",
-                "gradient": "linear-gradient(90deg, rgba(220, 38, 38, 1) 0%, rgba(185, 28, 28, 1) 50%, rgba(12, 10, 9, 1) 100%)"
+                "gradient": "linear-gradient(90deg, rgba(220, 38, 38, 1) 0%, rgba(185, 28, 28, 1) 50%, rgba(12, 10, 9, 1) 100%)",
+                "imageUrl": "storefront/ppe.png"
             }
         },
         {
@@ -89,7 +91,8 @@ VALUES (
                 "title": "Cleaning & Equipment",
                 "categorySlug": "cleaning-equipment",
                 "themeColor": "#16A34A",
-                "gradient": "linear-gradient(90deg, rgba(22, 163, 74, 1) 0%, rgba(5, 150, 105, 1) 50%, rgba(2, 6, 23, 1) 100%)"
+                "gradient": "linear-gradient(90deg, rgba(22, 163, 74, 1) 0%, rgba(5, 150, 105, 1) 50%, rgba(2, 6, 23, 1) 100%)",
+                "imageUrl": "storefront/cleaning-equipment.png"
             }
         },
         {
@@ -100,7 +103,8 @@ VALUES (
                 "title": "Safety Wear & Equipment",
                 "categorySlug": "safety-wear-equipment",
                 "themeColor": "#FACC15",
-                "gradient": "linear-gradient(90deg, rgba(250, 204, 21, 1) 0%, rgba(202, 138, 4, 1) 50%, rgba(12, 10, 9, 1) 100%)"
+                "gradient": "linear-gradient(90deg, rgba(250, 204, 21, 1) 0%, rgba(202, 138, 4, 1) 50%, rgba(12, 10, 9, 1) 100%)",
+                "imageUrl": "storefront/safety-wear-equipment.png"
             }
         },
         {
@@ -109,9 +113,9 @@ VALUES (
             "enabled": true,
             "props": {
                 "items": [
-                    { "id": "acc-sabs", "name": "SABS", "logoUrl": "accreditors/sabs-logo.png", "url": "https://www.sabs.co.za" },
-                    { "id": "acc-sahpra", "name": "SAHPRA", "logoUrl": "accreditors/sahpra-logo.png", "url": "https://www.sahpra.org.za" },
-                    { "id": "acc-safripol", "name": "Safripol", "logoUrl": "accreditors/safripol-logo.png", "url": "https://www.safripol.com" }
+                    { "id": "acc-sabs", "name": "SABS", "logoUrl": "storefront/sabs-logo.png", "url": "https://www.sabs.co.za" },
+                    { "id": "acc-sahpra", "name": "SAHPRA", "logoUrl": "storefront/sahpra-logo.png", "url": "https://www.sahpra.org.za" },
+                    { "id": "acc-safripol", "name": "Safripol", "logoUrl": "storefront/safripol-logo.png", "url": "https://www.safripol.com" }
                 ]
             }
         },
