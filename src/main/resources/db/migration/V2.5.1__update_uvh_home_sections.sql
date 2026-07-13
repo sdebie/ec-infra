@@ -22,7 +22,7 @@ VALUES (
                 "subtitle": "PPE, medical, cleaning, safety, hospitality and household products — supplied at competitive wholesale and retail prices.",
                 "primaryCta": { "label": "Shop Now", "to": "/products" },
                 "secondaryCta": { "label": "Contact Us", "to": "/contact-us" },
-                "backgroundImageUrl": "storefront/hero-warehouse.jpg",
+                "backgroundImageUrl": "storefront/uvh-hero-new.png",
                 "overlayOpacity": 0.55,
                 "contentAlignment": "left",
                 "darkStyle": true
