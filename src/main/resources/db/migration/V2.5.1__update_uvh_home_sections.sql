@@ -66,7 +66,8 @@ VALUES (
             "props": {
                 "title": "Medical Supplies",
                 "categorySlug": "medical",
-                "themeColor": "#1a3a5c"
+                "themeColor": "#0EA5E9",
+                "gradient": "linear-gradient(90deg, rgba(14, 165, 233, 1) 0%, rgba(29, 78, 216, 1) 50%, rgba(2, 6, 23, 1) 100%)"
             }
         },
         {
@@ -76,7 +77,8 @@ VALUES (
             "props": {
                 "title": "PPE & Protective Equipment",
                 "categorySlug": "ppe",
-                "themeColor": "#7a0019"
+                "themeColor": "#DC2626",
+                "gradient": "linear-gradient(90deg, rgba(220, 38, 38, 1) 0%, rgba(185, 28, 28, 1) 50%, rgba(12, 10, 9, 1) 100%)"
             }
         },
         {
@@ -86,7 +88,8 @@ VALUES (
             "props": {
                 "title": "Cleaning & Equipment",
                 "categorySlug": "cleaning-equipment",
-                "themeColor": "#1a5c2a"
+                "themeColor": "#16A34A",
+                "gradient": "linear-gradient(90deg, rgba(22, 163, 74, 1) 0%, rgba(5, 150, 105, 1) 50%, rgba(2, 6, 23, 1) 100%)"
             }
         },
         {
@@ -96,7 +99,8 @@ VALUES (
             "props": {
                 "title": "Safety Wear & Equipment",
                 "categorySlug": "safety-wear-equipment",
-                "themeColor": "#5c4a1a"
+                "themeColor": "#FACC15",
+                "gradient": "linear-gradient(90deg, rgba(250, 204, 21, 1) 0%, rgba(202, 138, 4, 1) 50%, rgba(12, 10, 9, 1) 100%)"
             }
         },
         {
