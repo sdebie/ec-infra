@@ -112,6 +112,7 @@ VALUES (
             "type": "accreditors",
             "enabled": true,
             "props": {
+            "heading": "Accreditors",
                 "items": [
                     { "id": "acc-sabs", "name": "SABS", "logoUrl": "storefront/sabs-logo.png", "url": "https://www.sabs.co.za" },
                     { "id": "acc-sahpra", "name": "SAHPRA", "logoUrl": "storefront/sahpra-logo.png", "url": "https://www.sahpra.org.za" },
