@@ -40,7 +40,7 @@ VALUES (
            '{
                "name": "UVH Holdings",
                "tagline": "Wholesale and retail supplier for PPE, medical, cleaning, safety, hospitality and household products.",
-               "logoSrc": "/static/images/uvh-logo.png",
+               "logoSrc": "storefront/uvh-logo.png",
                "logoAlt": "UVH Holdings logo",
                "logoWidth": 50,
                "logoHeight": 50
