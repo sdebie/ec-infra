@@ -34,7 +34,7 @@ VALUES (
                 "links": [
                     { "id": "fc-about",     "label": "About Us",   "path": "/about-us",   "external": false },
                     { "id": "fc-contact",   "label": "Contact Us", "path": "/contact-us", "external": false },
-                    { "id": "fc-wholesale", "label": "Wholesale",  "path": "/wholesale",  "external": false }
+                    { "id": "fc-wholesale", "label": "Wholesale Applications",  "path": "/wholesale-application",  "external": false }
                 ]
             },
             {
