@@ -1,0 +1,368 @@
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+CREATE TABLE test (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE categories (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR(100) NOT NULL,
+    slug VARCHAR(100) UNIQUE NOT NULL,
+    parent_id UUID REFERENCES categories(id),
+    description TEXT,
+    image_url VARCHAR(500)
+);
+
+CREATE TABLE brands (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR(100) NOT NULL UNIQUE,
+    slug VARCHAR(100) UNIQUE NOT NULL,
+    logo_url VARCHAR(500),
+    description TEXT
+);
+
+CREATE TABLE products (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    slug VARCHAR(200) NOT NULL,
+    category_id UUID REFERENCES categories(id) ON DELETE SET NULL,
+    brand_id UUID REFERENCES brands(id) ON DELETE SET NULL,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    short_description VARCHAR(500),
+    product_type VARCHAR(20) DEFAULT 'SIMPLE', -- SIMPLE or VARIABLE
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE product_variants (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    product_id UUID REFERENCES products(id) ON DELETE CASCADE,
+    sku VARCHAR(100) UNIQUE NOT NULL,
+    stock_quantity INTEGER DEFAULT 0,
+    attributes VARCHAR(254), -- Stores {"color": "Red", "size": "XL"}
+    weight_kg DECIMAL(5,2)
+);
+
+CREATE TABLE variant_prices (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    variant_id UUID NOT NULL REFERENCES product_variants(id) ON DELETE CASCADE,
+    price_type VARCHAR(30) NOT NULL, -- 'RETAIL_PRICE', 'RETAIL_SALE_PRICE', 'WHOLESALE_PRICE', 'WHOLESALE_SALE_PRICE'
+    price DECIMAL(12, 2) NOT NULL,
+    price_start_date TIMESTAMP,
+    price_end_date TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by UUID,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_by UUID
+);
+
+CREATE TABLE product_images (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    variant_id UUID REFERENCES product_variants(id) ON DELETE CASCADE,
+    image_url VARCHAR(500) NOT NULL,
+    sort_order INTEGER DEFAULT 0,
+    is_featured BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE users (
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+   email VARCHAR(255) UNIQUE NOT NULL,
+   password_hash VARCHAR(255) NOT NULL, -- Never store plain text
+   roles TEXT[] DEFAULT '{RETAIL}',     -- PostgreSQL array for roles: ['WHOLESALE', 'RETAIL']
+   is_active BOOLEAN DEFAULT TRUE,
+   mfa_enabled BOOLEAN DEFAULT FALSE,
+   last_login TIMESTAMP WITH TIME ZONE,
+   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+-- Security tokens moved here from the customer table
+   reset_token VARCHAR(255),
+   reset_token_expiry TIMESTAMP WITH TIME ZONE,
+
+   password_reset_code_hash TEXT,
+   password_reset_code_expiry TIMESTAMPTZ,
+   password_reset_code_attempts INTEGER NOT NULL DEFAULT 0,
+   password_reset_code_locked_until TIMESTAMPTZ
+);
+
+CREATE TABLE customers (
+       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+       user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE, -- The Link
+       first_name VARCHAR(100),
+       last_name VARCHAR(100),
+       phone VARCHAR(20),
+       shopper_type VARCHAR(20) DEFAULT 'RETAIL',
+       status VARCHAR(20) DEFAULT 'REGISTERING',
+       additional_info VARCHAR(1025) NOT NULL DEFAULT '{}'
+);
+
+CREATE TABLE customer_addresses (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        customer_id UUID REFERENCES customers(id) ON DELETE CASCADE,
+        address_type VARCHAR(20), -- 'PHYSICAL', 'POSTAL', 'BILLING', 'SHIPPING'
+        address_line_1 TEXT NOT NULL,
+        address_line_2 TEXT,
+        suburb VARCHAR(100),
+        city VARCHAR(100) NOT NULL,
+        province VARCHAR(100) NOT NULL,
+        postal_code VARCHAR(20) NOT NULL,
+        is_default BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE wholesale_profiles (
+        customer_id UUID PRIMARY KEY REFERENCES customers(id) ON DELETE CASCADE,
+        company_name VARCHAR(255) NOT NULL,
+        vat_number VARCHAR(50),
+        reg_number VARCHAR(100), -- CIPC Registration
+        credit_limit DECIMAL(12, 2) DEFAULT 0.00,
+        payment_terms_days INT DEFAULT 0 -- e.g., 30 for "Net 30"
+);
+
+CREATE TABLE customer_contacts (
+       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+       customer_id UUID REFERENCES customers(id) ON DELETE CASCADE,
+       contact_role VARCHAR(50), -- 'FINANCE', 'BUYER', 'MANAGER'
+       full_name VARCHAR(255),
+       email VARCHAR(255),
+       phone VARCHAR(50)
+);
+
+CREATE TABLE if not exists wholesale_applications (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          company_name VARCHAR(255) NOT NULL,
+          vat_number VARCHAR(50),
+          contact_email VARCHAR(255) UNIQUE NOT NULL,
+          contact_phone VARCHAR(50),
+          status VARCHAR(20) DEFAULT 'PENDING', -- PENDING, APPROVED, REJECTED
+          notes TEXT,
+          created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+          physical_address_line1 VARCHAR(255),
+          physical_address_line2 VARCHAR(255),
+          physical_suburb VARCHAR(100),
+          physical_city VARCHAR(100),
+          physical_province VARCHAR(50),
+          physical_postal_code VARCHAR(10),
+
+          postal_address_line1 VARCHAR(255),
+          postal_address_line2 VARCHAR(255),
+          postal_suburb VARCHAR(100),
+          postal_province VARCHAR(50),
+          postal_city VARCHAR(100),
+          postal_postal_code VARCHAR(10)
+);
+
+CREATE TABLE orders (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    session_id  UUID        NOT NULL,
+    customer_id UUID REFERENCES customers(id),
+    total_amount DECIMAL(12, 2) NOT NULL,
+    status VARCHAR(50) DEFAULT 'PENDING',
+    shipping_phone VARCHAR(20),
+    shipping_address_line1 VARCHAR(255),
+    shipping_address_line2 VARCHAR(255),
+    shipping_city VARCHAR(100),
+    shipping_province VARCHAR(100),
+    shipping_postal_code VARCHAR(20),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE order_items (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    order_id UUID REFERENCES orders(id) ON DELETE CASCADE,
+    variant_id UUID REFERENCES product_variants(id),
+    quantity INTEGER NOT NULL,
+    unit_price DECIMAL(12, 2) NOT NULL
+);
+
+CREATE TABLE payment_gateway_logs (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    order_id UUID REFERENCES orders(id) ON DELETE CASCADE,
+
+    -- Gateway Identification
+    gateway_name VARCHAR(50) NOT NULL, -- 'PAYFAST', 'IKHOKHA', 'FASTPAY'
+
+    -- Mapping IDs
+    external_reference VARCHAR(100), -- The ID from the gateway (e.g., pf_payment_id)
+    internal_reference VARCHAR(100), -- Your unique ID (e.g., m_payment_id or UUID)
+
+    -- Universal Financial Data
+    amount_gross DECIMAL(12, 2) NOT NULL,
+    amount_fee DECIMAL(12, 2) DEFAULT 0,
+    amount_net DECIMAL(12, 2) DEFAULT 0,
+    currency VARCHAR(3) DEFAULT 'ZAR',
+
+    -- Status and Raw Data
+    status VARCHAR(50) NOT NULL, -- 'INITIATED', 'SUCCESS', 'FAILED', 'REFUNDED'
+    raw_response VARCHAR(1024),  -- Stores the unique JSON body from EACH gateway
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE store_settings (
+    setting_key VARCHAR(50) PRIMARY KEY,
+    setting_value TEXT NOT NULL,
+    description TEXT
+);
+
+CREATE TABLE shipping_methods (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR(100) NOT NULL, -- 'Pick up', 'Courier'
+    is_active BOOLEAN DEFAULT TRUE,
+    base_fee DECIMAL(12, 2) DEFAULT 0.00,
+    estimated_days VARCHAR(50)
+);
+
+CREATE TABLE shipping_zones (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    shipping_method_id UUID REFERENCES shipping_methods(id),
+    country_code CHAR(2) NOT NULL, -- 'ZA', 'US'
+    additional_fee DECIMAL(12, 2) DEFAULT 0.00
+);
+
+CREATE TABLE staff_users (
+     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+     email VARCHAR(100) UNIQUE NOT NULL,
+     password_hash VARCHAR(255) NOT NULL,
+     full_name VARCHAR(100),
+     role VARCHAR(30) NOT NULL, -- Values: 'SUPER_ADMIN', 'CATALOG_MANAGER', etc.
+     is_active BOOLEAN DEFAULT true,
+     reset_password BOOLEAN DEFAULT false,
+     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE product_upload_batches (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    filename VARCHAR(255) NOT NULL,
+    status VARCHAR(50) NOT NULL, -- 'PENDING', 'PROCESSED', 'CANCELLED'
+    uploaded_by UUID REFERENCES staff_users(id), --
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    total_rows INTEGER DEFAULT 0,
+    processed_rows INTEGER NOT NULL DEFAULT 0,
+    skipped_rows   INTEGER NOT NULL DEFAULT 0,
+    validation_error_count INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE product_upload_staged (
+     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+     batch_id UUID NOT NULL REFERENCES product_upload_batches(id) ON DELETE CASCADE,
+     sku VARCHAR(100) NOT NULL, --
+     name VARCHAR(255),
+     description VARCHAR(255),
+     short_description VARCHAR(100),
+     retail_price DECIMAL(12, 2),
+     wholesale_price DECIMAL(12, 2),
+     retail_sale_price DECIMAL(12, 2),
+     wholesale_sale_price DECIMAL(12, 2),
+
+    -- Track state for the approval screen
+     validation_status VARCHAR(50) DEFAULT 'PENDING', -- 'VALID', 'ERROR'
+     validation_errors TEXT,
+     image_errors TEXT,
+     is_new_product BOOLEAN DEFAULT FALSE,
+     is_new_variant BOOLEAN DEFAULT FALSE,
+     has_changes BOOLEAN DEFAULT FALSE,
+
+    -- Store the original data for comparison
+     processed BOOLEAN DEFAULT FALSE,
+
+     product_slug VARCHAR(255),
+     category_slug VARCHAR(1024),
+     brand_slug VARCHAR(255),
+     stock INTEGER,
+     images TEXT,
+     attributes TEXT,
+     is_valid_category BOOLEAN DEFAULT FALSE,
+     is_valid_brand BOOLEAN DEFAULT FALSE,
+     current_stock          INTEGER,
+     current_images         TEXT,
+     current_attributes     TEXT,
+     current_name           VARCHAR(255),
+     current_description    VARCHAR(255),
+     current_short_description VARCHAR(100),
+     current_retail_price    DECIMAL(12, 2),
+     current_wholesale_price DECIMAL(12, 2)
+);
+
+CREATE TABLE product_price_upload_batches (
+                                        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                                        filename VARCHAR(255) NOT NULL,
+                                        status VARCHAR(50) NOT NULL, -- 'PENDING', 'PROCESSED', 'CANCELLED'
+                                        uploaded_by UUID REFERENCES staff_users(id), --
+                                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                        total_rows INTEGER DEFAULT 0,
+                                        processed_rows INTEGER NOT NULL DEFAULT 0,
+                                        skipped_rows   INTEGER NOT NULL DEFAULT 0,
+                                        validation_error_count INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE product_price_upload_staged (
+                                       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                                       batch_id UUID NOT NULL REFERENCES product_price_upload_batches(id) ON DELETE CASCADE,
+                                       sku VARCHAR(100) NOT NULL, --
+                                       retail_price DECIMAL(12, 2),
+                                       wholesale_price DECIMAL(12, 2),
+                                       current_retail_price DECIMAL(12, 2),
+                                       current_wholesale_price DECIMAL(12, 2),
+
+    -- Track state for the approval screen
+                                       validation_status VARCHAR(50) DEFAULT 'PENDING', -- 'VALID', 'ERROR'
+                                       validation_errors TEXT,
+                                       image_errors TEXT,
+    -- Store the original data for comparison
+                                       has_changes BOOLEAN DEFAULT FALSE,
+                                       processed BOOLEAN DEFAULT FALSE
+
+
+);
+
+--Order Status History (Audit Trail)
+CREATE TABLE order_status_history (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      order_id UUID NOT NULL,
+      status VARCHAR(30) NOT NULL,
+      comment TEXT,
+      changed_by VARCHAR(100), -- ID or name of staff member / 'SYSTEM'
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+      CONSTRAINT fk_order_history
+          FOREIGN KEY (order_id)
+              REFERENCES orders(id)
+              ON DELETE CASCADE
+);
+
+CREATE TABLE product_categories (
+        product_id UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+        category_id UUID NOT NULL REFERENCES categories(id) ON DELETE CASCADE,
+        PRIMARY KEY (product_id, category_id)
+);
+
+
+CREATE TABLE country_settings (
+        country_code CHAR(2) PRIMARY KEY,
+        country_name VARCHAR(100) NOT NULL,
+        currency_code CHAR(3) NOT NULL,
+        locale VARCHAR(20) NOT NULL,
+        decimal_places SMALLINT NOT NULL DEFAULT 2,
+        is_default BOOLEAN NOT NULL DEFAULT FALSE,
+        is_active BOOLEAN NOT NULL DEFAULT TRUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+------------------------------------- INDEXING ----------------------
+
+-- Critical for the 'Track My Order' page on your storefront
+CREATE INDEX idx_order_status_history_order_id ON order_status_history(order_id);
+CREATE INDEX idx_orders_customer_id ON orders(customer_id);
+
+-- Create index for better query performance
+CREATE INDEX idx_product_categories_category_id ON product_categories(category_id);
+CREATE INDEX idx_product_categories_product_id ON product_categories(product_id);
+
+CREATE UNIQUE INDEX ux_country_settings_default_true
+    ON country_settings (is_default)
+    WHERE is_default = TRUE;
