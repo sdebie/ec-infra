@@ -20,7 +20,7 @@ VALUES (
                 "title": "Quality supply. Competitive pricing. Fast fulfilment.",
                 "kicker": "ABOUT UVH HOLDINGS",
                 "subtitle": "UVH Holdings is a South African supplier focused on importing, procuring, and manufacturing essential business consumables—Personal Protective Equipment (PPE), hygiene and cleaning chemicals, medical disposable products, and sanitizer wipes.",
-                "primaryCta": { "label": "Request a quote", "to": "/contact-us" },
+                "primaryCta": { "label": "Request a quote", "to": "/quote-request" },
                 "secondaryCta": { "label": "Browse products", "to": "/products" },
                 "backgroundImageUrl": "storefront/uvh-about-us.png",
                 "overlayOpacity": 0.55,
@@ -117,7 +117,7 @@ VALUES (
             "props": {
                 "title": "Ready to Get Started?",
                 "description": "Whether you''re looking for a wholesale partner, need a competitive quote, or want to learn about our delivery and returns policy—we''re here to help.",
-                "cta": { "label": "Request a Quote", "to": "/contact-us" },
+                "cta": { "label": "Request a Quote", "to": "/quote-request" },
                 "secondaryLinks": [
                     { "label": "Wholesale enquiries", "to": "/wholesale-application" },
                     { "label": "Delivery & Returns", "to": "/delivery-and-returns" }

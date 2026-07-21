@@ -132,9 +132,12 @@ VALUES (
             "type": "cta",
             "enabled": true,
             "props": {
-                "title": "Ready to Place an Order?",
-                "description": "Register as a wholesale customer to unlock bulk pricing and account credit.",
-                "cta": { "label": "Apply for a wholesaler account", "to": "/wholesale-application" }
+                "eyebrow": "Business & Wholesale",
+                "title": "Need a Quote or Buying in Bulk?",
+                "description": "Whether you need competitive pricing on bulk orders or want to apply for a wholesale account, we''ve got you covered.",
+                "cta": { "label": "Get a Quote", "to": "/quote-request" },
+                "secondaryCta": { "label": "Apply for a Wholesale Account", "to": "/wholesale-application" },
+                "variant": "accent"
             }
         }
     ]',
