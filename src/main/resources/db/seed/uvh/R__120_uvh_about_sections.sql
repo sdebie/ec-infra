@@ -61,11 +61,27 @@ VALUES (
             "props": {
                 "title": "About UVH Holdings",
                 "paragraphs": [
-                    "From local businesses to wholesale buyers across Africa, we simplify procurement through a modern e-commerce platform and a hands-on service team—so you can source what you need, place orders quickly, and keep operations running without delays.",
-                    "To supply what customers need—when they need it—at the best possible price. Where demand is strong, we manufacture and source at scale to keep stock consistent. Our goal is to fulfil and deliver within 48 hours where practical (subject to stock availability and delivery destination).",
-                    "To become the most trusted supplier and manufacturer of PPE, medical disposables, and hygiene products in South Africa—and a preferred partner to wholesalers across Africa.",
-                    "We work with trusted suppliers, premium materials, and reliable manufacturing processes to deliver products that meet relevant quality and regulatory expectations.",
-                    "We''re a hands-on team focused on quality supply, fast fulfilment, and a smooth buying experience."
+                    "UVH Holdings is a South African supplier focused on importing, procuring, and manufacturing essential business consumables—Personal Protective Equipment (PPE), hygiene and cleaning chemicals, medical disposable products, and sanitizer wipes.",
+                    "From local businesses to wholesale buyers across Africa, we simplify procurement through a modern e-commerce platform and a hands-on service team—so you can source what you need, place orders quickly, and keep operations running without delays."
+                ],
+                "cards": [
+                    {
+                        "badge": "M",
+                        "title": "Mission",
+                        "paragraphs": [
+                            "To supply what customers need—when they need it—at the best possible price. Where demand is strong, we manufacture and source at scale to keep stock consistent. Our goal is to fulfil and deliver within 48 hours where practical (subject to stock availability and delivery destination)."
+                        ]
+                    },
+                    {
+                        "badge": "V",
+                        "title": "Vision",
+                        "paragraphs": [
+                            "To become the most trusted supplier and manufacturer of PPE, medical disposables, and hygiene products in South Africa—and a preferred partner to wholesalers across Africa."
+                        ]
+                    }
+                ],
+                "footnote": [
+                    { "text": "UVH Holdings offers a comprehensive range of PPE, hygiene, and medical disposable products. We work with trusted suppliers, premium materials, and reliable manufacturing processes to deliver products that meet relevant quality and regulatory expectations." }
                 ]
             }
         },
