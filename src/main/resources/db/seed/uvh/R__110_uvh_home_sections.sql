@@ -2,7 +2,8 @@
 -- R__110_uvh_home_sections — UVH home page section layout
 -- =============================================================================
 -- Final merged state of legacy V1.0.9 → V2.5.1 (full layout) → V2.8.1
--- (wholesale CTA fix) → V2.9.1 (sale-products section).
+-- (wholesale CTA fix) → V2.9.1 (sale-products section) → testimonials-1
+-- (testimonials-management spec).
 --
 -- Semantics: ON CONFLICT DO UPDATE — seed-owned key (see R__100 header).
 -- =============================================================================
@@ -64,6 +65,14 @@ VALUES (
                     { "title": "Dedicated Account Manager", "description": "Registered wholesale customers receive a dedicated account manager." },
                     { "title": "Quality Assured Products", "description": "All products meet South African quality and safety standards." }
                 ]
+            }
+        },
+        {
+            "id": "testimonials-1",
+            "type": "testimonials",
+            "enabled": true,
+            "props": {
+                "heading": "What Our Customers Say"
             }
         },
         {
