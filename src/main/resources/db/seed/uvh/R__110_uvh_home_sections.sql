@@ -7,8 +7,13 @@
 -- (recomposition: industry tiles, trust-strip icons, dark testimonials,
 -- accreditors eyebrow, hero CTA re-seed).
 --
+-- Order is the OWNER'S deliberate post-archive recomposition (confirmed
+-- 2026-07-23): Specials added at position 2 and the CTA band moved up vs the
+-- archived spec order; industry-1 tiles restored the same day (owner call)
+-- as the above-the-fold category entry point.
+--
 -- Industry tiles ship TEXT-FIRST (audit 2026-07-23): the tile images do not
--- exist in storage yet. When the operator uploads them, add back per-item
+-- exist in storage yet. When the operator uploads them, add per-item
 -- "imageUrl": "storefront/industry-<slug>.png" keys — PromoGridSection
 -- tolerates missing files (falls back to the text card) but referencing
 -- nonexistent images produces 404 noise on every page load.
@@ -32,6 +37,22 @@ VALUES ('storefront.home_sections',
                     "overlayOpacity": 0.55,
                     "contentAlignment": "left",
                     "darkStyle": true
+                }
+            },
+            {
+                "id": "industry-1",
+                "type": "promo-grid",
+                "enabled": true,
+                "props": {
+                    "eyebrow": "What We Supply",
+                    "title": "Shop by Industry",
+                    "items": [
+                        { "id": "industry-ppe", "title": "PPE & Protective Equipment", "description": "Gloves, masks, workwear and protective gear for every industry.", "cta": { "label": "Shop PPE", "to": "/products?category=ppe" } },
+                        { "id": "industry-medical", "title": "Medical Supplies", "description": "Consumables and equipment for clinics, care and medical practice.", "cta": { "label": "Shop Medical", "to": "/products?category=medical" } },
+                        { "id": "industry-cleaning", "title": "Cleaning & Equipment", "description": "Chemicals, consumables and equipment for commercial cleaning.", "cta": { "label": "Shop Cleaning", "to": "/products?category=cleaning-equipment" } },
+                        { "id": "industry-safety", "title": "Safety Wear & Equipment", "description": "Compliant safety wear and equipment for site and industry.", "cta": { "label": "Shop Safety", "to": "/products?category=safety-wear-equipment" } },
+                        { "id": "industry-hospitality", "title": "Hospitality", "description": "Supplies for kitchens, catering and front-of-house.", "cta": { "label": "Shop Hospitality", "to": "/products?category=hospitality" } }
+                    ]
                 }
             },
             {
