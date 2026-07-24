@@ -55,11 +55,45 @@ VALUES ('storefront.home_sections',
                     "layout": "strip",
                     "variant": "dark",
                     "items": [
-                        { "title": "Nationwide Delivery", "description": "Fast, reliable delivery to all major centres across South Africa.", "icon": "truck" },
-                        { "title": "Wholesale & Retail", "description": "Competitive pricing for bulk orders — no minimum order quantity required.", "icon": "tag" },
-                        { "title": "Dedicated Account Manager", "description": "Registered wholesale customers receive a dedicated account manager.", "icon": "users" },
-                        { "title": "Quality Assured Products", "description": "All products meet South African quality and safety standards.", "icon": "shield-check" }
+                        { "title": "Delivery", "description": "Delivery areas and lead times vary by product and location.", "icon": "truck" },
+                        { "title": "Returns", "description": "We help you handle returns quickly and fairly.", "icon": "package" },
+                        { "title": "Secure Payments", "description": "Secure checkout and trusted payment methods.", "icon": "shield-check" },
+                        { "title": "Support", "description": "Need help choosing products or ordering in bulk? We can assist.", "icon": "headphones" }
                     ]
+                }
+            },
+            {
+                "id": "sale-products-1",
+                "type": "sale-products",
+                "enabled": true,
+                "props": {
+                    "title": "Specials",
+                    "limit": 8
+                }
+            },
+            {
+                "id": "featured-1",
+                "type": "featured-products",
+                "enabled": true,
+                "props": {
+                    "title": "Featured / Best Sellers",
+                    "layout": "carousel",
+                    "columns": 4,
+                    "badgeLabel": "Best Seller",
+                    "limit": 8
+                }
+            },
+            {
+                "id": "cta-1",
+                "type": "cta",
+                "enabled": true,
+                "props": {
+                    "eyebrow": "Business & Wholesale",
+                    "title": "Need a Quote or Buying in Bulk?",
+                    "description": "Whether you need competitive pricing on bulk orders or want to apply for a wholesale account, we''ve got you covered.",
+                    "cta": { "label": "Get a Quote", "to": "/quote-request" },
+                    "secondaryCta": { "label": "Apply for a Wholesale Account", "to": "/wholesale-application" },
+                    "variant": "dark"
                 }
             },
             {
@@ -80,42 +114,12 @@ VALUES ('storefront.home_sections',
                 }
             },
             {
-                "id": "sale-products-1",
-                "type": "sale-products",
-                "enabled": true,
-                "props": {
-                    "title": "Specials",
-                    "limit": 8
-                }
-            },
-            {
-                "id": "featured-1",
-                "type": "featured-products",
-                "enabled": true,
-                "props": {
-                    "title": "Featured / Best Sellers",
-                    "limit": 8
-                }
-            },
-            {
-                "id": "cta-1",
-                "type": "cta",
-                "enabled": true,
-                "props": {
-                    "eyebrow": "Business & Wholesale",
-                    "title": "Need a Quote or Buying in Bulk?",
-                    "description": "Whether you need competitive pricing on bulk orders or want to apply for a wholesale account, we''ve got you covered.",
-                    "cta": { "label": "Get a Quote", "to": "/quote-request" },
-                    "secondaryCta": { "label": "Apply for a Wholesale Account", "to": "/wholesale-application" },
-                    "variant": "dark"
-                }
-            },
-            {
                 "id": "brands-1",
                 "type": "brands",
                 "enabled": true,
                 "props": {
-                    "title": "Our Brands"
+                    "title": "Our Brands",
+                    "variant": "dark"
                 }
             },
             {
@@ -125,6 +129,8 @@ VALUES ('storefront.home_sections',
                 "props": {
                     "title": "Medical Supplies",
                     "categorySlug": "medical",
+                    "layout": "carousel",
+                    "columns": 4,
                     "themeColor": "#0EA5E9",
                     "gradient": "linear-gradient(90deg, rgba(14, 165, 233, 1) 0%, rgba(29, 78, 216, 1) 50%, rgba(2, 6, 23, 1) 100%)",
                     "imageUrl": "storefront/medical.png"
@@ -137,6 +143,8 @@ VALUES ('storefront.home_sections',
                 "props": {
                     "title": "PPE & Protective Equipment",
                     "categorySlug": "ppe",
+                    "layout": "carousel",
+                    "columns": 4,
                     "themeColor": "#DC2626",
                     "gradient": "linear-gradient(90deg, rgba(220, 38, 38, 1) 0%, rgba(185, 28, 28, 1) 50%, rgba(12, 10, 9, 1) 100%)",
                     "imageUrl": "storefront/ppe.png"
@@ -149,6 +157,8 @@ VALUES ('storefront.home_sections',
                 "props": {
                     "title": "Cleaning & Equipment",
                     "categorySlug": "cleaning-equipment",
+                    "layout": "carousel",
+                    "columns": 4,
                     "themeColor": "#16A34A",
                     "gradient": "linear-gradient(90deg, rgba(22, 163, 74, 1) 0%, rgba(5, 150, 105, 1) 50%, rgba(2, 6, 23, 1) 100%)",
                     "imageUrl": "storefront/cleaning-equipment.png"
@@ -161,6 +171,8 @@ VALUES ('storefront.home_sections',
                 "props": {
                     "title": "Safety Wear & Equipment",
                     "categorySlug": "safety-wear-equipment",
+                    "layout": "carousel",
+                    "columns": 4,
                     "themeColor": "#FACC15",
                     "gradient": "linear-gradient(90deg, rgba(250, 204, 21, 1) 0%, rgba(202, 138, 4, 1) 50%, rgba(12, 10, 9, 1) 100%)",
                     "imageUrl": "storefront/safety-wear-equipment.png"
