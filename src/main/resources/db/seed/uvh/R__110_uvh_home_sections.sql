@@ -12,6 +12,12 @@
 -- archived spec order; industry-1 tiles restored the same day (owner call)
 -- as the above-the-fold category entry point.
 --
+-- Hero (2026-07-24 owner redesign): kicker/title/subtitle recomposed; background
+-- is the owner-uploaded composed banner storefront/uvh-hero-core-ranges-v4.png
+-- (1717x916, dark-left / photo-right); "height": "tall" gives the band the
+-- viewport-relative height that composition needs (the interim new-uvh-hero.png
+-- placeholder was deleted once the real upload landed).
+--
 -- Industry tiles ship TEXT-FIRST (audit 2026-07-23): the tile images do not
 -- exist in storage yet. When the operator uploads them, add per-item
 -- "imageUrl": "storefront/industry-<slug>.png" keys — PromoGridSection
@@ -29,11 +35,13 @@ VALUES ('storefront.home_sections',
                 "type": "hero",
                 "enabled": true,
                 "props": {
-                    "title": "South Africa''s Trusted Wholesale Supplier",
-                    "subtitle": "PPE, medical, cleaning, safety, hospitality and household products — supplied at competitive wholesale and retail prices.",
+                    "kicker": "WHOLESALE & RETAIL SUPPLIER",
+                    "title": "UVH Holdings",
+                    "height": "tall",
+                    "subtitle": "Medical, PPE, Cleaning & Equipment, Safety Wear & Equipment, Hospitality, Household, Bulk Paper Products and Automotives — all in one place",
                     "primaryCta": { "label": "Shop Now", "to": "/products" },
                     "secondaryCta": { "label": "Request a Quote", "to": "/quote-request" },
-                    "backgroundImageUrl": "storefront/uvh-hero-new.png",
+                    "backgroundImageUrl": "storefront/uvh-hero-core-ranges-v4.png",
                     "overlayOpacity": 0.55,
                     "contentAlignment": "left",
                     "darkStyle": true
@@ -46,6 +54,9 @@ VALUES ('storefront.home_sections',
                 "props": {
                     "eyebrow": "What We Supply",
                     "title": "Shop by Industry",
+                    "icon": "package",
+                    "compact": true,
+                    "columns": 5,
                     "items": [
                         { "id": "industry-ppe", "title": "PPE & Protective Equipment", "description": "Gloves, masks, workwear and protective gear for every industry.", "cta": { "label": "Shop PPE", "to": "/products?category=ppe" } },
                         { "id": "industry-medical", "title": "Medical Supplies", "description": "Consumables and equipment for clinics, care and medical practice.", "cta": { "label": "Shop Medical", "to": "/products?category=medical" } },
@@ -70,19 +81,8 @@ VALUES ('storefront.home_sections',
                 "enabled": true,
                 "props": {
                     "title": "Featured / Best Sellers",
+                    "variant": "dark",
                     "limit": 8
-                }
-            },  {
-                "id": "cta-1",
-                "type": "cta",
-                "enabled": true,
-                "props": {
-                    "eyebrow": "Business & Wholesale",
-                    "title": "Need a Quote or Buying in Bulk?",
-                    "description": "Whether you need competitive pricing on bulk orders or want to apply for a wholesale account, we''ve got you covered.",
-                    "cta": { "label": "Get a Quote", "to": "/quote-request" },
-                    "secondaryCta": { "label": "Apply for a Wholesale Account", "to": "/wholesale-application" },
-                    "variant": "dark"
                 }
             },
             {
@@ -101,11 +101,25 @@ VALUES ('storefront.home_sections',
                 }
             },
             {
+                "id": "cta-1",
+                "type": "cta",
+                "enabled": true,
+                "props": {
+                    "eyebrow": "Business & Wholesale",
+                    "title": "Need a Quote or Buying in Bulk?",
+                    "description": "Whether you need competitive pricing on bulk orders or want to apply for a wholesale account, we''ve got you covered.",
+                    "cta": { "label": "Get a Quote", "to": "/quote-request" },
+                    "secondaryCta": { "label": "Apply for a Wholesale Account", "to": "/wholesale-application" },
+                    "variant": "dark"
+                }
+            },
+            {
                 "id": "brands-1",
                 "type": "brands",
                 "enabled": true,
                 "props": {
-                    "title": "Our Brands"
+                    "title": "Our Brands",
+                    "limit": 12
                 }
             },
             {
