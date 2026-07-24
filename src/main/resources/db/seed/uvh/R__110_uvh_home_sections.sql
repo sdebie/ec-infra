@@ -48,15 +48,28 @@ VALUES ('storefront.home_sections',
                 }
             },
             {
+                "id": "benefits-1",
+                "type": "benefits",
+                "enabled": true,
+                "props": {
+                    "layout": "strip",
+                    "variant": "dark",
+                    "items": [
+                        { "title": "Nationwide Delivery", "description": "Fast, reliable delivery to all major centres across South Africa.", "icon": "truck" },
+                        { "title": "Wholesale & Retail", "description": "Competitive pricing for bulk orders — no minimum order quantity required.", "icon": "tag" },
+                        { "title": "Dedicated Account Manager", "description": "Registered wholesale customers receive a dedicated account manager.", "icon": "users" },
+                        { "title": "Quality Assured Products", "description": "All products meet South African quality and safety standards.", "icon": "shield-check" }
+                    ]
+                }
+            },
+            {
                 "id": "industry-1",
                 "type": "promo-grid",
                 "enabled": true,
                 "props": {
                     "eyebrow": "What We Supply",
                     "title": "Shop by Industry",
-                    "icon": "package",
                     "compact": true,
-                    "columns": 5,
                     "items": [
                         { "id": "industry-ppe", "title": "PPE & Protective Equipment", "description": "Gloves, masks, workwear and protective gear for every industry.", "cta": { "label": "Shop PPE", "to": "/products?category=ppe" } },
                         { "id": "industry-medical", "title": "Medical Supplies", "description": "Consumables and equipment for clinics, care and medical practice.", "cta": { "label": "Shop Medical", "to": "/products?category=medical" } },
@@ -81,23 +94,7 @@ VALUES ('storefront.home_sections',
                 "enabled": true,
                 "props": {
                     "title": "Featured / Best Sellers",
-                    "variant": "dark",
                     "limit": 8
-                }
-            },
-            {
-                "id": "benefits-1",
-                "type": "benefits",
-                "enabled": true,
-                "props": {
-                    "eyebrow": "Why Choose Us",
-                    "title": "Why Choose UVH Holdings",
-                    "items": [
-                        { "title": "Nationwide Delivery", "description": "Fast, reliable delivery to all major centres across South Africa.", "icon": "truck" },
-                        { "title": "Wholesale & Retail", "description": "Competitive pricing for bulk orders — no minimum order quantity required.", "icon": "tag" },
-                        { "title": "Dedicated Account Manager", "description": "Registered wholesale customers receive a dedicated account manager.", "icon": "users" },
-                        { "title": "Quality Assured Products", "description": "All products meet South African quality and safety standards.", "icon": "shield-check" }
-                    ]
                 }
             },
             {
@@ -118,8 +115,7 @@ VALUES ('storefront.home_sections',
                 "type": "brands",
                 "enabled": true,
                 "props": {
-                    "title": "Our Brands",
-                    "limit": 12
+                    "title": "Our Brands"
                 }
             },
             {
