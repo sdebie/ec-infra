@@ -32,9 +32,10 @@ VALUES (
             {
                 "heading": "Company",
                 "links": [
-                    { "id": "fc-about",     "label": "About Us",   "path": "/about-us",   "external": false },
-                    { "id": "fc-contact",   "label": "Contact Us", "path": "/contact-us", "external": false },
-                    { "id": "fc-wholesale", "label": "Wholesale Applications",  "path": "/wholesale-application",  "external": false }
+                    { "id": "fc-about",     "label": "About Us",          "path": "/about-us",              "external": false },
+                    { "id": "fc-contact",   "label": "Contact Us",        "path": "/contact-us",            "external": false },
+                    { "id": "fc-quote",     "label": "Request a Quote",   "path": "/quote-request",         "external": false },
+                    { "id": "fc-wholesale", "label": "Wholesale Applications", "path": "/wholesale-application", "external": false }
                 ]
             },
             {

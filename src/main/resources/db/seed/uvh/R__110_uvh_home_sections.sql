@@ -2,144 +2,209 @@
 -- R__110_uvh_home_sections — UVH home page section layout
 -- =============================================================================
 -- Final merged state of legacy V1.0.9 → V2.5.1 (full layout) → V2.8.1
--- (wholesale CTA fix) → V2.9.1 (sale-products section).
+-- (wholesale CTA fix) → V2.9.1 (sale-products section) → testimonials-1
+-- (testimonials-management spec) → storefront-commercial-sections spec
+-- (recomposition: industry tiles, trust-strip icons, dark testimonials,
+-- accreditors eyebrow, hero CTA re-seed).
+--
+-- Order is the OWNER'S deliberate post-archive recomposition (confirmed
+-- 2026-07-23): Specials added at position 2 and the CTA band moved up vs the
+-- archived spec order; industry-1 tiles restored the same day (owner call)
+-- as the above-the-fold category entry point.
+--
+-- Hero (2026-07-24 owner redesign): kicker/title/subtitle recomposed; background
+-- is the owner-uploaded composed banner storefront/uvh-hero-core-ranges-v4.png
+-- (1717x916, dark-left / photo-right); "height": "tall" gives the band the
+-- viewport-relative height that composition needs (the interim new-uvh-hero.png
+-- placeholder was deleted once the real upload landed).
+--
+-- Industry tiles ship TEXT-FIRST (audit 2026-07-23): the tile images do not
+-- exist in storage yet. When the operator uploads them, add per-item
+-- "imageUrl": "storefront/industry-<slug>.png" keys — PromoGridSection
+-- tolerates missing files (falls back to the text card) but referencing
+-- nonexistent images produces 404 noise on every page load.
 --
 -- Semantics: ON CONFLICT DO UPDATE — seed-owned key (see R__100 header).
 -- =============================================================================
 
 INSERT INTO store_settings (setting_key, setting_value, description)
-VALUES (
-    'storefront.home_sections',
-    '[
-        {
-            "id": "hero-1",
-            "type": "hero",
-            "enabled": true,
-            "props": {
-                "title": "South Africa''s Trusted Wholesale Supplier",
-                "subtitle": "PPE, medical, cleaning, safety, hospitality and household products — supplied at competitive wholesale and retail prices.",
-                "primaryCta": { "label": "Shop Now", "to": "/products" },
-                "secondaryCta": { "label": "Contact Us", "to": "/contact-us" },
-                "backgroundImageUrl": "storefront/uvh-hero-new.png",
-                "overlayOpacity": 0.55,
-                "contentAlignment": "left",
-                "darkStyle": true
+VALUES ('storefront.home_sections',
+        '[
+            {
+                "id": "hero-1",
+                "type": "hero",
+                "enabled": true,
+                "props": {
+                    "kicker": "WHOLESALE & RETAIL SUPPLIER",
+                    "title": "UVH Holdings",
+                    "height": "tall",
+                    "subtitle": "Medical, PPE, Cleaning & Equipment, Safety Wear & Equipment, Hospitality, Household, Bulk Paper Products and Automotives — all in one place",
+                    "primaryCta": { "label": "Shop Now", "to": "/products" },
+                    "secondaryCta": { "label": "Request a Quote", "to": "/quote-request" },
+                    "backgroundImageUrl": "storefront/uvh-hero-core-ranges-v4.png",
+                    "overlayOpacity": 0.55,
+                    "contentAlignment": "left",
+                    "darkStyle": true
+                }
+            },
+            {
+                "id": "benefits-1",
+                "type": "benefits",
+                "enabled": true,
+                "props": {
+                    "layout": "strip",
+                    "variant": "dark",
+                    "items": [
+                        { "title": "Delivery", "description": "Delivery areas and lead times vary by product and location.", "icon": "truck" },
+                        { "title": "Returns", "description": "We help you handle returns quickly and fairly.", "icon": "package" },
+                        { "title": "Secure Payments", "description": "Secure checkout and trusted payment methods.", "icon": "shield-check" },
+                        { "title": "Support", "description": "Need help choosing products or ordering in bulk? We can assist.", "icon": "headphones" }
+                    ]
+                }
+            },
+            {
+                "id": "sale-products-1",
+                "type": "sale-products",
+                "enabled": true,
+                "props": {
+                    "title": "Specials",
+                    "limit": 8
+                }
+            },
+            {
+                "id": "featured-1",
+                "type": "featured-products",
+                "enabled": true,
+                "props": {
+                    "title": "Featured / Best Sellers",
+                    "layout": "carousel",
+                    "columns": 4,
+                    "badgeLabel": "Best Seller",
+                    "limit": 8
+                }
+            },
+            {
+                "id": "cta-1",
+                "type": "cta",
+                "enabled": true,
+                "props": {
+                    "eyebrow": "Business & Wholesale",
+                    "title": "Need a Quote or Buying in Bulk?",
+                    "description": "Whether you need competitive pricing on bulk orders or want to apply for a wholesale account, we''ve got you covered.",
+                    "cta": { "label": "Get a Quote", "to": "/quote-request" },
+                    "secondaryCta": { "label": "Apply for a Wholesale Account", "to": "/wholesale-application" },
+                    "variant": "dark"
+                }
+            },
+            {
+                "id": "industry-1",
+                "type": "promo-grid",
+                "enabled": true,
+                "props": {
+                    "eyebrow": "What We Supply",
+                    "title": "Shop by Industry",
+                    "compact": true,
+                    "items": [
+                        { "id": "industry-ppe", "title": "PPE & Protective Equipment", "description": "Gloves, masks, workwear and protective gear for every industry.", "cta": { "label": "Shop PPE", "to": "/products?category=ppe" } },
+                        { "id": "industry-medical", "title": "Medical Supplies", "description": "Consumables and equipment for clinics, care and medical practice.", "cta": { "label": "Shop Medical", "to": "/products?category=medical" } },
+                        { "id": "industry-cleaning", "title": "Cleaning & Equipment", "description": "Chemicals, consumables and equipment for commercial cleaning.", "cta": { "label": "Shop Cleaning", "to": "/products?category=cleaning-equipment" } },
+                        { "id": "industry-safety", "title": "Safety Wear & Equipment", "description": "Compliant safety wear and equipment for site and industry.", "cta": { "label": "Shop Safety", "to": "/products?category=safety-wear-equipment" } },
+                        { "id": "industry-hospitality", "title": "Hospitality", "description": "Supplies for kitchens, catering and front-of-house.", "cta": { "label": "Shop Hospitality", "to": "/products?category=hospitality" } }
+                    ]
+                }
+            },
+            {
+                "id": "brands-1",
+                "type": "brands",
+                "enabled": true,
+                "props": {
+                    "title": "Our Brands",
+                    "variant": "dark"
+                }
+            },
+            {
+                "id": "category-showcase-medical",
+                "type": "category-showcase",
+                "enabled": true,
+                "props": {
+                    "title": "Medical Supplies",
+                    "categorySlug": "medical",
+                    "layout": "carousel",
+                    "columns": 4,
+                    "themeColor": "#0EA5E9",
+                    "gradient": "linear-gradient(90deg, rgba(14, 165, 233, 1) 0%, rgba(29, 78, 216, 1) 50%, rgba(2, 6, 23, 1) 100%)",
+                    "imageUrl": "storefront/medical.png"
+                }
+            },
+            {
+                "id": "category-showcase-ppe",
+                "type": "category-showcase",
+                "enabled": true,
+                "props": {
+                    "title": "PPE & Protective Equipment",
+                    "categorySlug": "ppe",
+                    "layout": "carousel",
+                    "columns": 4,
+                    "themeColor": "#DC2626",
+                    "gradient": "linear-gradient(90deg, rgba(220, 38, 38, 1) 0%, rgba(185, 28, 28, 1) 50%, rgba(12, 10, 9, 1) 100%)",
+                    "imageUrl": "storefront/ppe.png"
+                }
+            },
+            {
+                "id": "category-showcase-cleaning",
+                "type": "category-showcase",
+                "enabled": true,
+                "props": {
+                    "title": "Cleaning & Equipment",
+                    "categorySlug": "cleaning-equipment",
+                    "layout": "carousel",
+                    "columns": 4,
+                    "themeColor": "#16A34A",
+                    "gradient": "linear-gradient(90deg, rgba(22, 163, 74, 1) 0%, rgba(5, 150, 105, 1) 50%, rgba(2, 6, 23, 1) 100%)",
+                    "imageUrl": "storefront/cleaning-equipment.png"
+                }
+            },
+            {
+                "id": "category-showcase-safety",
+                "type": "category-showcase",
+                "enabled": true,
+                "props": {
+                    "title": "Safety Wear & Equipment",
+                    "categorySlug": "safety-wear-equipment",
+                    "layout": "carousel",
+                    "columns": 4,
+                    "themeColor": "#FACC15",
+                    "gradient": "linear-gradient(90deg, rgba(250, 204, 21, 1) 0%, rgba(202, 138, 4, 1) 50%, rgba(12, 10, 9, 1) 100%)",
+                    "imageUrl": "storefront/safety-wear-equipment.png"
+                }
+            },
+            {
+                "id": "testimonials-1",
+                "type": "testimonials",
+                "enabled": true,
+                "props": {
+                    "variant": "dark",
+                    "layout": "carousel",
+                    "eyebrow": "Customer Reviews",
+                    "title": "What Our Customers Say"
+                }
+            },
+            {
+                "id": "accreditors-1",
+                "type": "accreditors",
+                "enabled": true,
+                "props": {
+                    "eyebrow": "Certified & Compliant",
+                    "title": "Accreditors",
+                    "items": [
+                        { "id": "acc-sabs", "name": "SABS", "logoUrl": "storefront/sabs-logo.png", "url": "https://www.sabs.co.za" },
+                        { "id": "acc-sahpra", "name": "SAHPRA", "logoUrl": "storefront/sahpra-logo.png", "url": "https://www.sahpra.org.za" },
+                        { "id": "acc-safripol", "name": "Safripol", "logoUrl": "storefront/safripol-logo.png", "url": "https://www.safripol.com" }
+                    ]
+                }
             }
-        },
-        {
-            "id": "sale-products-1",
-            "type": "sale-products",
-            "enabled": true,
-            "props": {
-                "title": "Specials",
-                "limit": 8
-            }
-        },
-        {
-            "id": "featured-1",
-            "type": "featured-products",
-            "enabled": true,
-            "props": {
-                "title": "Featured Products",
-                "limit": 8
-            }
-        },
-        {
-            "id": "brands-1",
-            "type": "brands",
-            "enabled": true,
-            "props": {
-                "heading": "Our Brands"
-            }
-        },
-        {
-            "id": "benefits-1",
-            "type": "benefits",
-            "enabled": true,
-            "props": {
-                "title": "Why Choose UVH Holdings",
-                "items": [
-                    { "title": "Nationwide Delivery", "description": "Fast, reliable delivery to all major centres across South Africa." },
-                    { "title": "Wholesale & Retail", "description": "Competitive pricing for bulk orders — no minimum order quantity required." },
-                    { "title": "Dedicated Account Manager", "description": "Registered wholesale customers receive a dedicated account manager." },
-                    { "title": "Quality Assured Products", "description": "All products meet South African quality and safety standards." }
-                ]
-            }
-        },
-        {
-            "id": "category-showcase-medical",
-            "type": "category-showcase",
-            "enabled": true,
-            "props": {
-                "title": "Medical Supplies",
-                "categorySlug": "medical",
-                "themeColor": "#0EA5E9",
-                "gradient": "linear-gradient(90deg, rgba(14, 165, 233, 1) 0%, rgba(29, 78, 216, 1) 50%, rgba(2, 6, 23, 1) 100%)",
-                "imageUrl": "storefront/medical.png"
-            }
-        },
-        {
-            "id": "category-showcase-ppe",
-            "type": "category-showcase",
-            "enabled": true,
-            "props": {
-                "title": "PPE & Protective Equipment",
-                "categorySlug": "ppe",
-                "themeColor": "#DC2626",
-                "gradient": "linear-gradient(90deg, rgba(220, 38, 38, 1) 0%, rgba(185, 28, 28, 1) 50%, rgba(12, 10, 9, 1) 100%)",
-                "imageUrl": "storefront/ppe.png"
-            }
-        },
-        {
-            "id": "category-showcase-cleaning",
-            "type": "category-showcase",
-            "enabled": true,
-            "props": {
-                "title": "Cleaning & Equipment",
-                "categorySlug": "cleaning-equipment",
-                "themeColor": "#16A34A",
-                "gradient": "linear-gradient(90deg, rgba(22, 163, 74, 1) 0%, rgba(5, 150, 105, 1) 50%, rgba(2, 6, 23, 1) 100%)",
-                "imageUrl": "storefront/cleaning-equipment.png"
-            }
-        },
-        {
-            "id": "category-showcase-safety",
-            "type": "category-showcase",
-            "enabled": true,
-            "props": {
-                "title": "Safety Wear & Equipment",
-                "categorySlug": "safety-wear-equipment",
-                "themeColor": "#FACC15",
-                "gradient": "linear-gradient(90deg, rgba(250, 204, 21, 1) 0%, rgba(202, 138, 4, 1) 50%, rgba(12, 10, 9, 1) 100%)",
-                "imageUrl": "storefront/safety-wear-equipment.png"
-            }
-        },
-        {
-            "id": "accreditors-1",
-            "type": "accreditors",
-            "enabled": true,
-            "props": {
-                "heading": "Accreditors",
-                "items": [
-                    { "id": "acc-sabs", "name": "SABS", "logoUrl": "storefront/sabs-logo.png", "url": "https://www.sabs.co.za" },
-                    { "id": "acc-sahpra", "name": "SAHPRA", "logoUrl": "storefront/sahpra-logo.png", "url": "https://www.sahpra.org.za" },
-                    { "id": "acc-safripol", "name": "Safripol", "logoUrl": "storefront/safripol-logo.png", "url": "https://www.safripol.com" }
-                ]
-            }
-        },
-        {
-            "id": "cta-1",
-            "type": "cta",
-            "enabled": true,
-            "props": {
-                "title": "Ready to Place an Order?",
-                "description": "Register as a wholesale customer to unlock bulk pricing and account credit.",
-                "cta": { "label": "Apply for a wholesaler account", "to": "/wholesale-application" }
-            }
-        }
-    ]',
-    'Home page section layout and content for UVH storefront'
-)
+        ]',
+        'Home page section layout and content for UVH storefront')
 ON CONFLICT (setting_key) DO UPDATE
     SET setting_value = EXCLUDED.setting_value,
         description   = EXCLUDED.description;
