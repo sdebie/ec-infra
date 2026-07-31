@@ -5,5 +5,8 @@ FROM flyway/flyway:10-alpine
 # This matches the path in your ec-infra project structure
 COPY ./src/main/resources/db/migration /flyway/sql
 
+COPY ./src/main/resources/db/seed/default /flyway/seed/default
+COPY ./src/main/resources/db/seed/uvh /flyway/seed/uvh
+
 # The entrypoint is already set to flyway in the base image,
 # so it will run migrations based on the command in docker-compose.
