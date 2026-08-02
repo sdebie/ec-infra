@@ -105,6 +105,7 @@ VALUES ('storefront.home_sections',
                 "enabled": true,
                 "props": {
                     "columns": 4,
+                    "iconPlacement": "inline",
                     "eyebrow": "Trust & Reassurance",
                     "title": "Trust & Reassurance",
                     "subtitle": "Clear communication, secure checkout, and support when you need it.",
@@ -214,7 +215,8 @@ VALUES ('storefront.home_sections',
                 "type": "brands",
                 "enabled": true,
                 "props": {
-                    "title": "Our Brands",
+                    "eyebrow": "Brands we stock",
+                    "title": "Brands",
                     "minItems": 4
                 }
             },
