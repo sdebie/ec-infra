@@ -10,10 +10,18 @@
 -- Req 1, hero footnote Req 2, CTA band copy Req 1.5, brands minItems Req 6.3,
 -- showcase retarget Req 6.2).
 --
--- Order (Req 6.1, owner-directed 2026-08-02):
---   hero → promo-grid (Shop by Industry) → benefits → sale-products (Specials) →
---   cta (quote/wholesale band) → category-showcase ×4 → featured-products
---   (Best Sellers) → testimonials → brands → accreditors
+-- Order (owner-directed 2026-08-02, revised late the same day — the CTA band
+-- moved ABOVE benefits, so this NO LONGER matches Req 6.1's stated order):
+--   hero → promo-grid (Shop by Industry) → cta (quote/wholesale band) →
+--   benefits (Trust & Reassurance) → sale-products (Specials) →
+--   category-showcase ×4 → featured-products (Best Sellers) → testimonials →
+--   brands → accreditors
+--
+-- Benefits (owner-directed 2026-08-02): reverted to the pre-spec four tiles
+-- (Delivery / Returns / Secure Payments / Support) and switched to the light
+-- surface, now with a Trust & Reassurance heading. This REVERSES the Req 1
+-- rewrite. ⚠️ The Returns tile promises handling "quickly and fairly" with no
+-- published returns policy behind it — see BACKLOG `delivery-and-returns`.
 --
 -- Carousel unification (Req 12.1a): category-showcase and testimonials sections
 -- seed carouselControls: 'header' so the homepage uses one control treatment.
@@ -79,29 +87,6 @@ VALUES ('storefront.home_sections',
                 }
             },
             {
-                "id": "benefits-1",
-                "type": "benefits",
-                "enabled": true,
-                "props": {
-                    "layout": "strip",
-                    "variant": "dark",
-                    "items": [
-                        { "title": "Delivery", "description": "Courier or collection — the fee is shown before you pay.", "icon": "truck" },
-                        { "title": "Secure Payments", "description": "PayFast card payments, EFT and in-store.", "icon": "shield-check" },
-                        { "title": "Support", "description": "Call or WhatsApp, Mon–Fri 8–5.", "icon": "headphones" }
-                    ]
-                }
-            },
-            {
-                "id": "sale-products-1",
-                "type": "sale-products",
-                "enabled": true,
-                "props": {
-                    "title": "Specials",
-                    "limit": 8
-                }
-            },
-            {
                 "id": "cta-1",
                 "type": "cta",
                 "enabled": true,
@@ -112,6 +97,32 @@ VALUES ('storefront.home_sections',
                     "cta": { "label": "Get a Quote", "to": "/quote-request" },
                     "secondaryCta": { "label": "Apply for a Wholesale Account", "to": "/wholesale-application" },
                     "variant": "dark"
+                }
+            },
+            {
+                "id": "benefits-1",
+                "type": "benefits",
+                "enabled": true,
+                "props": {
+                    "columns": 4,
+                    "eyebrow": "Trust & Reassurance",
+                    "title": "Trust & Reassurance",
+                    "subtitle": "Clear communication, secure checkout, and support when you need it.",
+                    "items": [
+                        { "title": "Delivery", "description": "Delivery areas and lead times vary by product and location.", "icon": "truck" },
+                        { "title": "Returns", "description": "We help you handle returns quickly and fairly.", "icon": "package" },
+                        { "title": "Secure Payments", "description": "Secure checkout and trusted payment methods.", "icon": "shield-check" },
+                        { "title": "Support", "description": "Need help choosing products or ordering in bulk? We can assist.", "icon": "headphones" }
+                    ]
+                }
+            },
+            {
+                "id": "sale-products-1",
+                "type": "sale-products",
+                "enabled": true,
+                "props": {
+                    "title": "Specials",
+                    "limit": 8
                 }
             },
             {
