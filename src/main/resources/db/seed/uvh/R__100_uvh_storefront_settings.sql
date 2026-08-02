@@ -2,7 +2,7 @@
 -- R__100_uvh_storefront_settings — UVH Holdings storefront identity
 -- =============================================================================
 -- Seeds: storefront.config, storefront.branding, storefront.theme,
---        storefront.header, storefront.navigation
+--        storefront.header, storefront.navigation, storefront.quote
 -- Merged from legacy V1.0.9 + V2.9.0/V2.9.9 (Specials nav link added then
 -- removed — net zero; final navigation matches the original V1.0.9 items).
 --
@@ -95,9 +95,11 @@ VALUES ('storefront.header',
         '{
             "announcement": {
                 "enabled": true,
-                "text": "Free delivery on orders over R1 500 — nationwide.",
+                "text": "",
                 "backgroundColor": "#7a0019",
-                "textColor": "#ffffff"
+                "textColor": "#ffffff",
+                "showContact": true,
+                "showSocial": true
             }
         }',
         'Header announcement banner for UVH storefront')
@@ -116,10 +118,9 @@ INSERT INTO store_settings (setting_key, setting_value, description)
 VALUES ('storefront.navigation',
         '{
             "items": [
-                { "id": "home",     "label": "Home",       "path": "/",           "external": false, "sortOrder": 0 },
-                { "id": "products", "label": "Products",   "path": "/products",   "external": false, "sortOrder": 1 },
-                { "id": "about",    "label": "About Us",   "path": "/about-us",   "external": false, "sortOrder": 2 },
-                { "id": "contact",  "label": "Contact Us", "path": "/contact-us", "external": false, "sortOrder": 3 }
+                { "id": "about",    "label": "About Us",   "path": "/about-us",   "external": false, "sortOrder": 0 },
+                { "id": "contact",  "label": "Contact Us", "path": "/contact-us", "external": false, "sortOrder": 1 },
+                { "id": "products", "label": "Products",   "path": "/products",   "external": false, "sortOrder": 2 }
             ]
         }',
         'Top navigation links for UVH storefront')
@@ -127,3 +128,21 @@ ON CONFLICT (setting_key) DO UPDATE
     SET setting_value = EXCLUDED.setting_value,
         description   = EXCLUDED.description;
 
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- QUOTE
+-- Raw pass-through via StorefrontConfigResource.applyQuote().
+-- Drives the reassurance panel on QuoteRequestPage + confirmation SLA.
+-- ─────────────────────────────────────────────────────────────────────────────
+
+INSERT INTO store_settings (setting_key, setting_value, description)
+VALUES ('storefront.quote',
+        '{
+            "slaText": "Quotes returned within 1 business day.",
+            "validityText": "Every quote is held for 7 days.",
+            "steps": ["Send your product list", "We price it at live supplier rates", "Your quote arrives within 1 business day, valid for 7 days"]
+        }',
+        'Quote page reassurance content for UVH storefront')
+ON CONFLICT (setting_key) DO UPDATE
+    SET setting_value = EXCLUDED.setting_value,
+        description   = EXCLUDED.description;

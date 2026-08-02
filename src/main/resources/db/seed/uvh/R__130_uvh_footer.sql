@@ -5,7 +5,7 @@
 --   • columns[].links[].path  → remapped to .to  by applyFooter()
 --   • socialLinks[].path      → remapped to .to  by applyFooter()
 --   • legalLinks[].path       → remapped to .to  by applyFooter()
---   • calloutHeading/calloutBody at root → nested as footerCallout by applyFooter()
+--   • calloutHeading/calloutBody removed (2026-08-02) — footer contact block takes that position
 --
 -- Semantics: ON CONFLICT DO UPDATE — seed-owned key (see R__100 header).
 -- =============================================================================
@@ -15,8 +15,6 @@ VALUES (
     'storefront.footer',
     '{
         "description": "Wholesale and retail supplier for PPE, medical, cleaning, safety, hospitality and household products.",
-        "calloutHeading": "Bulk Orders & Tenders",
-        "calloutBody": "Contact us for volume pricing and tender submissions.",
         "columns": [
             {
                 "heading": "Products",
@@ -48,7 +46,9 @@ VALUES (
             }
         ],
         "socialLinks": [
-            { "id": "sl-linkedin", "label": "LinkedIn", "icon": "linkedin", "path": "https://www.linkedin.com/company/uvh-holdings", "external": true }
+            { "id": "sl-facebook",  "label": "Facebook",  "icon": "facebook",  "path": "https://www.facebook.com/uvhholdings",          "external": true },
+            { "id": "sl-instagram", "label": "Instagram", "icon": "instagram", "path": "https://www.instagram.com/uvhholdings",         "external": true },
+            { "id": "sl-linkedin",  "label": "LinkedIn",  "icon": "linkedin",  "path": "https://www.linkedin.com/company/uvh-holdings", "external": true }
         ],
         "legalLinks": [
             { "id": "ll-privacy",  "label": "Privacy Policy",     "path": "/privacy-policy",       "external": false },
