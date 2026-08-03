@@ -28,29 +28,32 @@
 -- the Req 1 light-surface revert is itself now reverted. ⚠️ The Returns tile
 -- promises handling "quickly and fairly" with no published returns policy
 -- behind it — see BACKLOG `delivery-and-returns`.
--- Layout (owner directive 2026-08-03): "headingPlacement": "side" puts the
--- heading in a left column at lg+ so the four cards fill the right as a 2×2
--- ("columns": 2) with no dead zone beside a short heading, and "iconTone":
--- "solid" renders the icons in accent-text on a muted accent tile. Both are
--- generic display hints derived from --sf-accent/--sf-accent-text, so any
--- client gets its own brand colour with no client-specific code.
+-- Layout (owner directive 2026-08-03, revised later the same day): the heading
+-- is back ABOVE the cards, which now run as a single row of four
+-- ("columns": 4). The earlier "headingPlacement": "side" 2×2 existed to fill
+-- the dead zone beside a short heading at max-w-5xl; the frame has since
+-- widened to max-w-6xl, so a row of four fits and the side column is no longer
+-- needed. `headingPlacement` remains a supported capability — it is simply not
+-- used here. "iconTone": "solid" still renders the icons in accent-text on a
+-- muted accent tile; both hints derive from --sf-accent/--sf-accent-text, so
+-- any client gets its own brand colour with no client-specific code.
 --
--- Carousel unification (Req 12.1a) RELAXED FOR SHOWCASES 2026-08-03 (owner
--- directive): testimonials keeps carouselControls: 'header', but the four
--- category-showcase bands move to 'overlay'. Rationale: a showcase renders its
--- OWN heading above the deck, so its header row could only ever hold two arrow
--- buttons — 68px of chrome per band, ×4 bands. On 'overlay' the arrows ride the
--- deck edges and that row disappears. The bands sit on a client colour gradient
--- rather than the page surface, so a different control treatment reads as part
--- of the band rather than as inconsistency. Mobile is UNCHANGED — the dots +
--- "Swipe to browse" treatment is now requested explicitly by the section
--- (Carousel `mobileControls`) instead of riding on having a header row.
+-- Carousel unification (Req 12.1a): every deck on the home page — showcases,
+-- Best Sellers and testimonials alike — seeds carouselControls: 'header'. An
+-- intermediate 2026-08-03 state moved the showcases to 'overlay' to drop a
+-- header row that held only arrows; the showcase rewrite later that day put the
+-- heading INTO that row, so it now carries the title and the arrows together
+-- and the unification holds again with no wasted chrome. Mobile keeps the dots
+-- + "Swipe to browse" treatment, requested explicitly by the section (Carousel
+-- `mobileControls`) rather than riding on having a header row.
 --
--- Showcase deck width (owner directive 2026-08-03): the band now uses the
--- shared Section container (max-w-5xl) so its heading lines up with every other
--- home section instead of starting 112px further left. That leaves 736px beside
--- the 256px image rail, so "columns" drops 4 → 3 and the cards land at ~229px —
--- within 10px of the Best Sellers deck, so the two read as the same card.
+-- Showcase layout (owner directive 2026-08-03, rewrite): the 256px side image
+-- rail is GONE. It held the deck to three cards, and its artwork rendered
+-- visibly smaller than a product card, which read as unfinished. The category
+-- graphic is now a heading-scale icon beside the title, the deck spans the full
+-- container, and "columns" is 5 — cards land at ~211px, identical to the Best
+-- Sellers deck, so every deck on the page is one size. The band also uses the
+-- shared Section container so its heading lines up with every other section.
 --
 -- Showcase retarget (Req 6.2) REVERTED 2026-08-02 (owner directive): the fourth
 -- showcase is Safety again. Req 6.2's distinct-product-set requirement is
@@ -105,7 +108,7 @@ VALUES ('storefront.home_sections',
                     "contentPanel": true,
                     "contentAlignment": "left",
                     "darkStyle": true,
-                    "footnote": [{"text": "Competitive bulk & tender pricing — quotes within 1 business day, held for 7 days."}]
+                    "footnote": [{"text": "We will beat any price and quote. We will also assist you in all your tender needs! Please note that prices may not be accurate and are subject to change after order completion due to supply chain disruptions in the Middle East driving up supplier prices."}]
                 }
             },
             {
@@ -116,7 +119,7 @@ VALUES ('storefront.home_sections',
                     "title": "Best Sellers",
                     "eyebrow": "Trending Products",
                     "layout": "carousel",
-                    "columns": 4,
+                    "columns": 5,
                     "badgeLabel": "Best Seller",
                     "limit": 8
                 }
@@ -158,10 +161,9 @@ VALUES ('storefront.home_sections',
                 "type": "benefits",
                 "enabled": true,
                 "props": {
-                    "columns": 2,
+                    "columns": 4,
                     "iconPlacement": "inline",
                     "iconTone": "solid",
-                    "headingPlacement": "side",
                     "variant": "dark",
                     "eyebrow": "How We Look After You",
                     "title": "Trust & Reassurance",
@@ -191,11 +193,11 @@ VALUES ('storefront.home_sections',
                     "title": "Medical Supplies",
                     "categorySlug": "medical",
                     "layout": "carousel",
-                    "columns": 3,
+                    "columns": 5,
                     "themeColor": "#0EA5E9",
                     "gradient": "linear-gradient(90deg, rgba(14, 165, 233, 1) 0%, rgba(29, 78, 216, 1) 50%, rgba(2, 6, 23, 1) 100%)",
                     "imageUrl": "storefront/medical.png",
-                    "carouselControls": "overlay"
+                    "carouselControls": "header"
                 }
             },
             {
@@ -206,11 +208,11 @@ VALUES ('storefront.home_sections',
                     "title": "PPE & Protective Equipment",
                     "categorySlug": "ppe",
                     "layout": "carousel",
-                    "columns": 3,
+                    "columns": 5,
                     "themeColor": "#DC2626",
                     "gradient": "linear-gradient(90deg, rgba(220, 38, 38, 1) 0%, rgba(185, 28, 28, 1) 50%, rgba(12, 10, 9, 1) 100%)",
                     "imageUrl": "storefront/ppe.png",
-                    "carouselControls": "overlay"
+                    "carouselControls": "header"
                 }
             },
             {
@@ -221,11 +223,11 @@ VALUES ('storefront.home_sections',
                     "title": "Cleaning & Equipment",
                     "categorySlug": "cleaning-equipment",
                     "layout": "carousel",
-                    "columns": 3,
+                    "columns": 5,
                     "themeColor": "#16A34A",
                     "gradient": "linear-gradient(90deg, rgba(22, 163, 74, 1) 0%, rgba(5, 150, 105, 1) 50%, rgba(2, 6, 23, 1) 100%)",
                     "imageUrl": "storefront/cleaning-equipment.png",
-                    "carouselControls": "overlay"
+                    "carouselControls": "header"
                 }
             },
             {
@@ -236,11 +238,11 @@ VALUES ('storefront.home_sections',
                     "title": "Safety Wear & Equipment",
                     "categorySlug": "safety-wear-equipment",
                     "layout": "carousel",
-                    "columns": 3,
+                    "columns": 5,
                     "themeColor": "#FACC15",
                     "gradient": "linear-gradient(90deg, rgba(250, 204, 21, 1) 0%, rgba(202, 138, 4, 1) 50%, rgba(12, 10, 9, 1) 100%)",
                     "imageUrl": "storefront/safety-wear-equipment.png",
-                    "carouselControls": "overlay"
+                    "carouselControls": "header"
                 }
             },
             {
@@ -260,6 +262,7 @@ VALUES ('storefront.home_sections',
                 "props": {
                     "variant": "dark",
                     "layout": "carousel",
+                    "columns": 3,
                     "eyebrow": "What Our Customers Say",
                     "title": "Real Customer Experiences",
                     "carouselControls": "header"
