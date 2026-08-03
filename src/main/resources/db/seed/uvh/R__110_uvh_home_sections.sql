@@ -278,9 +278,9 @@ VALUES ('storefront.home_sections',
                     "eyebrow": "Certified & Compliant",
                     "title": "Our Accreditations",
                     "items": [
-                        { "id": "acc-sabs", "name": "SABS", "logoUrl": "storefront/sabs-logo.png", "url": "https://www.sabs.co.za" },
-                        { "id": "acc-sahpra", "name": "SAHPRA", "logoUrl": "storefront/sahpra-logo.png", "url": "https://www.sahpra.org.za" },
-                        { "id": "acc-safripol", "name": "Safripol", "logoUrl": "storefront/safripol-logo.png", "url": "https://www.safripol.com" }
+                        { "id": "acc-sabs", "name": "SABS", "logoUrl": "storefront/sabs-logo-1200x400.png", "url": "https://www.sabs.co.za" },
+                        { "id": "acc-sahpra", "name": "SAHPRA", "logoUrl": "storefront/SAHPRA-logo-1200x400.png", "url": "https://www.sahpra.org.za" },
+                        { "id": "acc-safripol", "name": "Safripol", "logoUrl": "storefront/Safripol-Logo-1200x400.png", "url": "https://www.safripol.com" }
                     ]
                 }
             }
