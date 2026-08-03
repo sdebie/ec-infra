@@ -64,14 +64,16 @@
 -- Hero (owner directive 2026-08-02): "height": "full" fills the viewport minus
 -- the measured announcement bar + header (--sf-chrome-h, StorefrontLayout).
 --
--- Hero panel (owner directive 2026-08-03): "contentPanel": true moves the
--- kicker/title/subtitle/CTAs/footnote off the bare photo and into a bounded
--- translucent dark box (55% black + a slight backdrop blur), so text contrast
--- is constant instead of depending on what sits behind any given line.
--- "overlayOpacity" drops 0.55 → 0.25 AT THE SAME TIME and the two must be
--- tuned together: the panel now carries the contrast, so the full-bleed scrim
--- only needs to calm the photo. Left at 0.55 the panel area would compound to
--- ~80% black and the warehouse photo would stop reading through it.
+-- Hero scrim (owner directive 2026-08-03, superseding the same day's panel):
+-- "overlayStyle": "gradient-left" lays ONE left-to-right ramp that is strongest
+-- behind the copy and fully transparent by 80%, so the right-hand two-thirds of
+-- the warehouse photo is untouched. This REPLACES the bounded translucent panel
+-- tried earlier the same day — that guaranteed contrast but cut a visible
+-- rectangle out of the image, halving the hero.
+-- "overlayOpacity" is now the LEADING-EDGE opacity of that ramp, not a flat
+-- wash, which is why it reads 0.85 where the uniform scrim wanted 0.25–0.55.
+-- The two settings must be changed together: dropping the opacity without
+-- changing the style would wash the copy out, and vice versa.
 --
 -- Industry tiles carry registry icons and "columns": 3 with "rowAlign":
 -- "center" (owner directive 2026-08-03), so the five tiles read as 3 + 2 with
@@ -104,8 +106,8 @@ VALUES ('storefront.home_sections',
                     "primaryCta": { "label": "Shop Now", "to": "/products" },
                     "secondaryCta": { "label": "Request a Quote", "to": "/quote-request" },
                     "backgroundImageUrl": "storefront/uvh-hero-categories-v3.png",
-                    "overlayOpacity": 0.25,
-                    "contentPanel": true,
+                    "overlayOpacity": 0.85,
+                    "overlayStyle": "gradient-left",
                     "contentAlignment": "left",
                     "darkStyle": true,
                     "footnote": [{"text": "We will beat any price and quote. We will also assist you in all your tender needs! Please note that prices may not be accurate and are subject to change after order completion due to supply chain disruptions in the Middle East driving up supplier prices."}]
