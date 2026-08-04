@@ -163,7 +163,7 @@ VALUES ('storefront.about_sections',
                 "enabled": true,
                 "props": {
                     "eyebrow": "What Sets Us Apart",
-                    "title": "The UVH Difference"
+                    "title": "The UVH Difference",
                     "items": [
                         { "title": "Sourcing excellence", "description": "Strong supplier relationships help maintain consistent quality and availability." },
                         { "title": "Manufacturing innovation", "description": "Ongoing investment in processes and capability to meet demand." },
