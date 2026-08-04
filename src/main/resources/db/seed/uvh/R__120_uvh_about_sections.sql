@@ -123,6 +123,7 @@ VALUES ('storefront.about_sections',
                 "type": "benefits",
                 "enabled": true,
                 "props": {
+                    "eyebrow": "How We Support You",
                     "title": "Products and Services",
                     "iconPlacement": "inline",
                     "columns": 2,
@@ -139,7 +140,8 @@ VALUES ('storefront.about_sections',
                 "type": "benefits",
                 "enabled": true,
                 "props": {
-                    "title": "Competitive Advantage",
+                    "eyebrow": "Why Choose UVH Holdings",
+                    "title": "Our Competitive Advantage",
                     "variant": "dark",
                     "items": [
                         { "title": "Quality assurance", "description": "Products go through checks aligned to supplier and industry expectations." },
@@ -160,7 +162,8 @@ VALUES ('storefront.about_sections',
                 "type": "benefits",
                 "enabled": true,
                 "props": {
-                    "title": "What Makes Us Different",
+                    "eyebrow": "What Sets Us Apart",
+                    "title": "The UVH Difference"
                     "items": [
                         { "title": "Sourcing excellence", "description": "Strong supplier relationships help maintain consistent quality and availability." },
                         { "title": "Manufacturing innovation", "description": "Ongoing investment in processes and capability to meet demand." },
@@ -181,6 +184,7 @@ VALUES ('storefront.about_sections',
                 "type": "cta",
                 "enabled": true,
                 "props": {
+                    "eyebrow": "Get in Touch",
                     "title": "Ready to Get Started?",
                     "description": "Whether you''re looking for a wholesale partner, need a competitive quote, or want to learn about our delivery and returns policy—we''re here to help.",
                     "variant": "dark",
