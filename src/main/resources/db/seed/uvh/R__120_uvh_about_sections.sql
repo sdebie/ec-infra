@@ -18,6 +18,21 @@
 -- about-story props. Core-category tiles reuse the four home-showcase images
 -- (verified present in storage).
 --
+-- Hero scale (owner directive): the About hero is a page HEADER, not a landing
+-- banner. It carries no CTAs — the page's own CTA band closes the story, and a
+-- shopper arriving here is reading, not being routed — and "height": "compact"
+-- drops the band from the 480px standard floor to 320px with tighter padding,
+-- so the story section below it starts near the fold instead of a screen down.
+--
+-- It also carries NO subtitle: the paragraph that sat here was byte-identical to
+-- about-story's first paragraph directly below, so the page printed the same 241
+-- characters twice. Keep the intro in the story section, where it has room and
+-- context. This is not only a copy fix — on a phone that paragraph rendered
+-- 238px tall, which drove the band to 595px and forced `object-cover` to crop
+-- 66% of a 1.87-aspect photo to fill a 0.63-aspect box. Without it the band is
+-- ~340px and the crop drops to 41%. Any wide photo has this failure mode here:
+-- the band's height on mobile decides how much of the image survives.
+--
 -- Hero alignment (owner directive 2026-08-03): the About hero matches the home
 -- hero — left-aligned copy starting on the shared x=64 gutter, with the same
 -- "gradient-left" scrim at 0.85 leading-edge opacity. Every About content
@@ -45,10 +60,7 @@ VALUES ('storefront.about_sections',
                 "props": {
                     "title": "Quality supply. Competitive pricing. Fast fulfilment.",
                     "kicker": "ABOUT UVH HOLDINGS",
-                    "subtitle": "UVH Holdings is a South African supplier focused on importing, procuring, and manufacturing essential business consumables—Personal Protective Equipment (PPE), hygiene and cleaning chemicals, medical disposable products, and sanitizer wipes.",
-                    "primaryCta": { "label": "Request a quote", "to": "/quote-request" },
-                    "secondaryCta": { "label": "Browse products", "to": "/products" },
-                    "backgroundImageUrl": "storefront/uvh-about-us.png",
+                    "backgroundImageUrl": "storefront/uvh-hero-new.png",
                     "overlayOpacity": 0.93,
                     "overlayStyle": "gradient-left",
                     "contentAlignment": "left",
