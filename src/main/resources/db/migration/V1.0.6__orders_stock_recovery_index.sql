@@ -1,0 +1,11 @@
+-- StockRecoveryJob sweeps every 5 minutes with:
+--   select o.id from orders o where o.status = ? and o.created_at < ? order by o.created_at
+-- The only existing index on orders is idx_orders_customer_id, so that sweep is a full
+-- scan plus a sort on every tick, growing with the whole order table rather than with
+-- the handful of abandoned rows it actually wants.
+--
+-- Column order matters: status is an equality predicate and created_at is both the range
+-- predicate and the sort key, so (status, created_at) lets Postgres seek to the status
+-- and walk created_at in order — satisfying the filter, the range and the ORDER BY from
+-- one index. The reverse order could not seek on status.
+CREATE INDEX IF NOT EXISTS idx_orders_status_created_at ON orders(status, created_at);
