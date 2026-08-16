@@ -40,16 +40,33 @@ IntelliJ IDEA: you can simply click the green Run icon in the Maven tool window 
 
    ```bash
    cd ec-infra
-   ./mvnw quarkus:run
+   ./mvnw clean package -DskipTests
+   java -Dquarkus.flyway.migrate-at-start=true -jar target/quarkus-app/quarkus-run.jar
    ```
 
    Configuration used (see src/main/resources/application.properties):
    - jdbc: postgresql://localhost:5432/ecommerce_db
    - user: postgres
    - pass: postgres
-   - Flyway: migrate-at-start=true, repair-at-start=true
+   - Flyway: **`migrate-at-start=false`**, `repair-at-start=true`, `validate-at-start=false`
+
+   ⚠️ **`migrate-at-start` is `false`, so simply running the app applies nothing.** Migrating is
+   an explicit act — hence the `-D` override above. Running `quarkus:run` without it starts the
+   app, repairs checksums, re-applies any repeatable seed whose checksum changed, and leaves
+   every versioned migration unapplied, which reads exactly like success in the log.
+
+   ⚠️ **`package` first, every time.** Flyway loads from `classpath:db/migration`, so a migration
+   that exists only in `src/main/resources` is invisible. A stale `target/classes` silently skips
+   your new file and reports "Successfully validated N migrations" for the old set.
 
 3) Stop when you see that migrations have been applied (CTRL+C). The DB will retain the migrated schema.
+
+   Verify rather than trust the log — it reports repeatable seeds and versioned migrations the
+   same way:
+
+   ```bash
+   psql -h localhost -U postgres -d ecommerce_db -c "select version, description, success from flyway_schema_history order by installed_rank desc limit 5;"
+   ```
 
 ---
 

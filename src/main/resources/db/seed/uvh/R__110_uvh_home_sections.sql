@@ -34,9 +34,13 @@
 -- the dead zone beside a short heading at max-w-5xl; the frame has since
 -- widened to max-w-6xl, so a row of four fits and the side column is no longer
 -- needed. `headingPlacement` remains a supported capability — it is simply not
--- used here. "iconTone": "solid" still renders the icons in accent-text on a
--- muted accent tile; both hints derive from --sf-accent/--sf-accent-text, so
--- any client gets its own brand colour with no client-specific code.
+-- used here. "iconTone": "muted" renders the icons in accent-text on a quiet
+-- accent tile: on this dark band it recedes by about as much as the "soft"
+-- tiles recede into the light band above, so the two icon sets read as one
+-- treatment. "soft" itself cannot be used here — an accent icon on an accent
+-- wash over near-black measures ~1.6:1 and disappears. Both hints derive from
+-- --sf-accent/--sf-accent-text, so any client gets its own brand colour with
+-- no client-specific code.
 --
 -- Carousel unification (Req 12.1a): every deck on the home page — showcases,
 -- Best Sellers and testimonials alike — seeds carouselControls: 'header'. An

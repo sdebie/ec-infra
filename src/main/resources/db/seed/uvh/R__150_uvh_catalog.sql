@@ -305,14 +305,22 @@ UPDATE categories SET parent_id = (SELECT id FROM categories WHERE slug = 'ppe')
 UPDATE categories SET parent_id = (SELECT id FROM categories WHERE slug = 'medical') WHERE slug = 'workwear-medical';
 -- ── Shipping methods & zones ─────────────────────────────────────────────────
 
-INSERT INTO shipping_methods (id, name, is_active, base_fee, estimated_days)
-SELECT gen_random_uuid(), v.name, v.is_active, v.base_fee, v.estimated_days
+INSERT INTO shipping_methods (id, name, is_active, base_fee, estimated_days, requires_address)
+SELECT gen_random_uuid(), v.name, v.is_active, v.base_fee, v.estimated_days, v.requires_address
 FROM (VALUES
-    ('In-Store Pickup',             true,   0.00, 'Same Day'),
-    ('Standard Courier (National)', true, 115.00, '2-4 Working Days'),
-    ('Express Overnight',           true, 250.00, '1 Working Day')
-) AS v(name, is_active, base_fee, estimated_days)
+    ('In-Store Pickup',             true,   0.00, 'Same Day',        false),
+    ('Standard Courier (National)', true, 115.00, '2-4 Working Days', true),
+    ('Express Overnight',           true, 250.00, '1 Working Day',    true)
+) AS v(name, is_active, base_fee, estimated_days, requires_address)
 WHERE NOT EXISTS (SELECT 1 FROM shipping_methods m WHERE m.name = v.name);
+
+-- The INSERT above only fires for methods that do not exist yet, so it cannot correct
+-- rows seeded before requires_address existed. Whether a method is collection or delivery
+-- is client configuration, so it is seed-owned and re-asserted here on every checksum
+-- change — restricted to the three seeded names, leaving any method staff added alone.
+UPDATE shipping_methods SET requires_address = false WHERE name = 'In-Store Pickup';
+UPDATE shipping_methods SET requires_address = true
+WHERE name IN ('Standard Courier (National)', 'Express Overnight');
 
 INSERT INTO shipping_zones (id, shipping_method_id, country_code, additional_fee)
 SELECT gen_random_uuid(),
