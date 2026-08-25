@@ -72,6 +72,16 @@
         </dependency>
     </dependencies>
 
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--            <id>github-parent</id> <name>GitHub Packages - Parent</name>-->
+<!--            <url>https://maven.pkg.github.com/sdebie/ec-parent</url>-->
+<!--            <snapshots>-->
+<!--                <enabled>true</enabled>-->
+<!--            </snapshots>-->
+<!--        </repository>-->
+<!--    </repositories>-->
+
     <build>
         <defaultGoal>quarkus:run</defaultGoal>
         <plugins>
