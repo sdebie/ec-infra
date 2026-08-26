@@ -24,7 +24,9 @@
         <flyway.user>postgres</flyway.user>
         <flyway.password>postgres</flyway.password>
         <flyway.schemas>public</flyway.schemas>
-        <flyway.locations>filesystem:${project.basedir}/src/main/resources/db/migration,filesystem:${project.basedir}/src/main/resources/db/seed/default,filesystem:${project.basedir}/src/main/resources/db/seed/uvh</flyway.locations>
+        <flyway.locations>
+            filesystem:${project.basedir}/src/main/resources/db/migration,filesystem:${project.basedir}/src/main/resources/db/seed/default,filesystem:${project.basedir}/src/main/resources/db/seed/uvh
+        </flyway.locations>
         <flyway.skip>false</flyway.skip>
     </properties>
 
@@ -72,16 +74,6 @@
         </dependency>
     </dependencies>
 
-<!--    <repositories>-->
-<!--        <repository>-->
-<!--            <id>github-parent</id> <name>GitHub Packages - Parent</name>-->
-<!--            <url>https://maven.pkg.github.com/sdebie/ec-parent</url>-->
-<!--            <snapshots>-->
-<!--                <enabled>true</enabled>-->
-<!--            </snapshots>-->
-<!--        </repository>-->
-<!--    </repositories>-->
-
     <build>
         <defaultGoal>quarkus:run</defaultGoal>
         <plugins>
@@ -108,49 +100,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Publishes db/migration alone as a `migrations` classifier jar, so a
-                 consumer (ec-backend's %test Flyway) can depend on just the schema SQL
-                 without this module's own application.properties (real datasource
-                 credentials, devservices disabled) or FlywayMain landing on their
-                 classpath as a competing config/CDI source. -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>stage-migrations-only</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/migrations-jar/db/migration</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${project.basedir}/src/main/resources/db/migration</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>migrations-jar</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <classifier>migrations</classifier>
-                            <classesDirectory>${project.build.directory}/migrations-jar</classesDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 </project>
