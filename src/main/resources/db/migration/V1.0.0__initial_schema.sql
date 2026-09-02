@@ -16,7 +16,7 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 -- ── Catalog ──────────────────────────────────────────────────────────────────
 
-CREATE TABLE categories (
+CREATE TABLE IF NOT EXISTS categories (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(100) NOT NULL,
     slug VARCHAR(100) UNIQUE NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE categories (
     image_url VARCHAR(500)
 );
 
-CREATE TABLE brands (
+CREATE TABLE IF NOT EXISTS brands (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(100) NOT NULL UNIQUE,
     slug VARCHAR(100) UNIQUE NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE brands (
     description TEXT
 );
 
-CREATE TABLE products (
+CREATE TABLE IF NOT EXISTS products (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     slug VARCHAR(200) NOT NULL,
     category_id UUID REFERENCES categories(id) ON DELETE SET NULL,
@@ -47,10 +47,10 @@ CREATE TABLE products (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE INDEX idx_products_status ON products(status);
-CREATE INDEX idx_products_is_featured ON products (name) WHERE is_featured = TRUE;
+CREATE INDEX IF NOT EXISTS idx_products_status ON products(status);
+CREATE INDEX IF NOT EXISTS idx_products_is_featured ON products (name) WHERE is_featured = TRUE;
 
-CREATE TABLE product_variants (
+CREATE TABLE IF NOT EXISTS product_variants (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     product_id UUID REFERENCES products(id) ON DELETE CASCADE,
     sku VARCHAR(100) UNIQUE NOT NULL,
@@ -61,9 +61,9 @@ CREATE TABLE product_variants (
     external_id VARCHAR(50)
 );
 
-CREATE INDEX idx_product_variants_status ON product_variants(status);
+CREATE INDEX IF NOT EXISTS idx_product_variants_status ON product_variants(status);
 
-CREATE TABLE variant_prices (
+CREATE TABLE IF NOT EXISTS variant_prices (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     variant_id UUID NOT NULL REFERENCES product_variants(id) ON DELETE CASCADE,
     price_type VARCHAR(30) NOT NULL, -- 'RETAIL_PRICE', 'RETAIL_SALE_PRICE', 'WHOLESALE_PRICE', 'WHOLESALE_SALE_PRICE'
@@ -76,7 +76,7 @@ CREATE TABLE variant_prices (
     updated_by UUID
 );
 
-CREATE TABLE product_images (
+CREATE TABLE IF NOT EXISTS product_images (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     variant_id UUID REFERENCES product_variants(id) ON DELETE CASCADE,
     image_url VARCHAR(500) NOT NULL,
@@ -84,18 +84,18 @@ CREATE TABLE product_images (
     is_featured BOOLEAN DEFAULT FALSE
 );
 
-CREATE TABLE product_categories (
+CREATE TABLE IF NOT EXISTS product_categories (
     product_id UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE,
     category_id UUID NOT NULL REFERENCES categories(id) ON DELETE CASCADE,
     PRIMARY KEY (product_id, category_id)
 );
 
-CREATE INDEX idx_product_categories_category_id ON product_categories(category_id);
-CREATE INDEX idx_product_categories_product_id ON product_categories(product_id);
+CREATE INDEX IF NOT EXISTS idx_product_categories_category_id ON product_categories(category_id);
+CREATE INDEX IF NOT EXISTS idx_product_categories_product_id ON product_categories(product_id);
 
 -- ── Accounts ─────────────────────────────────────────────────────────────────
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email VARCHAR(255) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL, -- Never store plain text
@@ -114,7 +114,7 @@ CREATE TABLE users (
     password_reset_code_locked_until TIMESTAMPTZ
 );
 
-CREATE TABLE customers (
+CREATE TABLE IF NOT EXISTS customers (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE, -- The Link
     first_name VARCHAR(100),
@@ -125,7 +125,7 @@ CREATE TABLE customers (
     additional_info VARCHAR(1025) NOT NULL DEFAULT '{}'
 );
 
-CREATE TABLE customer_addresses (
+CREATE TABLE IF NOT EXISTS customer_addresses (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     customer_id UUID REFERENCES customers(id) ON DELETE CASCADE,
     address_type VARCHAR(20), -- 'PHYSICAL', 'POSTAL', 'BILLING', 'SHIPPING'
@@ -138,7 +138,7 @@ CREATE TABLE customer_addresses (
     is_default BOOLEAN DEFAULT FALSE
 );
 
-CREATE TABLE wholesale_profiles (
+CREATE TABLE IF NOT EXISTS wholesale_profiles (
     customer_id UUID PRIMARY KEY REFERENCES customers(id) ON DELETE CASCADE,
     company_name VARCHAR(255) NOT NULL,
     vat_number VARCHAR(50),
@@ -147,7 +147,7 @@ CREATE TABLE wholesale_profiles (
     payment_terms_days INT DEFAULT 0 -- e.g., 30 for "Net 30"
 );
 
-CREATE TABLE customer_contacts (
+CREATE TABLE IF NOT EXISTS customer_contacts (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     customer_id UUID REFERENCES customers(id) ON DELETE CASCADE,
     contact_role VARCHAR(50), -- 'FINANCE', 'BUYER', 'MANAGER'
@@ -156,7 +156,7 @@ CREATE TABLE customer_contacts (
     phone VARCHAR(50)
 );
 
-CREATE TABLE customer_wishlist_items (
+CREATE TABLE IF NOT EXISTS customer_wishlist_items (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     customer_id UUID NOT NULL REFERENCES customers(id) ON DELETE CASCADE,
     variant_id  UUID NOT NULL REFERENCES product_variants(id) ON DELETE CASCADE,
@@ -164,9 +164,9 @@ CREATE TABLE customer_wishlist_items (
     CONSTRAINT uq_customer_variant UNIQUE (customer_id, variant_id)
 );
 
-CREATE INDEX idx_wishlist_customer ON customer_wishlist_items(customer_id);
+CREATE INDEX IF NOT EXISTS idx_wishlist_customer ON customer_wishlist_items(customer_id);
 
-CREATE TABLE wholesale_applications (
+CREATE TABLE IF NOT EXISTS wholesale_applications (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     company_name VARCHAR(255) NOT NULL,
     vat_number VARCHAR(50),
@@ -212,19 +212,19 @@ CREATE TABLE wholesale_applications (
         CHECK (status IN ('PENDING', 'APPROVED', 'REJECTED', 'CONVERTED'))
 );
 
-CREATE UNIQUE INDEX ux_wholesale_applications_account_email_partial
+CREATE UNIQUE INDEX IF NOT EXISTS ux_wholesale_applications_account_email_partial
     ON wholesale_applications (lower(account_email))
     WHERE account_email IS NOT NULL;
 
-CREATE INDEX idx_wholesale_applications_customer_id
+CREATE INDEX IF NOT EXISTS idx_wholesale_applications_customer_id
     ON wholesale_applications(customer_id);
 
-CREATE INDEX idx_wholesale_applications_account_email
+CREATE INDEX IF NOT EXISTS idx_wholesale_applications_account_email
     ON wholesale_applications(lower(account_email));
 
 -- ── Orders & payments ────────────────────────────────────────────────────────
 
-CREATE TABLE shipping_methods (
+CREATE TABLE IF NOT EXISTS shipping_methods (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(100) NOT NULL, -- 'Pick up', 'Courier'
     is_active BOOLEAN DEFAULT TRUE,
@@ -232,14 +232,14 @@ CREATE TABLE shipping_methods (
     estimated_days VARCHAR(50)
 );
 
-CREATE TABLE shipping_zones (
+CREATE TABLE IF NOT EXISTS shipping_zones (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     shipping_method_id UUID REFERENCES shipping_methods(id),
     country_code CHAR(2) NOT NULL, -- 'ZA', 'US'
     additional_fee DECIMAL(12, 2) DEFAULT 0.00
 );
 
-CREATE TABLE orders (
+CREATE TABLE IF NOT EXISTS orders (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     session_id  UUID        NOT NULL,
     customer_id UUID REFERENCES customers(id),
@@ -264,9 +264,9 @@ CREATE TABLE orders (
     postal_code         VARCHAR(20)
 );
 
-CREATE INDEX idx_orders_customer_id ON orders(customer_id);
+CREATE INDEX IF NOT EXISTS idx_orders_customer_id ON orders(customer_id);
 
-CREATE TABLE order_items (
+CREATE TABLE IF NOT EXISTS order_items (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     order_id UUID REFERENCES orders(id) ON DELETE CASCADE,
     variant_id UUID REFERENCES product_variants(id),
@@ -274,7 +274,7 @@ CREATE TABLE order_items (
     unit_price DECIMAL(12, 2) NOT NULL
 );
 
-CREATE TABLE payment_gateway_logs (
+CREATE TABLE IF NOT EXISTS payment_gateway_logs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     order_id UUID REFERENCES orders(id) ON DELETE CASCADE,
 
@@ -300,7 +300,7 @@ CREATE TABLE payment_gateway_logs (
 );
 
 -- Order Status History (Audit Trail)
-CREATE TABLE order_status_history (
+CREATE TABLE IF NOT EXISTS order_status_history (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     order_id UUID NOT NULL,
     status VARCHAR(30) NOT NULL,
@@ -315,17 +315,17 @@ CREATE TABLE order_status_history (
 );
 
 -- Critical for the 'Track My Order' page on your storefront
-CREATE INDEX idx_order_status_history_order_id ON order_status_history(order_id);
+CREATE INDEX IF NOT EXISTS idx_order_status_history_order_id ON order_status_history(order_id);
 
 -- ── Configuration ────────────────────────────────────────────────────────────
 
-CREATE TABLE store_settings (
+CREATE TABLE IF NOT EXISTS store_settings (
     setting_key VARCHAR(50) PRIMARY KEY,
     setting_value TEXT NOT NULL,
     description TEXT
 );
 
-CREATE TABLE country_settings (
+CREATE TABLE IF NOT EXISTS country_settings (
     country_code CHAR(2) PRIMARY KEY,
     country_name VARCHAR(100) NOT NULL,
     currency_code CHAR(3) NOT NULL,
@@ -338,11 +338,11 @@ CREATE TABLE country_settings (
 );
 
 -- Ensure only one active default country can exist.
-CREATE UNIQUE INDEX ux_country_settings_default_true
+CREATE UNIQUE INDEX IF NOT EXISTS ux_country_settings_default_true
     ON country_settings (is_default)
     WHERE is_default = TRUE;
 
-CREATE TABLE page_content (
+CREATE TABLE IF NOT EXISTS page_content (
     id                 UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     slug               VARCHAR(100) NOT NULL UNIQUE,
     title              VARCHAR(200) NOT NULL,
@@ -356,7 +356,7 @@ CREATE TABLE page_content (
 
 -- ── Staff & admin ────────────────────────────────────────────────────────────
 
-CREATE TABLE staff_users (
+CREATE TABLE IF NOT EXISTS staff_users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email VARCHAR(100) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
@@ -369,7 +369,7 @@ CREATE TABLE staff_users (
 
 -- ── CSV upload staging ───────────────────────────────────────────────────────
 
-CREATE TABLE product_upload_batches (
+CREATE TABLE IF NOT EXISTS product_upload_batches (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     filename VARCHAR(255) NOT NULL,
     status VARCHAR(50) NOT NULL, -- 'PENDING', 'PROCESSED', 'CANCELLED'
@@ -381,7 +381,7 @@ CREATE TABLE product_upload_batches (
     validation_error_count INTEGER NOT NULL DEFAULT 0
 );
 
-CREATE TABLE product_upload_staged (
+CREATE TABLE IF NOT EXISTS product_upload_staged (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     batch_id UUID NOT NULL REFERENCES product_upload_batches(id) ON DELETE CASCADE,
     sku VARCHAR(100) NOT NULL,
@@ -422,7 +422,7 @@ CREATE TABLE product_upload_staged (
     current_wholesale_price DECIMAL(12, 2)
 );
 
-CREATE TABLE product_price_upload_batches (
+CREATE TABLE IF NOT EXISTS product_price_upload_batches (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     filename VARCHAR(255) NOT NULL,
     status VARCHAR(50) NOT NULL, -- 'PENDING', 'PROCESSED', 'CANCELLED'
@@ -436,7 +436,7 @@ CREATE TABLE product_price_upload_batches (
     approved_by UUID REFERENCES staff_users(id)
 );
 
-CREATE TABLE product_price_upload_staged (
+CREATE TABLE IF NOT EXISTS product_price_upload_staged (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     batch_id UUID NOT NULL REFERENCES product_price_upload_batches(id) ON DELETE CASCADE,
     sku VARCHAR(100) NOT NULL,
@@ -454,7 +454,7 @@ CREATE TABLE product_price_upload_staged (
     processed BOOLEAN DEFAULT FALSE
 );
 
-CREATE TABLE sage_settings
+CREATE TABLE IF NOT EXISTS sage_settings
 (
     id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     company_id VARCHAR(50),
@@ -469,7 +469,7 @@ CREATE TABLE sage_settings
     pricelis_lastid VARCHAR(50)
 );
 
-CREATE TABLE sage_items
+CREATE TABLE IF NOT EXISTS sage_items
 (
     id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     sku VARCHAR(100) UNIQUE NOT NULL,               --"Code": "SKU002"
@@ -487,7 +487,7 @@ CREATE TABLE sage_items
     userfiles_6 BOOLEAN                            --"YesNoUserField3": false
 );
 
-CREATE TABLE sage_pricing
+CREATE TABLE IF NOT EXISTS sage_pricing
 (
     id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     sku VARCHAR(100) UNIQUE NOT NULL,   --"Code": "SKU002"
