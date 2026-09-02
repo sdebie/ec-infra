@@ -10,4 +10,4 @@
 -- which is recoverable, rather than silently skipping one that a courier needs.
 -- Per-client collection methods are set false by that client's seed.
 ALTER TABLE shipping_methods
-    ADD COLUMN requires_address BOOLEAN NOT NULL DEFAULT TRUE;
+    ADD COLUMN IF NOT EXISTS requires_address BOOLEAN NOT NULL DEFAULT TRUE;
