@@ -57,7 +57,8 @@ CREATE TABLE product_variants (
     stock_quantity INTEGER DEFAULT 0,
     attributes VARCHAR(254), -- Stores {"color": "Red", "size": "XL"}
     weight_kg DECIMAL(5,2),
-    status VARCHAR(20) DEFAULT 'ACTIVE'
+    status VARCHAR(20) DEFAULT 'ACTIVE',
+    external_id VARCHAR(50)
 );
 
 CREATE INDEX idx_product_variants_status ON product_variants(status);
@@ -451,4 +452,48 @@ CREATE TABLE product_price_upload_staged (
     -- Store the original data for comparison
     has_changes BOOLEAN DEFAULT FALSE,
     processed BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE sage_settings
+(
+    id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    company_id VARCHAR(50),
+    retail_id VARCHAR(50),
+    wholesale_id VARCHAR(50),
+    api_url VARCHAR(255),
+    key VARCHAR(100),
+    username VARCHAR(100),
+    password VARCHAR(100),
+    items_lastupdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    items_lastid VARCHAR(50),
+    pricelis_lastid VARCHAR(50)
+);
+
+CREATE TABLE sage_items
+(
+    id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    sku VARCHAR(100) UNIQUE NOT NULL,               --"Code": "SKU002"
+    external_id VARCHAR(50),                        --"ID": 428078
+    short_description VARCHAR(100),                 --"Description": "Test Item2"
+    stock_quantity INTEGER DEFAULT 0,               --"QuantityOnHand": 0.0000
+    status VARCHAR(20) DEFAULT 'ACTIVE',            --"Active": true
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, --"Created": "2026-08-03T17:49:05.087"
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, --"Modified": "2026-08-05T09:20:02.317"
+    userfield_1 VARCHAR(100),                       --"TextUserField1": ""
+    userfield_2 VARCHAR(100),                       --"TextUserField2": ""
+    userfield_3 VARCHAR(100),                       --"TextUserField3": ""
+    userfiles_4 BOOLEAN,                            --"YesNoUserField1": false
+    userfiles_5 BOOLEAN,                            --"YesNoUserField2": false
+    userfiles_6 BOOLEAN                            --"YesNoUserField3": false
+);
+
+CREATE TABLE sage_pricing
+(
+    id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    sku VARCHAR(100) UNIQUE NOT NULL,   --"Code": "SKU002"
+    external_id VARCHAR(50),            --"ID": 428078
+    price1_id VARCHAR(10),              --"AdditionalPriceListID": 4167
+    price1 DECIMAL(12, 2),              --"UnitPrice": 7.0000
+    price2_id VARCHAR(10),              --""AdditionalPriceListID": 4168
+    price2 DECIMAL(12, 2)               --"UnitPrice": 0.0000
 );

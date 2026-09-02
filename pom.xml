@@ -24,7 +24,9 @@
         <flyway.user>postgres</flyway.user>
         <flyway.password>postgres</flyway.password>
         <flyway.schemas>public</flyway.schemas>
-        <flyway.locations>filesystem:${project.basedir}/src/main/resources/db/migration,filesystem:${project.basedir}/src/main/resources/db/seed/default,filesystem:${project.basedir}/src/main/resources/db/seed/uvh</flyway.locations>
+        <flyway.locations>
+            filesystem:${project.basedir}/src/main/resources/db/migration,filesystem:${project.basedir}/src/main/resources/db/seed/default,filesystem:${project.basedir}/src/main/resources/db/seed/uvh
+        </flyway.locations>
         <flyway.skip>false</flyway.skip>
     </properties>
 
@@ -97,6 +99,7 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 </project>
