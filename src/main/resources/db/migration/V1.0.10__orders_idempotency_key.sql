@@ -1,6 +1,6 @@
--- Checkout idempotency (.kiro/specs/checkout-idempotency): a client-generated key
--- that lets a retried POST /api/orders return the order already placed instead of
--- creating a second one and reserving its stock again.
+-- Checkout idempotency: a client-generated key that lets a retried
+-- POST /api/orders return the order already placed instead of creating a
+-- second one and reserving its stock again.
 
 ALTER TABLE orders ADD COLUMN IF NOT EXISTS idempotency_key UUID;
 ALTER TABLE orders ADD COLUMN IF NOT EXISTS cart_fingerprint VARCHAR(64);

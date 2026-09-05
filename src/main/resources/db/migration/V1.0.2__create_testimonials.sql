@@ -1,9 +1,9 @@
 -- =============================================================================
 -- V1.0.2 — Testimonials
 -- =============================================================================
--- Adds the testimonials table: DB-backed, admin-managed storefront testimonials
--- (testimonials-management spec). Published rows are served publicly ordered by
--- sort_order; the (is_published, sort_order) index covers that read path.
+-- Adds the testimonials table: DB-backed, admin-managed storefront testimonials.
+-- Published rows are served publicly ordered by sort_order; the
+-- (is_published, sort_order) index covers that read path.
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS testimonials (

@@ -3,8 +3,6 @@
 -- =============================================================================
 -- Seeds: storefront.config, storefront.branding, storefront.theme,
 --        storefront.header, storefront.navigation, storefront.quote
--- Merged from legacy V1.0.9 + V2.9.0/V2.9.9 (Specials nav link added then
--- removed — net zero; final navigation matches the original V1.0.9 items).
 --
 -- Semantics: ON CONFLICT DO UPDATE — these keys are SEED-OWNED. Editing this
 -- file changes its checksum and Flyway re-applies it, overwriting any manual

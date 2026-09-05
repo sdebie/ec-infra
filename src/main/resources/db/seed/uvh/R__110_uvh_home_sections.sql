@@ -1,96 +1,23 @@
 -- =============================================================================
 -- R__110_uvh_home_sections — UVH home page section layout
 -- =============================================================================
--- Final merged state of legacy V1.0.9 → V2.5.1 (full layout) → V2.8.1
--- (wholesale CTA fix) → V2.9.1 (sale-products section) → testimonials-1
--- (testimonials-management spec) → storefront-commercial-sections spec
--- (recomposition: industry tiles, trust-strip icons, dark testimonials,
--- accreditors eyebrow, hero CTA re-seed) → storefront-conversion-polish
--- (section reorder per Req 6.1, carousel unification Req 12, benefits rewrite
--- Req 1, hero footnote Req 2, CTA band copy Req 1.5, brands minItems Req 6.3,
--- showcase retarget Req 6.2).
+-- Seeds: storefront.home_sections
 --
--- Order (owner-directed 2026-08-03 — Best Sellers and the quote/wholesale band
--- both moved ABOVE Shop by Industry; this NO LONGER matches Req 6.1's stated
--- order, which is superseded):
---   hero → featured-products (Best Sellers) → cta (quote/wholesale band) →
---   promo-grid (Shop by Industry) → benefits (Trust & Reassurance) →
---   sale-products (Specials) → category-showcase ×4 → brands →
---   testimonials → accreditors
--- (Testimonials moved below brands 2026-08-03 so it sits directly above
--- Accreditors — owner directive.)
--- Surfaces alternate down the page: featured light → cta dark → industry light
--- → benefits dark → specials light.
---
--- Benefits (owner-directed 2026-08-02): reverted to the pre-spec four tiles
--- (Delivery / Returns / Secure Payments / Support). This REVERSES the Req 1
--- rewrite. Switched BACK to the dark surface 2026-08-03 (owner directive) —
--- the Req 1 light-surface revert is itself now reverted. ⚠️ The Returns tile
--- promises handling "quickly and fairly" with no published returns policy
--- behind it — see BACKLOG `delivery-and-returns`.
--- Layout (owner directive 2026-08-03, revised later the same day): the heading
--- is back ABOVE the cards, which now run as a single row of four
--- ("columns": 4). The earlier "headingPlacement": "side" 2×2 existed to fill
--- the dead zone beside a short heading at max-w-5xl; the frame has since
--- widened to max-w-6xl, so a row of four fits and the side column is no longer
--- needed. `headingPlacement` remains a supported capability — it is simply not
--- used here. "iconTone": "muted" renders the icons in accent-text on a quiet
--- accent tile: on this dark band it recedes by about as much as the "soft"
--- tiles recede into the light band above, so the two icon sets read as one
--- treatment. "soft" itself cannot be used here — an accent icon on an accent
--- wash over near-black measures ~1.6:1 and disappears. Both hints derive from
--- --sf-accent/--sf-accent-text, so any client gets its own brand colour with
--- no client-specific code.
---
--- Carousel unification (Req 12.1a): every deck on the home page — showcases,
--- Best Sellers and testimonials alike — seeds carouselControls: 'header'. An
--- intermediate 2026-08-03 state moved the showcases to 'overlay' to drop a
--- header row that held only arrows; the showcase rewrite later that day put the
--- heading INTO that row, so it now carries the title and the arrows together
--- and the unification holds again with no wasted chrome. Mobile keeps the dots
--- + "Swipe to browse" treatment, requested explicitly by the section (Carousel
--- `mobileControls`) rather than riding on having a header row.
---
--- Showcase layout (owner directive 2026-08-03, rewrite): the 256px side image
--- rail is GONE. It held the deck to three cards, and its artwork rendered
--- visibly smaller than a product card, which read as unfinished. The category
--- graphic is now a heading-scale icon beside the title, the deck spans the full
--- container, and "columns" is 5 — cards land at ~211px, identical to the Best
--- Sellers deck, so every deck on the page is one size. The band also uses the
--- shared Section container so its heading lines up with every other section.
---
--- Showcase retarget (Req 6.2) REVERTED 2026-08-02 (owner directive): the fourth
--- showcase is Safety again. Req 6.2's distinct-product-set requirement is
--- therefore NOT met by this seed — PPE and Safety overlap. Retarget to a
--- distinct category (Hospitality artwork was never uploaded) if that matters
--- more than keeping Safety on the homepage.
---
--- Hero (owner directive 2026-08-02): "height": "full" fills the viewport minus
--- the measured announcement bar + header (--sf-chrome-h, StorefrontLayout).
---
--- Hero scrim (owner directive 2026-08-03, superseding the same day's panel):
--- "overlayStyle": "gradient-left" lays ONE left-to-right ramp that is strongest
--- behind the copy and fully transparent by 80%, so the right-hand two-thirds of
--- the warehouse photo is untouched. This REPLACES the bounded translucent panel
--- tried earlier the same day — that guaranteed contrast but cut a visible
--- rectangle out of the image, halving the hero.
--- "overlayOpacity" is now the LEADING-EDGE opacity of that ramp, not a flat
--- wash, which is why it reads 0.85 where the uniform scrim wanted 0.25–0.55.
--- The two settings must be changed together: dropping the opacity without
--- changing the style would wash the copy out, and vice versa.
---
--- Industry tiles carry registry icons and "columns": 3 with "rowAlign":
--- "center" (owner directive 2026-08-03), so the five tiles read as 3 + 2 with
--- the short final row centred under the row above. The 'cards' layout wraps
--- with flex, so that centring is the flex line's own behaviour — no per-item
--- grid-column span offset is needed. Below lg the tiles step to 2-up then
--- stack, and the same centring applies to whatever remainder falls out.
---
--- Brands and Accreditors are both light (variant omitted) — owner directive
--- 2026-08-03. The page's last dark band is now the testimonials carousel.
---
--- Benefits rewrite (Req 1): concrete, verifiable commitments — no free-delivery
--- threshold (none exists in the platform), no vague copy.
+-- Technical notes (non-obvious constraints — do not "simplify" without
+-- re-checking these):
+--   • Hero "overlayStyle": "gradient-left" + "overlayOpacity" must be changed
+--     together. The opacity is the leading-edge value of the gradient ramp,
+--     not a flat wash — changing one without the other under- or
+--     over-darkens the copy area.
+--   • Benefits "iconTone": "muted" is required on this dark band. "soft"
+--     measures under WCAG AA contrast here (an accent icon on an accent wash
+--     over near-black background) — "muted" is the tone that stays legible.
+--   • Industry tiles use "columns": 3 with "rowAlign": "center" — the 'cards'
+--     layout wraps via flex, so this centres a short final row with no
+--     per-item grid-column offset needed.
+--   • Section colors are theme-derived (--sf-accent / --sf-accent-text), not
+--     hardcoded — this section layout itself carries no client-specific
+--     styling, only the JSON content below is client-specific.
 --
 -- Semantics: ON CONFLICT DO UPDATE — seed-owned key (see R__100 header).
 -- =============================================================================

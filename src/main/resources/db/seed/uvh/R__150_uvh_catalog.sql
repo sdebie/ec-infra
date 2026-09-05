@@ -1,19 +1,10 @@
 -- =============================================================================
 -- R__150_uvh_catalog — UVH brands, categories and shipping
 -- =============================================================================
--- Merged from the legacy loose scripts 1-insert_brands.sql,
--- 2-insert_categories.sql, 3-insert_categories_parents.sql and
--- 4-insert_shipping.sql (previously unversioned files Flyway never ran —
--- they were applied by hand).
---
 -- Semantics: gap-filling only. Brand/category inserts are ON CONFLICT DO
 -- NOTHING; parent mapping is idempotent; shipping inserts are guarded by
--- NOT EXISTS on name. Catalog content (names, logos) is owner-managed via
--- the admin UI after first seed.
---
--- Fix carried in from legacy 4-insert_shipping.sql: shipping_zones rows are
--- now linked to the Standard Courier method — the legacy script inserted
--- them with a NULL shipping_method_id.
+-- NOT EXISTS on name. Catalog content (names, logos) is managed via the
+-- admin UI after first seed.
 -- =============================================================================
 
 -- ── Brands ───────────────────────────────────────────────────────────────────
@@ -314,10 +305,10 @@ FROM (VALUES
 ) AS v(name, is_active, base_fee, estimated_days, requires_address)
 WHERE NOT EXISTS (SELECT 1 FROM shipping_methods m WHERE m.name = v.name);
 
--- The INSERT above only fires for methods that do not exist yet, so it cannot correct
--- rows seeded before requires_address existed. Whether a method is collection or delivery
--- is client configuration, so it is seed-owned and re-asserted here on every checksum
--- change — restricted to the three seeded names, leaving any method staff added alone.
+-- The INSERT above only fires for methods that do not exist yet, so it cannot
+-- correct rows seeded before requires_address existed. These UPDATEs are
+-- restricted to the three seeded names, so any method staff added afterward
+-- is left alone.
 UPDATE shipping_methods SET requires_address = false WHERE name = 'In-Store Pickup';
 UPDATE shipping_methods SET requires_address = true
 WHERE name IN ('Standard Courier (National)', 'Express Overnight');

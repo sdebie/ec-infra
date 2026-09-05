@@ -1,8 +1,6 @@
 -- =============================================================================
 -- R__140_uvh_contact — UVH contact details (OPERATOR-OWNED)
 -- =============================================================================
--- Merged from legacy V2.9.5 (contact row) + V2.9.6 (enquiryEmail backfill).
---
 -- Semantics: unlike the other UVH seeds, this key is operator-owned — admins
 -- edit contact details in the admin UI. All statements below only fill gaps:
 --   • INSERT ... DO NOTHING: never overwrites an existing row.
@@ -26,22 +24,22 @@ WHERE setting_key = 'storefront.contact'
   AND NOT (setting_value::jsonb ? 'enquiryEmail');
 
 -- Backfill whatsapp: only applies when the key is absent — an operator-set
--- value is never overwritten. Placeholder in international format; owner must
--- confirm before launch.
+-- value is never overwritten. Placeholder in international format —
+-- confirm the real number before launch.
 UPDATE store_settings
 SET setting_value = (setting_value::jsonb || '{"whatsapp":"+27821234567"}')::text
 WHERE setting_key = 'storefront.contact'
   AND NOT (setting_value::jsonb ? 'whatsapp');
 
 -- Backfill businessHours: only applies when the key is absent.
--- Owner must confirm hours before launch.
+-- Placeholder — confirm real hours before launch.
 UPDATE store_settings
 SET setting_value = (setting_value::jsonb || '{"businessHours":"Mon–Fri 8:00–17:00"}')::text
 WHERE setting_key = 'storefront.contact'
   AND NOT (setting_value::jsonb ? 'businessHours');
 
 -- Backfill responseSla: only applies when the key is absent.
--- Owner must confirm SLA before launch.
+-- Placeholder — confirm real SLA before launch.
 UPDATE store_settings
 SET setting_value = (setting_value::jsonb || '{"responseSla":"Within 1 business day"}')::text
 WHERE setting_key = 'storefront.contact'

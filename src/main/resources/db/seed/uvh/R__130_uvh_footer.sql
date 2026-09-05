@@ -1,11 +1,11 @@
 -- =============================================================================
 -- R__130_uvh_footer — UVH storefront footer
 -- =============================================================================
--- From legacy V2.5.0. Key format notes:
+-- Seeds: storefront.footer
+-- Key format notes:
 --   • columns[].links[].path  → remapped to .to  by applyFooter()
 --   • socialLinks[].path      → remapped to .to  by applyFooter()
 --   • legalLinks[].path       → remapped to .to  by applyFooter()
---   • calloutHeading/calloutBody removed (2026-08-02) — footer contact block takes that position
 --
 -- Semantics: ON CONFLICT DO UPDATE — seed-owned key (see R__100 header).
 -- =============================================================================

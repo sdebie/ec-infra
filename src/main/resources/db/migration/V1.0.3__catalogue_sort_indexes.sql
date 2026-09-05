@@ -1,4 +1,4 @@
--- Supporting indexes for catalogue price ordering (Req 8.2, 8.3).
+-- Supporting indexes for catalogue price ordering.
 -- Enables index-only scans on the two correlated subqueries that compute the
 -- per-product display-price sort key.
 

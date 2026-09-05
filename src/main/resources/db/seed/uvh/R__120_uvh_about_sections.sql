@@ -1,51 +1,23 @@
 -- =============================================================================
 -- R__120_uvh_about_sections — UVH About page section layout
 -- =============================================================================
--- Final merged state of legacy V2.9.7 → V2.9.8 (hero background-image +
--- contentSurface fix) → about-page-presentation spec (alternating rhythm) →
--- owner polish round 2026-07-24 (categories dark w/ images + 4-up, story
--- full-width, products-services icons, why-uvh split into Competitive
--- Advantage + What Makes Us Different, testimonials entry REMOVED — the
--- carousel lives on the home page only).
+-- Seeds: storefront.about_sections
 --
--- Rhythm (owner decision 2026-07-24 final, round 3): alternating end-to-end —
--- dark bands = about-stats, about-core-categories, about-competitive-advantage,
--- about-cta (dark CTA = shared Section frame, compact split row — the accent
--- band read as mismatched); light = story, products-services, why-uvh.
---
--- Imagery: about-story ships text-first — when the operator uploads
--- storefront/uvh-about-story.jpg, re-add "imageUrl" (+ "imagePosition") to
--- about-story props. Core-category tiles reuse the four home-showcase images
--- (verified present in storage).
---
--- Hero scale (owner directive): the About hero is a page HEADER, not a landing
--- banner. It carries no CTAs — the page's own CTA band closes the story, and a
--- shopper arriving here is reading, not being routed — and "height": "compact"
--- drops the band from the 480px standard floor to 320px with tighter padding,
--- so the story section below it starts near the fold instead of a screen down.
---
--- It also carries NO subtitle: the paragraph that sat here was byte-identical to
--- about-story's first paragraph directly below, so the page printed the same 241
--- characters twice. Keep the intro in the story section, where it has room and
--- context. This is not only a copy fix — on a phone that paragraph rendered
--- 238px tall, which drove the band to 595px and forced `object-cover` to crop
--- 66% of a 1.87-aspect photo to fill a 0.63-aspect box. Without it the band is
--- ~340px and the crop drops to 41%. Any wide photo has this failure mode here:
--- the band's height on mobile decides how much of the image survives.
---
--- Hero alignment (owner directive 2026-08-03): the About hero matches the home
--- hero — left-aligned copy starting on the shared x=64 gutter, with the same
--- "gradient-left" scrim at 0.85 leading-edge opacity. Every About content
--- section already sat on that gutter (they use the shared Section frame); the
--- centred hero was the only element out of step, so its copy started at x=304
--- while the page beneath it started at 64. Note the scrim style and opacity
--- must move together — a left ramp at 0.55 leaves the copy short of contrast.
---
--- ⚠️ overlayOpacity is 0.93 here where the home hero uses 0.85, and the
--- difference is NOT an oversight: this photo has a brightly lit truck sitting
--- exactly where the ramp falls away, and at 0.85 the copy's right edge measured
--- 4.35:1 — under WCAG AA. 0.93 lifts it clear. Re-measure if the photo changes;
--- the correct value is a property of the image, not a house constant.
+-- Technical notes (non-obvious constraints — do not "simplify" without
+-- re-checking these):
+--   • about-hero has no "imageUrl": it ships text-first by design. Add
+--     "imageUrl" (+ "imagePosition") once a story photo is available.
+--   • about-hero has no subtitle: a duplicate intro paragraph here previously
+--     forced the mobile band to ~595px and cropped ~66% of the hero photo via
+--     object-cover. Without it the band holds to ~340px and the crop drops to
+--     ~41%. On this layout, hero height on mobile is driven by subtitle
+--     length, and directly controls how much of the photo survives the crop.
+--   • about-hero "overlayOpacity": 0.93 (vs. 0.85 on the home hero) is
+--     intentional — it's the value this specific photo needs to keep the copy
+--     above WCAG AA contrast. Re-measure against the actual image before
+--     changing it; don't just match the home hero's value.
+--   • "overlayStyle" and "overlayOpacity" must be changed together — see
+--     R__110.
 --
 -- Semantics: ON CONFLICT DO UPDATE — seed-owned key (see R__100 header).
 -- =============================================================================
