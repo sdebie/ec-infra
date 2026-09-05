@@ -561,6 +561,7 @@ CREATE TABLE IF NOT EXISTS quote_requests
     message           TEXT,
     status            VARCHAR(20)  NOT NULL DEFAULT 'NEW',
     created_at        TIMESTAMPTZ  NOT NULL DEFAULT now(),
+    updated_at        TIMESTAMPTZ  NOT NULL DEFAULT now(),
     status_changed_at TIMESTAMPTZ,
     quoted_amount     DECIMAL(12, 2),
     quoted_notes      TEXT,
